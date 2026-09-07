@@ -1,45 +1,56 @@
-import { sql } from "../../config/supabase_db.js";
-import {
-  AuthUser,
-  AuthUserWithPassword,
-  CreateUserInput,
-} from "./authTypes.js";
+import { prisma } from "../../lib/prisma.js";
+import { VerificationTokenType } from "../../../generated/prisma/client.js";
 
-export const findUserByEmail = async (
-  email: string,
-): Promise<AuthUser | null> => {
-  const users = await sql<AuthUser[]>`
-    SELECT id, name, email, role
-    FROM users
-    WHERE email = ${email}
-  `;
+export const findUserByEmail = (email: string) =>
+  prisma.user.findUnique({ where: { email } });
 
-  return users[0] ?? null;
-};
+export const findUserById = (id: string) =>
+  prisma.user.findUnique({ where: { id } });
 
-export const findUserWithPassword = async (
-  email: string,
-): Promise<AuthUserWithPassword | null> => {
-  const users = await sql<AuthUserWithPassword[]>`
-    SELECT id, name, email, password, role
-    FROM users
-    WHERE email = ${email}
-  `;
+export const createUser = (data: { name: string; email: string; password: string }) =>
+  prisma.user.create({
+    data: { name: data.name, email: data.email, password: data.password },
+  });
 
-  return users[0] ?? null;
-};
+export const updateUserPassword = (id: string, password: string) =>
+  prisma.user.update({ where: { id }, data: { password } });
 
-export const createUser = async (data: CreateUserInput): Promise<AuthUser> => {
-  const users = await sql<AuthUser[]>`
-    INSERT INTO users (name, email, password, role)
-    VALUES (
-      ${data.name},
-      ${data.email},
-      ${data.password},
-      ${data.role}
-    )
-    RETURNING id, name, email, role
-  `;
+export const markEmailVerified = (id: string) =>
+  prisma.user.update({ where: { id }, data: { isEmailVerified: true } });
 
-  return users[0];
-};
+export const createRefreshToken = (data: {
+  tokenHash: string;
+  userId: string;
+  expiresAt: Date;
+}) => prisma.refreshToken.create({ data });
+
+export const findRefreshTokenByHash = (tokenHash: string) =>
+  prisma.refreshToken.findUnique({ where: { tokenHash } });
+
+export const revokeRefreshToken = (tokenHash: string, replacedByTokenHash?: string) =>
+  prisma.refreshToken.update({
+    where: { tokenHash },
+    data: { revokedAt: new Date(), replacedByTokenHash },
+  });
+
+export const revokeAllUserRefreshTokens = (userId: string) =>
+  prisma.refreshToken.updateMany({
+    where: { userId, revokedAt: null },
+    data: { revokedAt: new Date() },
+  });
+
+export const createVerificationToken = (data: {
+  tokenHash: string;
+  userId: string;
+  type: VerificationTokenType;
+  expiresAt: Date;
+}) => prisma.verificationToken.create({ data });
+
+export const findVerificationTokenByHash = (tokenHash: string) =>
+  prisma.verificationToken.findUnique({ where: { tokenHash } });
+
+export const markVerificationTokenUsed = (tokenHash: string) =>
+  prisma.verificationToken.update({
+    where: { tokenHash },
+    data: { usedAt: new Date() },
+  });

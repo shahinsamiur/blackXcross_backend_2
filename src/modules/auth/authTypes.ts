@@ -1,21 +1,17 @@
-export type UserRole = "user" | "solver";
+import { Role } from "../../../generated/prisma/client.js";
 
 export interface AuthUser {
-  id: number;
+  id: string;
   name: string;
   email: string;
-  role: UserRole;
-}
-
-export interface AuthUserWithPassword extends AuthUser {
-  password: string;
+  role: Role;
+  isEmailVerified: boolean;
 }
 
 export interface RegisterInput {
   name: string;
   email: string;
   password: string;
-  solver?: boolean;
 }
 
 export interface LoginInput {
@@ -23,14 +19,25 @@ export interface LoginInput {
   password: string;
 }
 
-export interface CreateUserInput {
-  name: string;
+export interface ForgotPasswordInput {
   email: string;
-  password: string;
-  role: UserRole;
+}
+
+export interface ResetPasswordInput {
+  token: string;
+  newPassword: string;
+}
+
+export interface VerifyEmailInput {
+  token: string;
+}
+
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface AuthResult {
   user: AuthUser;
-  token: string;
+  tokens: AuthTokens;
 }

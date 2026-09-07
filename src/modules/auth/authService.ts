@@ -1,12 +1,62 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import AppError from "../../shared/utils/AppError.js";
+import env from "../../config/env.js";
 import * as authRepository from "./authRepository.js";
-import { LoginInput, RegisterInput, AuthResult } from "./authTypes.js";
+import { generateRawToken, hashToken } from "./authTokenUtils.js";
+import { VerificationTokenType, Role } from "../../../generated/prisma/client.js";
+import {
+  LoginInput,
+  RegisterInput,
+  AuthResult,
+  AuthUser,
+  ForgotPasswordInput,
+  ResetPasswordInput,
+  VerifyEmailInput,
+  AuthTokens,
+} from "./authTypes.js";
 
-export const registerUser = async (
-  data: RegisterInput,
-): Promise<AuthResult> => {
+interface UserRecord {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: Role;
+  isEmailVerified: boolean;
+}
+
+const toAuthUser = (user: Omit<UserRecord, "password">): AuthUser => ({
+  id: user.id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+  isEmailVerified: user.isEmailVerified,
+});
+
+const generateAccessToken = (id: string, role: string): string =>
+  jwt.sign({ id, role }, env.jwtSecret, { expiresIn: env.accessTokenExpiresIn });
+
+const issueRefreshToken = async (userId: string): Promise<string> => {
+  const rawToken = generateRawToken();
+  const expiresAt = new Date(
+    Date.now() + env.refreshTokenExpiresInDays * 24 * 60 * 60 * 1000,
+  );
+
+  await authRepository.createRefreshToken({
+    tokenHash: hashToken(rawToken),
+    userId,
+    expiresAt,
+  });
+
+  return rawToken;
+};
+
+const issueTokens = async (user: AuthUser): Promise<AuthTokens> => ({
+  accessToken: generateAccessToken(user.id, user.role),
+  refreshToken: await issueRefreshToken(user.id),
+});
+
+export const registerUser = async (data: RegisterInput): Promise<AuthResult> => {
   const existingUser = await authRepository.findUserByEmail(data.email);
 
   if (existingUser) {
@@ -15,48 +65,159 @@ export const registerUser = async (
 
   const hashedPassword = await bcrypt.hash(data.password, 10);
 
-  const role = data.solver ? "solver" : "user";
-
-  const user = await authRepository.createUser({
+  const created = await authRepository.createUser({
     name: data.name,
     email: data.email,
     password: hashedPassword,
-    role,
   });
 
-  const token = generateToken(user.id, user.role);
+  const rawVerifyToken = generateRawToken();
+  await authRepository.createVerificationToken({
+    tokenHash: hashToken(rawVerifyToken),
+    userId: created.id,
+    type: VerificationTokenType.EMAIL_VERIFICATION,
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  });
+  // TODO: replace with real mailer call once wired up
+  console.log(`[stub email] verify-email token for ${created.email}: ${rawVerifyToken}`);
 
-  return { user, token };
+  const user = toAuthUser(created);
+  const tokens = await issueTokens(user);
+
+  return { user, tokens };
 };
 
 export const loginUser = async (data: LoginInput): Promise<AuthResult> => {
-  const user = await authRepository.findUserWithPassword(data.email);
+  const found = await authRepository.findUserByEmail(data.email);
 
-  if (!user) {
+  if (!found) {
     throw new AppError("Invalid email or password", 401);
   }
 
-  const isMatch = await bcrypt.compare(data.password, user.password);
+  const isMatch = await bcrypt.compare(data.password, found.password);
 
   if (!isMatch) {
     throw new AppError("Invalid email or password", 401);
   }
 
-  const token = generateToken(user.id, user.role);
+  const user = toAuthUser(found);
+  const tokens = await issueTokens(user);
+
+  return { user, tokens };
+};
+
+export const logoutUser = async (rawRefreshToken: string | undefined): Promise<void> => {
+  if (!rawRefreshToken) return;
+
+  const tokenHash = hashToken(rawRefreshToken);
+  const existing = await authRepository.findRefreshTokenByHash(tokenHash);
+
+  if (existing && !existing.revokedAt) {
+    await authRepository.revokeRefreshToken(tokenHash);
+  }
+};
+
+export const refreshTokens = async (
+  rawRefreshToken: string | undefined,
+): Promise<AuthTokens> => {
+  if (!rawRefreshToken) {
+    throw new AppError("Refresh token missing", 401);
+  }
+
+  const tokenHash = hashToken(rawRefreshToken);
+  const existing = await authRepository.findRefreshTokenByHash(tokenHash);
+
+  if (!existing || existing.revokedAt || existing.expiresAt < new Date()) {
+    throw new AppError("Invalid or expired refresh token", 401);
+  }
+
+  const found = await authRepository.findUserById(existing.userId);
+
+  if (!found) {
+    throw new AppError("User not found", 404);
+  }
+
+  const user = toAuthUser(found);
+  const newRawRefreshToken = generateRawToken();
+  const expiresAt = new Date(
+    Date.now() + env.refreshTokenExpiresInDays * 24 * 60 * 60 * 1000,
+  );
+
+  await authRepository.createRefreshToken({
+    tokenHash: hashToken(newRawRefreshToken),
+    userId: user.id,
+    expiresAt,
+  });
+  await authRepository.revokeRefreshToken(tokenHash, hashToken(newRawRefreshToken));
 
   return {
-    token,
-    user: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    },
+    accessToken: generateAccessToken(user.id, user.role),
+    refreshToken: newRawRefreshToken,
   };
 };
 
-const generateToken = (id: number, role: string): string => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET as string, {
-    expiresIn: "7d",
+export const verifyEmail = async (data: VerifyEmailInput): Promise<void> => {
+  const tokenHash = hashToken(data.token);
+  const record = await authRepository.findVerificationTokenByHash(tokenHash);
+
+  if (
+    !record ||
+    record.usedAt ||
+    record.expiresAt < new Date() ||
+    record.type !== VerificationTokenType.EMAIL_VERIFICATION
+  ) {
+    throw new AppError("Invalid or expired verification token", 400);
+  }
+
+  await authRepository.markEmailVerified(record.userId);
+  await authRepository.markVerificationTokenUsed(tokenHash);
+};
+
+export const forgotPassword = async (data: ForgotPasswordInput): Promise<void> => {
+  const found = await authRepository.findUserByEmail(data.email);
+
+  // Resolve the same way whether the email exists or not,
+  // so this endpoint can't be used to enumerate registered emails.
+  if (!found) return;
+
+  const rawResetToken = generateRawToken();
+  await authRepository.createVerificationToken({
+    tokenHash: hashToken(rawResetToken),
+    userId: found.id,
+    type: VerificationTokenType.PASSWORD_RESET,
+    expiresAt: new Date(Date.now() + 60 * 60 * 1000),
   });
+
+  // TODO: replace with real mailer call once wired up
+  console.log(`[stub email] password-reset token for ${found.email}: ${rawResetToken}`);
+};
+
+export const resetPassword = async (data: ResetPasswordInput): Promise<void> => {
+  const tokenHash = hashToken(data.token);
+  const record = await authRepository.findVerificationTokenByHash(tokenHash);
+
+  if (
+    !record ||
+    record.usedAt ||
+    record.expiresAt < new Date() ||
+    record.type !== VerificationTokenType.PASSWORD_RESET
+  ) {
+    throw new AppError("Invalid or expired reset token", 400);
+  }
+
+  const hashedPassword = await bcrypt.hash(data.newPassword, 10);
+
+  await authRepository.updateUserPassword(record.userId, hashedPassword);
+  await authRepository.markVerificationTokenUsed(tokenHash);
+  await authRepository.revokeAllUserRefreshTokens(record.userId);
+};
+
+export const getMe = async (userId: string): Promise<AuthUser> => {
+  const found = await authRepository.findUserById(userId);
+
+  if (!found) {
+    throw new AppError("User not found", 404);
+  }
+
+  return toAuthUser(found);
 };

@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { sql } from "../../config/supabase_db.js";
+import { prisma } from "../../lib/prisma.js";
 import AppError from "../utils/AppError.js";
+import env from "../../config/env.js";
 
 interface DecodedToken extends JwtPayload {
-  id: number;
+  id: string;
+  role: string;
 }
 
 const authMiddleware = async (
@@ -12,28 +14,25 @@ const authMiddleware = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const authHeader = req.headers.authorization;
+  const token = req.cookies?.token;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!token) {
     return next(new AppError("Unauthorized, token missing", 401));
   }
 
-  const token: string = authHeader.split(" ")[1];
-
   try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string,
-    ) as DecodedToken;
+    const decoded = jwt.verify(token, env.jwtSecret) as DecodedToken;
 
-    const users =
-      await sql`SELECT id, name, email, role FROM users WHERE id = ${decoded.id}`;
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: { id: true, name: true, email: true, role: true, isEmailVerified: true },
+    });
 
-    if (users.length === 0) {
+    if (!user) {
       return next(new AppError("User not found", 404));
     }
 
-    (req as any).user = users[0];
+    (req as any).user = user;
 
     next();
   } catch (err) {
