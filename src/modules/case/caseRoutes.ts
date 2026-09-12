@@ -185,16 +185,6 @@ router.post("/:id/files", authMiddleware, upload.single("file"), caseController.
  */
 router.delete("/:id/files/:fileId", authMiddleware, caseController.removeCaseFile);
 
-/**
- * @openapi
- * /api/cases/{id}/theories:
- *   get:
- *     tags: [Cases]
- *     summary: Get theories published about a case
- *     responses:
- *       200:
- *         description: List of theories
- */
-router.get("/:id/theories", optionalAuthMiddleware, caseController.getCaseTheories);
+
 
 export default router;
