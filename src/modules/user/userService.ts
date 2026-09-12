@@ -68,13 +68,13 @@ export const unfollowUser = async (followerId: string, targetId: string): Promis
 export const getFollowers = async (userId: string) => {
   await getUserById(userId);
   const rows = await userRepository.findFollowers(userId);
-  return rows.map((row : { follower: string }) => row.follower);
+  return rows.map((row) => row.follower);
 };
 
 export const getFollowing = async (userId: string) => {
   await getUserById(userId);
   const rows = await userRepository.findFollowing(userId);
-  return rows.map((row : { following: string }) => row.following);
+  return rows.map((row) => row.following);
 };
 
 export const searchUsers = async (query: string, page: number, limit: number) => {

@@ -1,19 +1,28 @@
 import jwt from "jsonwebtoken";
-import { sql } from "../../config/supabase_db.js";
+import { prisma } from "../../lib/prisma.js";
 import AppError from "../utils/AppError.js";
+import env from "../../config/env.js";
 const authMiddleware = async (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    const token = req.cookies?.token;
+    if (!token) {
         return next(new AppError("Unauthorized, token missing", 401));
     }
-    const token = authHeader.split(" ")[1];
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const users = await sql `SELECT id, name, email, role FROM users WHERE id = ${decoded.id}`;
-        if (users.length === 0) {
+        const decoded = jwt.verify(token, env.jwtSecret);
+        const user = await prisma.user.findUnique({
+            where: { id: decoded.id },
+            select: { id: true, name: true, email: true, role: true, isEmailVerified: true },
+        });
+        if (!user) {
             return next(new AppError("User not found", 404));
         }
-        req.user = users[0];
+        if (user.status === "SUSPENDED") {
+            return next(new AppError("Your account has been suspended", 403));
+        }
+        if (user.status === "BANNED") {
+            return next(new AppError("Your account has been banned", 403));
+        }
+        req.user = user;
         next();
     }
     catch (err) {

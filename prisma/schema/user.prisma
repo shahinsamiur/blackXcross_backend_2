@@ -1,28 +1,37 @@
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+}
+
 model User {
-  id              String   @id @default(uuid())
+  id              String     @id @default(uuid())
   name            String
-  email           String   @unique
-  username        String?  @unique
+  email           String     @unique
+  username        String?    @unique
   bio             String?
   avatar          String?
   password        String
-  role            Role     @default(MEMBER)
-  isEmailVerified Boolean  @default(false)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  role            Role       @default(MEMBER)
+  status          UserStatus @default(ACTIVE)
+  isEmailVerified Boolean    @default(false)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
 
   refreshTokens      RefreshToken[]
   verificationTokens VerificationToken[]
-  notifications      Notification[]      @relation("NotificationRecipient")
-  actedNotifications Notification[]      @relation("NotificationActor")
-  reports            Report[]            @relation("ReportReporter")
+
   cases              Case[]
-  comments           Comment[]
   theories           Theory[]
+  comments           Comment[]
   theoryUpvotes      TheoryUpvote[]
   groupMemberships   GroupMember[]
-  followingEdges     Follow[]            @relation("Follower")
-  followerEdges      Follow[]            @relation("Following")
+  followingEdges     Follow[]         @relation("Follower")
+  followerEdges      Follow[]         @relation("Following")
+  notifications      Notification[]   @relation("NotificationRecipient")
+  actedNotifications Notification[]   @relation("NotificationActor")
+  reports            Report[]         @relation("ReportReporter")
+  moderationReviews  ModerationItem[]
 
   @@map("users")
 }

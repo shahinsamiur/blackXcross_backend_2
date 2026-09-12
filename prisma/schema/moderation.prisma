@@ -1,0 +1,28 @@
+enum ModerationTargetType {
+  CASE
+  THEORY
+  COMMENT
+}
+
+enum ModerationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model ModerationItem {
+  id         String               @id @default(uuid())
+  targetType ModerationTargetType
+  targetId   String
+  reason     String?
+  status     ModerationStatus     @default(PENDING)
+  reviewedBy String?
+  fileUrl    String?
+  reviewer   User?                @relation(fields: [reviewedBy], references: [id], onDelete: SetNull)
+  createdAt  DateTime             @default(now())
+  updatedAt  DateTime             @updatedAt
+
+  @@index([status])
+  @@index([targetType, targetId])
+  @@map("moderation_items")
+}

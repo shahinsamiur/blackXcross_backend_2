@@ -15,6 +15,8 @@ import commentRoutes from "./modules/comment/commentRoutes.js";
 import theoryRoutes from "./modules/theory/theoryRoutes.js";
 import notificationRoutes from "./modules/notification/notificationRoutes.js";
 import reportRoutes from "./modules/report/reportRoutes.js";
+import adminRoutes from "./modules/admin/adminRoutes.js";
+import moderationRoutes from "./modules/moderation/moderationRoutes.js";
 const app: Application = express();
 app.use(httpLogger);
 app.use(
@@ -93,9 +95,6 @@ app.use(
   }),
 );
 
-// app.get("/api-docs", (req, res) => {
-//   res.redirect("/api-docs/");
-// });
 app.get("/", (req: Request, res: Response) => {
   res.send("right endpoint");
 });
@@ -109,6 +108,8 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/theories", theoryRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/moderation", moderationRoutes);
 app.use(errorHandler);
 
 export default app;

@@ -403,6 +403,7 @@ export const ModelName = {
   CaseFile: 'CaseFile',
   Comment: 'Comment',
   Follow: 'Follow',
+  ModerationItem: 'ModerationItem',
   Notification: 'Notification',
   Group: 'Group',
   GroupMember: 'GroupMember',
@@ -427,7 +428,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "refreshToken" | "verificationToken" | "case" | "caseFile" | "comment" | "follow" | "notification" | "group" | "groupMember" | "channel" | "report" | "tag" | "theory" | "theoryUpvote" | "user"
+    modelProps: "refreshToken" | "verificationToken" | "case" | "caseFile" | "comment" | "follow" | "moderationItem" | "notification" | "group" | "groupMember" | "channel" | "report" | "tag" | "theory" | "theoryUpvote" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -872,6 +873,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.FollowCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.FollowCountAggregateOutputType> | number
+        }
+      }
+    }
+    ModerationItem: {
+      payload: Prisma.$ModerationItemPayload<ExtArgs>
+      fields: Prisma.ModerationItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ModerationItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ModerationItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload>
+        }
+        findFirst: {
+          args: Prisma.ModerationItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ModerationItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload>
+        }
+        findMany: {
+          args: Prisma.ModerationItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload>[]
+        }
+        create: {
+          args: Prisma.ModerationItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload>
+        }
+        createMany: {
+          args: Prisma.ModerationItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ModerationItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload>[]
+        }
+        delete: {
+          args: Prisma.ModerationItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload>
+        }
+        update: {
+          args: Prisma.ModerationItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.ModerationItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ModerationItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ModerationItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.ModerationItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ModerationItemPayload>
+        }
+        aggregate: {
+          args: Prisma.ModerationItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateModerationItem>
+        }
+        groupBy: {
+          args: Prisma.ModerationItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ModerationItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ModerationItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ModerationItemCountAggregateOutputType> | number
         }
       }
     }
@@ -1658,6 +1733,21 @@ export const FollowScalarFieldEnum = {
 export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
 
 
+export const ModerationItemScalarFieldEnum = {
+  id: 'id',
+  targetType: 'targetType',
+  targetId: 'targetId',
+  reason: 'reason',
+  status: 'status',
+  reviewedBy: 'reviewedBy',
+  fileUrl: 'fileUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ModerationItemScalarFieldEnum = (typeof ModerationItemScalarFieldEnum)[keyof typeof ModerationItemScalarFieldEnum]
+
+
 export const NotificationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1766,6 +1856,7 @@ export const UserScalarFieldEnum = {
   avatar: 'avatar',
   password: 'password',
   role: 'role',
+  status: 'status',
   isEmailVerified: 'isEmailVerified',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1903,6 +1994,34 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'ModerationTargetType'
+ */
+export type EnumModerationTargetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ModerationTargetType'>
+    
+
+
+/**
+ * Reference to a field of type 'ModerationTargetType[]'
+ */
+export type ListEnumModerationTargetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ModerationTargetType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ModerationStatus'
+ */
+export type EnumModerationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ModerationStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ModerationStatus[]'
+ */
+export type ListEnumModerationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ModerationStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'NotificationType'
  */
 export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType'>
@@ -1976,6 +2095,20 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Role[]'
  */
 export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+/**
+ * Reference to a field of type 'UserStatus'
+ */
+export type EnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'UserStatus[]'
+ */
+export type ListEnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus[]'>
     
 
 
@@ -2149,6 +2282,7 @@ export type GlobalOmitConfig = {
   caseFile?: Prisma.CaseFileOmit
   comment?: Prisma.CommentOmit
   follow?: Prisma.FollowOmit
+  moderationItem?: Prisma.ModerationItemOmit
   notification?: Prisma.NotificationOmit
   group?: Prisma.GroupOmit
   groupMember?: Prisma.GroupMemberOmit

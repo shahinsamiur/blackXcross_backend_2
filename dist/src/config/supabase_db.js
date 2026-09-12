@@ -8,7 +8,7 @@ const testDBConnection = async () => {
         console.log("Database connected successfully (Supabase)");
     }
     catch (error) {
-        console.error(" Database connection failed");
+        console.error(" Database connection failed", error);
         console.log(process.env.DATABASE_URL);
         process.exit(1);
     }

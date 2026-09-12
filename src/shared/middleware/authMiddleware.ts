@@ -27,9 +27,16 @@ const authMiddleware = async (
       where: { id: decoded.id },
       select: { id: true, name: true, email: true, role: true, isEmailVerified: true },
     });
-
     if (!user) {
       return next(new AppError("User not found", 404));
+    }
+
+    if ((user as any).status === "SUSPENDED") {
+      return next(new AppError("Your account has been suspended", 403));
+    }
+
+    if ((user as any).status === "BANNED") {
+      return next(new AppError("Your account has been banned", 403));
     }
 
     (req as any).user = user;

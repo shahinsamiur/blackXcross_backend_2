@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 import AppError from "../../shared/utils/AppError.js";
 import env from "../../config/env.js";
 import * as authRepository from "./authRepository.js";
@@ -34,7 +34,12 @@ const toAuthUser = (user: Omit<UserRecord, "password">): AuthUser => ({
 });
 
 const generateAccessToken = (id: string, role: string): string =>
-  jwt.sign({ id, role }, env.jwtSecret, { expiresIn: env.accessTokenExpiresIn });
+  jwt.sign(
+    { id, role }, 
+    env.jwtSecret, 
+    { expiresIn: env.accessTokenExpiresIn } as SignOptions
+  );
+
 
 const issueRefreshToken = async (userId: string): Promise<string> => {
   const rawToken = generateRawToken();

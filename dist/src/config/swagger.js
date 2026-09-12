@@ -13,7 +13,7 @@ const options = {
             },
         ],
     },
-    apis: ["./src/modules/**/*.ts"],
+    apis: ["./src/modules/**/*.ts", "./src/routes/**/*.ts"],
     failOnErrors: true,
 };
 const swaggerSpec = swaggerJsdoc(options);

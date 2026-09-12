@@ -54,6 +54,24 @@ export const InvestigationStatus = {
 export type InvestigationStatus = (typeof InvestigationStatus)[keyof typeof InvestigationStatus]
 
 
+export const ModerationTargetType = {
+  CASE: 'CASE',
+  THEORY: 'THEORY',
+  COMMENT: 'COMMENT'
+} as const
+
+export type ModerationTargetType = (typeof ModerationTargetType)[keyof typeof ModerationTargetType]
+
+
+export const ModerationStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ModerationStatus = (typeof ModerationStatus)[keyof typeof ModerationStatus]
+
+
 export const NotificationType = {
   FOLLOW: 'FOLLOW',
   COMMENT: 'COMMENT',
@@ -94,3 +112,12 @@ export const ReportStatus = {
 } as const
 
 export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]
+
+
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED',
+  BANNED: 'BANNED'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]

@@ -57,6 +57,7 @@ export const ModelName = {
   CaseFile: 'CaseFile',
   Comment: 'Comment',
   Follow: 'Follow',
+  ModerationItem: 'ModerationItem',
   Notification: 'Notification',
   Group: 'Group',
   GroupMember: 'GroupMember',
@@ -160,6 +161,21 @@ export const FollowScalarFieldEnum = {
 } as const
 
 export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
+
+
+export const ModerationItemScalarFieldEnum = {
+  id: 'id',
+  targetType: 'targetType',
+  targetId: 'targetId',
+  reason: 'reason',
+  status: 'status',
+  reviewedBy: 'reviewedBy',
+  fileUrl: 'fileUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ModerationItemScalarFieldEnum = (typeof ModerationItemScalarFieldEnum)[keyof typeof ModerationItemScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -270,6 +286,7 @@ export const UserScalarFieldEnum = {
   avatar: 'avatar',
   password: 'password',
   role: 'role',
+  status: 'status',
   isEmailVerified: 'isEmailVerified',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

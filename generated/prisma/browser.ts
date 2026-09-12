@@ -48,6 +48,11 @@ export type Comment = Prisma.CommentModel
  */
 export type Follow = Prisma.FollowModel
 /**
+ * Model ModerationItem
+ * 
+ */
+export type ModerationItem = Prisma.ModerationItemModel
+/**
  * Model Notification
  * 
  */

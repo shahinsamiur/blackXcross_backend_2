@@ -10,15 +10,19 @@ const assertAdmin = (requesterRole?: Role) => {
 };
 
 export const createReport = async (reporterId: string, data: CreateReportInput) => {
-  return reportRepository.createReport({ ...data, reporterId });
+  return reportRepository.createReport({ 
+    ...data, 
+    reporterId,
+    targetType: data.targetType as ReportTargetType // Ensures strict enum matching
+  });
 };
 
 export const getReports = async (requesterRole: Role | undefined, query: ReportSearchQuery) => {
   assertAdmin(requesterRole);
 
   const where: Prisma.ReportWhereInput = {};
-  if (query.status) where.status = query.status as ReportStatus;
-  if (query.targetType) where.targetType = query.targetType as ReportTargetType;
+  if (query.status) where.status = query.status;
+  if (query.targetType) where.targetType = query.targetType;
 
   const skip = (query.page - 1) * query.limit;
   const [items, total] = await Promise.all([
@@ -52,11 +56,10 @@ export const updateReport = async (id: string, requesterId: string, requesterRol
   const report = await reportRepository.findReportById(id);
   if (!report) throw new AppError("Report not found", 404);
 
-  const updateData: any = {};
+
+  const updateData: { status?: ReportStatus; adminNotes?: string; resolvedBy?: string } = {};
   if (data.status) updateData.status = data.status;
   if (data.adminNotes !== undefined) updateData.adminNotes = data.adminNotes;
-  
-  // Automatically track who resolved/dismissed the report
   if (data.status && (data.status === ReportStatus.RESOLVED || data.status === ReportStatus.DISMISSED)) {
     updateData.resolvedBy = requesterId;
   }

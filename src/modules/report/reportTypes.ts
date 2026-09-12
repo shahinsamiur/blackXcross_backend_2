@@ -1,17 +1,19 @@
+import { ReportTargetType, ReportStatus } from "../../../generated/prisma/client.js";
+
 export interface CreateReportInput {
-  targetType: string;
+  targetType: ReportTargetType;
   targetId: string;
   reason: string;
 }
 
 export interface UpdateReportInput {
-  status?: string;
+  status?: ReportStatus;
   adminNotes?: string;
 }
 
 export interface ReportSearchQuery {
   page: number;
   limit: number;
-  status?: string;
-  targetType?: string;
+  status?: ReportStatus;
+  targetType?: ReportTargetType;
 }
