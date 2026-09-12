@@ -23,3 +23,41 @@ export const VerificationTokenType = {
 } as const
 
 export type VerificationTokenType = (typeof VerificationTokenType)[keyof typeof VerificationTokenType]
+
+
+export const CaseCategory = {
+  COLD_CASE: 'COLD_CASE',
+  MISSING_PERSON: 'MISSING_PERSON',
+  UNSOLVED_MURDER: 'UNSOLVED_MURDER',
+  UNIDENTIFIED_REMAINS: 'UNIDENTIFIED_REMAINS',
+  OTHER: 'OTHER'
+} as const
+
+export type CaseCategory = (typeof CaseCategory)[keyof typeof CaseCategory]
+
+
+export const PublishState = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED'
+} as const
+
+export type PublishState = (typeof PublishState)[keyof typeof PublishState]
+
+
+export const InvestigationStatus = {
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED',
+  COLD: 'COLD',
+  SOLVED: 'SOLVED'
+} as const
+
+export type InvestigationStatus = (typeof InvestigationStatus)[keyof typeof InvestigationStatus]
+
+
+export const GroupRole = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+} as const
+
+export type GroupRole = (typeof GroupRole)[keyof typeof GroupRole]

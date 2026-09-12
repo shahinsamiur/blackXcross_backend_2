@@ -1,11 +1,38 @@
+enum CaseCategory {
+  COLD_CASE
+  MISSING_PERSON
+  UNSOLVED_MURDER
+  UNIDENTIFIED_REMAINS
+  OTHER
+}
+
+enum PublishState {
+  DRAFT
+  PUBLISHED
+}
+
+enum InvestigationStatus {
+  OPEN
+  CLOSED
+  COLD
+  SOLVED
+}
+
 model Case {
-  id          String   @id @default(uuid())
-  title       String
-  description String?
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                  String              @id @default(uuid())
+  title               String
+  description         String?
+  category            CaseCategory
+  publishState        PublishState        @default(DRAFT)
+  investigationStatus InvestigationStatus @default(OPEN)
+  userId              String
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tags                Tag[]               @relation("CaseTags")
+  files               CaseFile[]
+  theories            Theory[]
+  publishedAt         DateTime?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
 
   @@map("cases")
 }

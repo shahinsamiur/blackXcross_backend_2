@@ -29,6 +29,7 @@ export type TheoryMinAggregateOutputType = {
   title: string | null
   content: string | null
   userId: string | null
+  caseId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -38,6 +39,7 @@ export type TheoryMaxAggregateOutputType = {
   title: string | null
   content: string | null
   userId: string | null
+  caseId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -47,6 +49,7 @@ export type TheoryCountAggregateOutputType = {
   title: number
   content: number
   userId: number
+  caseId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -58,6 +61,7 @@ export type TheoryMinAggregateInputType = {
   title?: true
   content?: true
   userId?: true
+  caseId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -67,6 +71,7 @@ export type TheoryMaxAggregateInputType = {
   title?: true
   content?: true
   userId?: true
+  caseId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -76,6 +81,7 @@ export type TheoryCountAggregateInputType = {
   title?: true
   content?: true
   userId?: true
+  caseId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -158,6 +164,7 @@ export type TheoryGroupByOutputType = {
   title: string
   content: string | null
   userId: string
+  caseId: string
   createdAt: Date
   updatedAt: Date
   _count: TheoryCountAggregateOutputType | null
@@ -188,9 +195,13 @@ export type TheoryWhereInput = {
   title?: Prisma.StringFilter<"Theory"> | string
   content?: Prisma.StringNullableFilter<"Theory"> | string | null
   userId?: Prisma.StringFilter<"Theory"> | string
+  caseId?: Prisma.StringFilter<"Theory"> | string
   createdAt?: Prisma.DateTimeFilter<"Theory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Theory"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  case?: Prisma.XOR<Prisma.CaseScalarRelationFilter, Prisma.CaseWhereInput>
+  upvotes?: Prisma.TheoryUpvoteListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
 }
 
 export type TheoryOrderByWithRelationInput = {
@@ -198,9 +209,13 @@ export type TheoryOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   content?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
+  caseId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  case?: Prisma.CaseOrderByWithRelationInput
+  upvotes?: Prisma.TheoryUpvoteOrderByRelationAggregateInput
+  comments?: Prisma.CommentOrderByRelationAggregateInput
 }
 
 export type TheoryWhereUniqueInput = Prisma.AtLeast<{
@@ -211,9 +226,13 @@ export type TheoryWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"Theory"> | string
   content?: Prisma.StringNullableFilter<"Theory"> | string | null
   userId?: Prisma.StringFilter<"Theory"> | string
+  caseId?: Prisma.StringFilter<"Theory"> | string
   createdAt?: Prisma.DateTimeFilter<"Theory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Theory"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  case?: Prisma.XOR<Prisma.CaseScalarRelationFilter, Prisma.CaseWhereInput>
+  upvotes?: Prisma.TheoryUpvoteListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
 }, "id">
 
 export type TheoryOrderByWithAggregationInput = {
@@ -221,6 +240,7 @@ export type TheoryOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   content?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
+  caseId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TheoryCountOrderByAggregateInput
@@ -236,6 +256,7 @@ export type TheoryScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"Theory"> | string
   content?: Prisma.StringNullableWithAggregatesFilter<"Theory"> | string | null
   userId?: Prisma.StringWithAggregatesFilter<"Theory"> | string
+  caseId?: Prisma.StringWithAggregatesFilter<"Theory"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Theory"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Theory"> | Date | string
 }
@@ -247,6 +268,9 @@ export type TheoryCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTheoriesInput
+  case: Prisma.CaseCreateNestedOneWithoutTheoriesInput
+  upvotes?: Prisma.TheoryUpvoteCreateNestedManyWithoutTheoryInput
+  comments?: Prisma.CommentCreateNestedManyWithoutTheoryInput
 }
 
 export type TheoryUncheckedCreateInput = {
@@ -254,8 +278,11 @@ export type TheoryUncheckedCreateInput = {
   title: string
   content?: string | null
   userId: string
+  caseId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  upvotes?: Prisma.TheoryUpvoteUncheckedCreateNestedManyWithoutTheoryInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTheoryInput
 }
 
 export type TheoryUpdateInput = {
@@ -265,6 +292,9 @@ export type TheoryUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTheoriesNestedInput
+  case?: Prisma.CaseUpdateOneRequiredWithoutTheoriesNestedInput
+  upvotes?: Prisma.TheoryUpvoteUpdateManyWithoutTheoryNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutTheoryNestedInput
 }
 
 export type TheoryUncheckedUpdateInput = {
@@ -272,8 +302,11 @@ export type TheoryUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  caseId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  upvotes?: Prisma.TheoryUpvoteUncheckedUpdateManyWithoutTheoryNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutTheoryNestedInput
 }
 
 export type TheoryCreateManyInput = {
@@ -281,6 +314,7 @@ export type TheoryCreateManyInput = {
   title: string
   content?: string | null
   userId: string
+  caseId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -298,35 +332,9 @@ export type TheoryUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  caseId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TheoryCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  content?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-}
-
-export type TheoryMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  content?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-}
-
-export type TheoryMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  content?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type TheoryListRelationFilter = {
@@ -337,6 +345,111 @@ export type TheoryListRelationFilter = {
 
 export type TheoryOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type TheoryScalarRelationFilter = {
+  is?: Prisma.TheoryWhereInput
+  isNot?: Prisma.TheoryWhereInput
+}
+
+export type TheoryCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  content?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  caseId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type TheoryMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  content?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  caseId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type TheoryMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  content?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  caseId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type TheoryCreateNestedManyWithoutCaseInput = {
+  create?: Prisma.XOR<Prisma.TheoryCreateWithoutCaseInput, Prisma.TheoryUncheckedCreateWithoutCaseInput> | Prisma.TheoryCreateWithoutCaseInput[] | Prisma.TheoryUncheckedCreateWithoutCaseInput[]
+  connectOrCreate?: Prisma.TheoryCreateOrConnectWithoutCaseInput | Prisma.TheoryCreateOrConnectWithoutCaseInput[]
+  createMany?: Prisma.TheoryCreateManyCaseInputEnvelope
+  connect?: Prisma.TheoryWhereUniqueInput | Prisma.TheoryWhereUniqueInput[]
+}
+
+export type TheoryUncheckedCreateNestedManyWithoutCaseInput = {
+  create?: Prisma.XOR<Prisma.TheoryCreateWithoutCaseInput, Prisma.TheoryUncheckedCreateWithoutCaseInput> | Prisma.TheoryCreateWithoutCaseInput[] | Prisma.TheoryUncheckedCreateWithoutCaseInput[]
+  connectOrCreate?: Prisma.TheoryCreateOrConnectWithoutCaseInput | Prisma.TheoryCreateOrConnectWithoutCaseInput[]
+  createMany?: Prisma.TheoryCreateManyCaseInputEnvelope
+  connect?: Prisma.TheoryWhereUniqueInput | Prisma.TheoryWhereUniqueInput[]
+}
+
+export type TheoryUpdateManyWithoutCaseNestedInput = {
+  create?: Prisma.XOR<Prisma.TheoryCreateWithoutCaseInput, Prisma.TheoryUncheckedCreateWithoutCaseInput> | Prisma.TheoryCreateWithoutCaseInput[] | Prisma.TheoryUncheckedCreateWithoutCaseInput[]
+  connectOrCreate?: Prisma.TheoryCreateOrConnectWithoutCaseInput | Prisma.TheoryCreateOrConnectWithoutCaseInput[]
+  upsert?: Prisma.TheoryUpsertWithWhereUniqueWithoutCaseInput | Prisma.TheoryUpsertWithWhereUniqueWithoutCaseInput[]
+  createMany?: Prisma.TheoryCreateManyCaseInputEnvelope
+  set?: Prisma.TheoryWhereUniqueInput | Prisma.TheoryWhereUniqueInput[]
+  disconnect?: Prisma.TheoryWhereUniqueInput | Prisma.TheoryWhereUniqueInput[]
+  delete?: Prisma.TheoryWhereUniqueInput | Prisma.TheoryWhereUniqueInput[]
+  connect?: Prisma.TheoryWhereUniqueInput | Prisma.TheoryWhereUniqueInput[]
+  update?: Prisma.TheoryUpdateWithWhereUniqueWithoutCaseInput | Prisma.TheoryUpdateWithWhereUniqueWithoutCaseInput[]
+  updateMany?: Prisma.TheoryUpdateManyWithWhereWithoutCaseInput | Prisma.TheoryUpdateManyWithWhereWithoutCaseInput[]
+  deleteMany?: Prisma.TheoryScalarWhereInput | Prisma.TheoryScalarWhereInput[]
+}
+
+export type TheoryUncheckedUpdateManyWithoutCaseNestedInput = {
+  create?: Prisma.XOR<Prisma.TheoryCreateWithoutCaseInput, Prisma.TheoryUncheckedCreateWithoutCaseInput> | Prisma.TheoryCreateWithoutCaseInput[] | Prisma.TheoryUncheckedCreateWithoutCaseInput[]
+  connectOrCreate?: Prisma.TheoryCreateOrConnectWithoutCaseInput | Prisma.TheoryCreateOrConnectWithoutCaseInput[]
+  upsert?: Prisma.TheoryUpsertWithWhereUniqueWithoutCaseInput | Prisma.TheoryUpsertWithWhereUniqueWithoutCaseInput[]
+  createMany?: Prisma.TheoryCreateManyCaseInputEnvelope
+  set?: Prisma.TheoryWhereUniqueInput | Prisma.TheoryWhereUniqueInput[]
+  disconnect?: Prisma.TheoryWhereUniqueInput | Prisma.TheoryWhereUniqueInput[]
+  delete?: Prisma.TheoryWhereUniqueInput | Prisma.TheoryWhereUniqueInput[]
+  connect?: Prisma.TheoryWhereUniqueInput | Prisma.TheoryWhereUniqueInput[]
+  update?: Prisma.TheoryUpdateWithWhereUniqueWithoutCaseInput | Prisma.TheoryUpdateWithWhereUniqueWithoutCaseInput[]
+  updateMany?: Prisma.TheoryUpdateManyWithWhereWithoutCaseInput | Prisma.TheoryUpdateManyWithWhereWithoutCaseInput[]
+  deleteMany?: Prisma.TheoryScalarWhereInput | Prisma.TheoryScalarWhereInput[]
+}
+
+export type TheoryCreateNestedOneWithoutCommentsInput = {
+  create?: Prisma.XOR<Prisma.TheoryCreateWithoutCommentsInput, Prisma.TheoryUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.TheoryCreateOrConnectWithoutCommentsInput
+  connect?: Prisma.TheoryWhereUniqueInput
+}
+
+export type TheoryUpdateOneRequiredWithoutCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.TheoryCreateWithoutCommentsInput, Prisma.TheoryUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.TheoryCreateOrConnectWithoutCommentsInput
+  upsert?: Prisma.TheoryUpsertWithoutCommentsInput
+  connect?: Prisma.TheoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TheoryUpdateToOneWithWhereWithoutCommentsInput, Prisma.TheoryUpdateWithoutCommentsInput>, Prisma.TheoryUncheckedUpdateWithoutCommentsInput>
+}
+
+export type TheoryCreateNestedOneWithoutUpvotesInput = {
+  create?: Prisma.XOR<Prisma.TheoryCreateWithoutUpvotesInput, Prisma.TheoryUncheckedCreateWithoutUpvotesInput>
+  connectOrCreate?: Prisma.TheoryCreateOrConnectWithoutUpvotesInput
+  connect?: Prisma.TheoryWhereUniqueInput
+}
+
+export type TheoryUpdateOneRequiredWithoutUpvotesNestedInput = {
+  create?: Prisma.XOR<Prisma.TheoryCreateWithoutUpvotesInput, Prisma.TheoryUncheckedCreateWithoutUpvotesInput>
+  connectOrCreate?: Prisma.TheoryCreateOrConnectWithoutUpvotesInput
+  upsert?: Prisma.TheoryUpsertWithoutUpvotesInput
+  connect?: Prisma.TheoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TheoryUpdateToOneWithWhereWithoutUpvotesInput, Prisma.TheoryUpdateWithoutUpvotesInput>, Prisma.TheoryUncheckedUpdateWithoutUpvotesInput>
 }
 
 export type TheoryCreateNestedManyWithoutUserInput = {
@@ -381,20 +494,207 @@ export type TheoryUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.TheoryScalarWhereInput | Prisma.TheoryScalarWhereInput[]
 }
 
+export type TheoryCreateWithoutCaseInput = {
+  id?: string
+  title: string
+  content?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTheoriesInput
+  upvotes?: Prisma.TheoryUpvoteCreateNestedManyWithoutTheoryInput
+  comments?: Prisma.CommentCreateNestedManyWithoutTheoryInput
+}
+
+export type TheoryUncheckedCreateWithoutCaseInput = {
+  id?: string
+  title: string
+  content?: string | null
+  userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  upvotes?: Prisma.TheoryUpvoteUncheckedCreateNestedManyWithoutTheoryInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTheoryInput
+}
+
+export type TheoryCreateOrConnectWithoutCaseInput = {
+  where: Prisma.TheoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.TheoryCreateWithoutCaseInput, Prisma.TheoryUncheckedCreateWithoutCaseInput>
+}
+
+export type TheoryCreateManyCaseInputEnvelope = {
+  data: Prisma.TheoryCreateManyCaseInput | Prisma.TheoryCreateManyCaseInput[]
+  skipDuplicates?: boolean
+}
+
+export type TheoryUpsertWithWhereUniqueWithoutCaseInput = {
+  where: Prisma.TheoryWhereUniqueInput
+  update: Prisma.XOR<Prisma.TheoryUpdateWithoutCaseInput, Prisma.TheoryUncheckedUpdateWithoutCaseInput>
+  create: Prisma.XOR<Prisma.TheoryCreateWithoutCaseInput, Prisma.TheoryUncheckedCreateWithoutCaseInput>
+}
+
+export type TheoryUpdateWithWhereUniqueWithoutCaseInput = {
+  where: Prisma.TheoryWhereUniqueInput
+  data: Prisma.XOR<Prisma.TheoryUpdateWithoutCaseInput, Prisma.TheoryUncheckedUpdateWithoutCaseInput>
+}
+
+export type TheoryUpdateManyWithWhereWithoutCaseInput = {
+  where: Prisma.TheoryScalarWhereInput
+  data: Prisma.XOR<Prisma.TheoryUpdateManyMutationInput, Prisma.TheoryUncheckedUpdateManyWithoutCaseInput>
+}
+
+export type TheoryScalarWhereInput = {
+  AND?: Prisma.TheoryScalarWhereInput | Prisma.TheoryScalarWhereInput[]
+  OR?: Prisma.TheoryScalarWhereInput[]
+  NOT?: Prisma.TheoryScalarWhereInput | Prisma.TheoryScalarWhereInput[]
+  id?: Prisma.StringFilter<"Theory"> | string
+  title?: Prisma.StringFilter<"Theory"> | string
+  content?: Prisma.StringNullableFilter<"Theory"> | string | null
+  userId?: Prisma.StringFilter<"Theory"> | string
+  caseId?: Prisma.StringFilter<"Theory"> | string
+  createdAt?: Prisma.DateTimeFilter<"Theory"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Theory"> | Date | string
+}
+
+export type TheoryCreateWithoutCommentsInput = {
+  id?: string
+  title: string
+  content?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTheoriesInput
+  case: Prisma.CaseCreateNestedOneWithoutTheoriesInput
+  upvotes?: Prisma.TheoryUpvoteCreateNestedManyWithoutTheoryInput
+}
+
+export type TheoryUncheckedCreateWithoutCommentsInput = {
+  id?: string
+  title: string
+  content?: string | null
+  userId: string
+  caseId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  upvotes?: Prisma.TheoryUpvoteUncheckedCreateNestedManyWithoutTheoryInput
+}
+
+export type TheoryCreateOrConnectWithoutCommentsInput = {
+  where: Prisma.TheoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.TheoryCreateWithoutCommentsInput, Prisma.TheoryUncheckedCreateWithoutCommentsInput>
+}
+
+export type TheoryUpsertWithoutCommentsInput = {
+  update: Prisma.XOR<Prisma.TheoryUpdateWithoutCommentsInput, Prisma.TheoryUncheckedUpdateWithoutCommentsInput>
+  create: Prisma.XOR<Prisma.TheoryCreateWithoutCommentsInput, Prisma.TheoryUncheckedCreateWithoutCommentsInput>
+  where?: Prisma.TheoryWhereInput
+}
+
+export type TheoryUpdateToOneWithWhereWithoutCommentsInput = {
+  where?: Prisma.TheoryWhereInput
+  data: Prisma.XOR<Prisma.TheoryUpdateWithoutCommentsInput, Prisma.TheoryUncheckedUpdateWithoutCommentsInput>
+}
+
+export type TheoryUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTheoriesNestedInput
+  case?: Prisma.CaseUpdateOneRequiredWithoutTheoriesNestedInput
+  upvotes?: Prisma.TheoryUpvoteUpdateManyWithoutTheoryNestedInput
+}
+
+export type TheoryUncheckedUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  caseId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  upvotes?: Prisma.TheoryUpvoteUncheckedUpdateManyWithoutTheoryNestedInput
+}
+
+export type TheoryCreateWithoutUpvotesInput = {
+  id?: string
+  title: string
+  content?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTheoriesInput
+  case: Prisma.CaseCreateNestedOneWithoutTheoriesInput
+  comments?: Prisma.CommentCreateNestedManyWithoutTheoryInput
+}
+
+export type TheoryUncheckedCreateWithoutUpvotesInput = {
+  id?: string
+  title: string
+  content?: string | null
+  userId: string
+  caseId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTheoryInput
+}
+
+export type TheoryCreateOrConnectWithoutUpvotesInput = {
+  where: Prisma.TheoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.TheoryCreateWithoutUpvotesInput, Prisma.TheoryUncheckedCreateWithoutUpvotesInput>
+}
+
+export type TheoryUpsertWithoutUpvotesInput = {
+  update: Prisma.XOR<Prisma.TheoryUpdateWithoutUpvotesInput, Prisma.TheoryUncheckedUpdateWithoutUpvotesInput>
+  create: Prisma.XOR<Prisma.TheoryCreateWithoutUpvotesInput, Prisma.TheoryUncheckedCreateWithoutUpvotesInput>
+  where?: Prisma.TheoryWhereInput
+}
+
+export type TheoryUpdateToOneWithWhereWithoutUpvotesInput = {
+  where?: Prisma.TheoryWhereInput
+  data: Prisma.XOR<Prisma.TheoryUpdateWithoutUpvotesInput, Prisma.TheoryUncheckedUpdateWithoutUpvotesInput>
+}
+
+export type TheoryUpdateWithoutUpvotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTheoriesNestedInput
+  case?: Prisma.CaseUpdateOneRequiredWithoutTheoriesNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutTheoryNestedInput
+}
+
+export type TheoryUncheckedUpdateWithoutUpvotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  caseId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutTheoryNestedInput
+}
+
 export type TheoryCreateWithoutUserInput = {
   id?: string
   title: string
   content?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  case: Prisma.CaseCreateNestedOneWithoutTheoriesInput
+  upvotes?: Prisma.TheoryUpvoteCreateNestedManyWithoutTheoryInput
+  comments?: Prisma.CommentCreateNestedManyWithoutTheoryInput
 }
 
 export type TheoryUncheckedCreateWithoutUserInput = {
   id?: string
   title: string
   content?: string | null
+  caseId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  upvotes?: Prisma.TheoryUpvoteUncheckedCreateNestedManyWithoutTheoryInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutTheoryInput
 }
 
 export type TheoryCreateOrConnectWithoutUserInput = {
@@ -423,22 +723,51 @@ export type TheoryUpdateManyWithWhereWithoutUserInput = {
   data: Prisma.XOR<Prisma.TheoryUpdateManyMutationInput, Prisma.TheoryUncheckedUpdateManyWithoutUserInput>
 }
 
-export type TheoryScalarWhereInput = {
-  AND?: Prisma.TheoryScalarWhereInput | Prisma.TheoryScalarWhereInput[]
-  OR?: Prisma.TheoryScalarWhereInput[]
-  NOT?: Prisma.TheoryScalarWhereInput | Prisma.TheoryScalarWhereInput[]
-  id?: Prisma.StringFilter<"Theory"> | string
-  title?: Prisma.StringFilter<"Theory"> | string
-  content?: Prisma.StringNullableFilter<"Theory"> | string | null
-  userId?: Prisma.StringFilter<"Theory"> | string
-  createdAt?: Prisma.DateTimeFilter<"Theory"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Theory"> | Date | string
+export type TheoryCreateManyCaseInput = {
+  id?: string
+  title: string
+  content?: string | null
+  userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type TheoryUpdateWithoutCaseInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTheoriesNestedInput
+  upvotes?: Prisma.TheoryUpvoteUpdateManyWithoutTheoryNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutTheoryNestedInput
+}
+
+export type TheoryUncheckedUpdateWithoutCaseInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  upvotes?: Prisma.TheoryUpvoteUncheckedUpdateManyWithoutTheoryNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutTheoryNestedInput
+}
+
+export type TheoryUncheckedUpdateManyWithoutCaseInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TheoryCreateManyUserInput = {
   id?: string
   title: string
   content?: string | null
+  caseId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -449,24 +778,69 @@ export type TheoryUpdateWithoutUserInput = {
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  case?: Prisma.CaseUpdateOneRequiredWithoutTheoriesNestedInput
+  upvotes?: Prisma.TheoryUpvoteUpdateManyWithoutTheoryNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutTheoryNestedInput
 }
 
 export type TheoryUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  caseId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  upvotes?: Prisma.TheoryUpvoteUncheckedUpdateManyWithoutTheoryNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutTheoryNestedInput
 }
 
 export type TheoryUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  caseId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type TheoryCountOutputType
+ */
+
+export type TheoryCountOutputType = {
+  upvotes: number
+  comments: number
+}
+
+export type TheoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  upvotes?: boolean | TheoryCountOutputTypeCountUpvotesArgs
+  comments?: boolean | TheoryCountOutputTypeCountCommentsArgs
+}
+
+/**
+ * TheoryCountOutputType without action
+ */
+export type TheoryCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TheoryCountOutputType
+   */
+  select?: Prisma.TheoryCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TheoryCountOutputType without action
+ */
+export type TheoryCountOutputTypeCountUpvotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TheoryUpvoteWhereInput
+}
+
+/**
+ * TheoryCountOutputType without action
+ */
+export type TheoryCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommentWhereInput
+}
 
 
 export type TheorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -474,9 +848,14 @@ export type TheorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   title?: boolean
   content?: boolean
   userId?: boolean
+  caseId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  case?: boolean | Prisma.CaseDefaultArgs<ExtArgs>
+  upvotes?: boolean | Prisma.Theory$upvotesArgs<ExtArgs>
+  comments?: boolean | Prisma.Theory$commentsArgs<ExtArgs>
+  _count?: boolean | Prisma.TheoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["theory"]>
 
 export type TheorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -484,9 +863,11 @@ export type TheorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   title?: boolean
   content?: boolean
   userId?: boolean
+  caseId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  case?: boolean | Prisma.CaseDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["theory"]>
 
 export type TheorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -494,9 +875,11 @@ export type TheorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   title?: boolean
   content?: boolean
   userId?: boolean
+  caseId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  case?: boolean | Prisma.CaseDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["theory"]>
 
 export type TheorySelectScalar = {
@@ -504,31 +887,42 @@ export type TheorySelectScalar = {
   title?: boolean
   content?: boolean
   userId?: boolean
+  caseId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TheoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["theory"]>
+export type TheoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "userId" | "caseId" | "createdAt" | "updatedAt", ExtArgs["result"]["theory"]>
 export type TheoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  case?: boolean | Prisma.CaseDefaultArgs<ExtArgs>
+  upvotes?: boolean | Prisma.Theory$upvotesArgs<ExtArgs>
+  comments?: boolean | Prisma.Theory$commentsArgs<ExtArgs>
+  _count?: boolean | Prisma.TheoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TheoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  case?: boolean | Prisma.CaseDefaultArgs<ExtArgs>
 }
 export type TheoryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  case?: boolean | Prisma.CaseDefaultArgs<ExtArgs>
 }
 
 export type $TheoryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Theory"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    case: Prisma.$CasePayload<ExtArgs>
+    upvotes: Prisma.$TheoryUpvotePayload<ExtArgs>[]
+    comments: Prisma.$CommentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
     content: string | null
     userId: string
+    caseId: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["theory"]>
@@ -926,6 +1320,9 @@ readonly fields: TheoryFieldRefs;
 export interface Prisma__TheoryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  case<T extends Prisma.CaseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CaseDefaultArgs<ExtArgs>>): Prisma.Prisma__CaseClient<runtime.Types.Result.GetResult<Prisma.$CasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  upvotes<T extends Prisma.Theory$upvotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Theory$upvotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TheoryUpvotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  comments<T extends Prisma.Theory$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Theory$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -959,6 +1356,7 @@ export interface TheoryFieldRefs {
   readonly title: Prisma.FieldRef<"Theory", 'String'>
   readonly content: Prisma.FieldRef<"Theory", 'String'>
   readonly userId: Prisma.FieldRef<"Theory", 'String'>
+  readonly caseId: Prisma.FieldRef<"Theory", 'String'>
   readonly createdAt: Prisma.FieldRef<"Theory", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Theory", 'DateTime'>
 }
@@ -1359,6 +1757,54 @@ export type TheoryDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Theories to delete.
    */
   limit?: number
+}
+
+/**
+ * Theory.upvotes
+ */
+export type Theory$upvotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TheoryUpvote
+   */
+  select?: Prisma.TheoryUpvoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TheoryUpvote
+   */
+  omit?: Prisma.TheoryUpvoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TheoryUpvoteInclude<ExtArgs> | null
+  where?: Prisma.TheoryUpvoteWhereInput
+  orderBy?: Prisma.TheoryUpvoteOrderByWithRelationInput | Prisma.TheoryUpvoteOrderByWithRelationInput[]
+  cursor?: Prisma.TheoryUpvoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TheoryUpvoteScalarFieldEnum | Prisma.TheoryUpvoteScalarFieldEnum[]
+}
+
+/**
+ * Theory.comments
+ */
+export type Theory$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Comment
+   */
+  select?: Prisma.CommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Comment
+   */
+  omit?: Prisma.CommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommentInclude<ExtArgs> | null
+  where?: Prisma.CommentWhereInput
+  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
+  cursor?: Prisma.CommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
 }
 
 /**

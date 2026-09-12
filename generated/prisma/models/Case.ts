@@ -28,7 +28,11 @@ export type CaseMinAggregateOutputType = {
   id: string | null
   title: string | null
   description: string | null
+  category: $Enums.CaseCategory | null
+  publishState: $Enums.PublishState | null
+  investigationStatus: $Enums.InvestigationStatus | null
   userId: string | null
+  publishedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -37,7 +41,11 @@ export type CaseMaxAggregateOutputType = {
   id: string | null
   title: string | null
   description: string | null
+  category: $Enums.CaseCategory | null
+  publishState: $Enums.PublishState | null
+  investigationStatus: $Enums.InvestigationStatus | null
   userId: string | null
+  publishedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -46,7 +54,11 @@ export type CaseCountAggregateOutputType = {
   id: number
   title: number
   description: number
+  category: number
+  publishState: number
+  investigationStatus: number
   userId: number
+  publishedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -57,7 +69,11 @@ export type CaseMinAggregateInputType = {
   id?: true
   title?: true
   description?: true
+  category?: true
+  publishState?: true
+  investigationStatus?: true
   userId?: true
+  publishedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -66,7 +82,11 @@ export type CaseMaxAggregateInputType = {
   id?: true
   title?: true
   description?: true
+  category?: true
+  publishState?: true
+  investigationStatus?: true
   userId?: true
+  publishedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -75,7 +95,11 @@ export type CaseCountAggregateInputType = {
   id?: true
   title?: true
   description?: true
+  category?: true
+  publishState?: true
+  investigationStatus?: true
   userId?: true
+  publishedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -157,7 +181,11 @@ export type CaseGroupByOutputType = {
   id: string
   title: string
   description: string | null
+  category: $Enums.CaseCategory
+  publishState: $Enums.PublishState
+  investigationStatus: $Enums.InvestigationStatus
   userId: string
+  publishedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: CaseCountAggregateOutputType | null
@@ -187,20 +215,34 @@ export type CaseWhereInput = {
   id?: Prisma.StringFilter<"Case"> | string
   title?: Prisma.StringFilter<"Case"> | string
   description?: Prisma.StringNullableFilter<"Case"> | string | null
+  category?: Prisma.EnumCaseCategoryFilter<"Case"> | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFilter<"Case"> | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFilter<"Case"> | $Enums.InvestigationStatus
   userId?: Prisma.StringFilter<"Case"> | string
+  publishedAt?: Prisma.DateTimeNullableFilter<"Case"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Case"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Case"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  tags?: Prisma.TagListRelationFilter
+  files?: Prisma.CaseFileListRelationFilter
+  theories?: Prisma.TheoryListRelationFilter
 }
 
 export type CaseOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrder
+  publishState?: Prisma.SortOrder
+  investigationStatus?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  tags?: Prisma.TagOrderByRelationAggregateInput
+  files?: Prisma.CaseFileOrderByRelationAggregateInput
+  theories?: Prisma.TheoryOrderByRelationAggregateInput
 }
 
 export type CaseWhereUniqueInput = Prisma.AtLeast<{
@@ -210,17 +252,28 @@ export type CaseWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CaseWhereInput | Prisma.CaseWhereInput[]
   title?: Prisma.StringFilter<"Case"> | string
   description?: Prisma.StringNullableFilter<"Case"> | string | null
+  category?: Prisma.EnumCaseCategoryFilter<"Case"> | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFilter<"Case"> | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFilter<"Case"> | $Enums.InvestigationStatus
   userId?: Prisma.StringFilter<"Case"> | string
+  publishedAt?: Prisma.DateTimeNullableFilter<"Case"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Case"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Case"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  tags?: Prisma.TagListRelationFilter
+  files?: Prisma.CaseFileListRelationFilter
+  theories?: Prisma.TheoryListRelationFilter
 }, "id">
 
 export type CaseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrder
+  publishState?: Prisma.SortOrder
+  investigationStatus?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CaseCountOrderByAggregateInput
@@ -235,7 +288,11 @@ export type CaseScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Case"> | string
   title?: Prisma.StringWithAggregatesFilter<"Case"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Case"> | string | null
+  category?: Prisma.EnumCaseCategoryWithAggregatesFilter<"Case"> | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateWithAggregatesFilter<"Case"> | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusWithAggregatesFilter<"Case"> | $Enums.InvestigationStatus
   userId?: Prisma.StringWithAggregatesFilter<"Case"> | string
+  publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Case"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Case"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Case"> | Date | string
 }
@@ -244,43 +301,75 @@ export type CaseCreateInput = {
   id?: string
   title: string
   description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCasesInput
+  tags?: Prisma.TagCreateNestedManyWithoutCasesInput
+  files?: Prisma.CaseFileCreateNestedManyWithoutCaseInput
+  theories?: Prisma.TheoryCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUncheckedCreateInput = {
   id?: string
   title: string
   description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
   userId: string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutCasesInput
+  files?: Prisma.CaseFileUncheckedCreateNestedManyWithoutCaseInput
+  theories?: Prisma.TheoryUncheckedCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
+  tags?: Prisma.TagUpdateManyWithoutCasesNestedInput
+  files?: Prisma.CaseFileUpdateManyWithoutCaseNestedInput
+  theories?: Prisma.TheoryUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tags?: Prisma.TagUncheckedUpdateManyWithoutCasesNestedInput
+  files?: Prisma.CaseFileUncheckedUpdateManyWithoutCaseNestedInput
+  theories?: Prisma.TheoryUncheckedUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseCreateManyInput = {
   id?: string
   title: string
   description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
   userId: string
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -289,6 +378,10 @@ export type CaseUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -297,7 +390,11 @@ export type CaseUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -306,7 +403,11 @@ export type CaseCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  publishState?: Prisma.SortOrder
+  investigationStatus?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -315,7 +416,11 @@ export type CaseMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  publishState?: Prisma.SortOrder
+  investigationStatus?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -324,9 +429,18 @@ export type CaseMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  publishState?: Prisma.SortOrder
+  investigationStatus?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CaseScalarRelationFilter = {
+  is?: Prisma.CaseWhereInput
+  isNot?: Prisma.CaseWhereInput
 }
 
 export type CaseListRelationFilter = {
@@ -337,6 +451,84 @@ export type CaseListRelationFilter = {
 
 export type CaseOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type EnumCaseCategoryFieldUpdateOperationsInput = {
+  set?: $Enums.CaseCategory
+}
+
+export type EnumPublishStateFieldUpdateOperationsInput = {
+  set?: $Enums.PublishState
+}
+
+export type EnumInvestigationStatusFieldUpdateOperationsInput = {
+  set?: $Enums.InvestigationStatus
+}
+
+export type CaseCreateNestedOneWithoutFilesInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutFilesInput, Prisma.CaseUncheckedCreateWithoutFilesInput>
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutFilesInput
+  connect?: Prisma.CaseWhereUniqueInput
+}
+
+export type CaseUpdateOneRequiredWithoutFilesNestedInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutFilesInput, Prisma.CaseUncheckedCreateWithoutFilesInput>
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutFilesInput
+  upsert?: Prisma.CaseUpsertWithoutFilesInput
+  connect?: Prisma.CaseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CaseUpdateToOneWithWhereWithoutFilesInput, Prisma.CaseUpdateWithoutFilesInput>, Prisma.CaseUncheckedUpdateWithoutFilesInput>
+}
+
+export type CaseCreateNestedManyWithoutTagsInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutTagsInput, Prisma.CaseUncheckedCreateWithoutTagsInput> | Prisma.CaseCreateWithoutTagsInput[] | Prisma.CaseUncheckedCreateWithoutTagsInput[]
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutTagsInput | Prisma.CaseCreateOrConnectWithoutTagsInput[]
+  connect?: Prisma.CaseWhereUniqueInput | Prisma.CaseWhereUniqueInput[]
+}
+
+export type CaseUncheckedCreateNestedManyWithoutTagsInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutTagsInput, Prisma.CaseUncheckedCreateWithoutTagsInput> | Prisma.CaseCreateWithoutTagsInput[] | Prisma.CaseUncheckedCreateWithoutTagsInput[]
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutTagsInput | Prisma.CaseCreateOrConnectWithoutTagsInput[]
+  connect?: Prisma.CaseWhereUniqueInput | Prisma.CaseWhereUniqueInput[]
+}
+
+export type CaseUpdateManyWithoutTagsNestedInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutTagsInput, Prisma.CaseUncheckedCreateWithoutTagsInput> | Prisma.CaseCreateWithoutTagsInput[] | Prisma.CaseUncheckedCreateWithoutTagsInput[]
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutTagsInput | Prisma.CaseCreateOrConnectWithoutTagsInput[]
+  upsert?: Prisma.CaseUpsertWithWhereUniqueWithoutTagsInput | Prisma.CaseUpsertWithWhereUniqueWithoutTagsInput[]
+  set?: Prisma.CaseWhereUniqueInput | Prisma.CaseWhereUniqueInput[]
+  disconnect?: Prisma.CaseWhereUniqueInput | Prisma.CaseWhereUniqueInput[]
+  delete?: Prisma.CaseWhereUniqueInput | Prisma.CaseWhereUniqueInput[]
+  connect?: Prisma.CaseWhereUniqueInput | Prisma.CaseWhereUniqueInput[]
+  update?: Prisma.CaseUpdateWithWhereUniqueWithoutTagsInput | Prisma.CaseUpdateWithWhereUniqueWithoutTagsInput[]
+  updateMany?: Prisma.CaseUpdateManyWithWhereWithoutTagsInput | Prisma.CaseUpdateManyWithWhereWithoutTagsInput[]
+  deleteMany?: Prisma.CaseScalarWhereInput | Prisma.CaseScalarWhereInput[]
+}
+
+export type CaseUncheckedUpdateManyWithoutTagsNestedInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutTagsInput, Prisma.CaseUncheckedCreateWithoutTagsInput> | Prisma.CaseCreateWithoutTagsInput[] | Prisma.CaseUncheckedCreateWithoutTagsInput[]
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutTagsInput | Prisma.CaseCreateOrConnectWithoutTagsInput[]
+  upsert?: Prisma.CaseUpsertWithWhereUniqueWithoutTagsInput | Prisma.CaseUpsertWithWhereUniqueWithoutTagsInput[]
+  set?: Prisma.CaseWhereUniqueInput | Prisma.CaseWhereUniqueInput[]
+  disconnect?: Prisma.CaseWhereUniqueInput | Prisma.CaseWhereUniqueInput[]
+  delete?: Prisma.CaseWhereUniqueInput | Prisma.CaseWhereUniqueInput[]
+  connect?: Prisma.CaseWhereUniqueInput | Prisma.CaseWhereUniqueInput[]
+  update?: Prisma.CaseUpdateWithWhereUniqueWithoutTagsInput | Prisma.CaseUpdateWithWhereUniqueWithoutTagsInput[]
+  updateMany?: Prisma.CaseUpdateManyWithWhereWithoutTagsInput | Prisma.CaseUpdateManyWithWhereWithoutTagsInput[]
+  deleteMany?: Prisma.CaseScalarWhereInput | Prisma.CaseScalarWhereInput[]
+}
+
+export type CaseCreateNestedOneWithoutTheoriesInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutTheoriesInput, Prisma.CaseUncheckedCreateWithoutTheoriesInput>
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutTheoriesInput
+  connect?: Prisma.CaseWhereUniqueInput
+}
+
+export type CaseUpdateOneRequiredWithoutTheoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.CaseCreateWithoutTheoriesInput, Prisma.CaseUncheckedCreateWithoutTheoriesInput>
+  connectOrCreate?: Prisma.CaseCreateOrConnectWithoutTheoriesInput
+  upsert?: Prisma.CaseUpsertWithoutTheoriesInput
+  connect?: Prisma.CaseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CaseUpdateToOneWithWhereWithoutTheoriesInput, Prisma.CaseUpdateWithoutTheoriesInput>, Prisma.CaseUncheckedUpdateWithoutTheoriesInput>
 }
 
 export type CaseCreateNestedManyWithoutUserInput = {
@@ -381,20 +573,253 @@ export type CaseUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.CaseScalarWhereInput | Prisma.CaseScalarWhereInput[]
 }
 
+export type CaseCreateWithoutFilesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCasesInput
+  tags?: Prisma.TagCreateNestedManyWithoutCasesInput
+  theories?: Prisma.TheoryCreateNestedManyWithoutCaseInput
+}
+
+export type CaseUncheckedCreateWithoutFilesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
+  userId: string
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutCasesInput
+  theories?: Prisma.TheoryUncheckedCreateNestedManyWithoutCaseInput
+}
+
+export type CaseCreateOrConnectWithoutFilesInput = {
+  where: Prisma.CaseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CaseCreateWithoutFilesInput, Prisma.CaseUncheckedCreateWithoutFilesInput>
+}
+
+export type CaseUpsertWithoutFilesInput = {
+  update: Prisma.XOR<Prisma.CaseUpdateWithoutFilesInput, Prisma.CaseUncheckedUpdateWithoutFilesInput>
+  create: Prisma.XOR<Prisma.CaseCreateWithoutFilesInput, Prisma.CaseUncheckedCreateWithoutFilesInput>
+  where?: Prisma.CaseWhereInput
+}
+
+export type CaseUpdateToOneWithWhereWithoutFilesInput = {
+  where?: Prisma.CaseWhereInput
+  data: Prisma.XOR<Prisma.CaseUpdateWithoutFilesInput, Prisma.CaseUncheckedUpdateWithoutFilesInput>
+}
+
+export type CaseUpdateWithoutFilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
+  tags?: Prisma.TagUpdateManyWithoutCasesNestedInput
+  theories?: Prisma.TheoryUpdateManyWithoutCaseNestedInput
+}
+
+export type CaseUncheckedUpdateWithoutFilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tags?: Prisma.TagUncheckedUpdateManyWithoutCasesNestedInput
+  theories?: Prisma.TheoryUncheckedUpdateManyWithoutCaseNestedInput
+}
+
+export type CaseCreateWithoutTagsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCasesInput
+  files?: Prisma.CaseFileCreateNestedManyWithoutCaseInput
+  theories?: Prisma.TheoryCreateNestedManyWithoutCaseInput
+}
+
+export type CaseUncheckedCreateWithoutTagsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
+  userId: string
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  files?: Prisma.CaseFileUncheckedCreateNestedManyWithoutCaseInput
+  theories?: Prisma.TheoryUncheckedCreateNestedManyWithoutCaseInput
+}
+
+export type CaseCreateOrConnectWithoutTagsInput = {
+  where: Prisma.CaseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CaseCreateWithoutTagsInput, Prisma.CaseUncheckedCreateWithoutTagsInput>
+}
+
+export type CaseUpsertWithWhereUniqueWithoutTagsInput = {
+  where: Prisma.CaseWhereUniqueInput
+  update: Prisma.XOR<Prisma.CaseUpdateWithoutTagsInput, Prisma.CaseUncheckedUpdateWithoutTagsInput>
+  create: Prisma.XOR<Prisma.CaseCreateWithoutTagsInput, Prisma.CaseUncheckedCreateWithoutTagsInput>
+}
+
+export type CaseUpdateWithWhereUniqueWithoutTagsInput = {
+  where: Prisma.CaseWhereUniqueInput
+  data: Prisma.XOR<Prisma.CaseUpdateWithoutTagsInput, Prisma.CaseUncheckedUpdateWithoutTagsInput>
+}
+
+export type CaseUpdateManyWithWhereWithoutTagsInput = {
+  where: Prisma.CaseScalarWhereInput
+  data: Prisma.XOR<Prisma.CaseUpdateManyMutationInput, Prisma.CaseUncheckedUpdateManyWithoutTagsInput>
+}
+
+export type CaseScalarWhereInput = {
+  AND?: Prisma.CaseScalarWhereInput | Prisma.CaseScalarWhereInput[]
+  OR?: Prisma.CaseScalarWhereInput[]
+  NOT?: Prisma.CaseScalarWhereInput | Prisma.CaseScalarWhereInput[]
+  id?: Prisma.StringFilter<"Case"> | string
+  title?: Prisma.StringFilter<"Case"> | string
+  description?: Prisma.StringNullableFilter<"Case"> | string | null
+  category?: Prisma.EnumCaseCategoryFilter<"Case"> | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFilter<"Case"> | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFilter<"Case"> | $Enums.InvestigationStatus
+  userId?: Prisma.StringFilter<"Case"> | string
+  publishedAt?: Prisma.DateTimeNullableFilter<"Case"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"Case"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Case"> | Date | string
+}
+
+export type CaseCreateWithoutTheoriesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutCasesInput
+  tags?: Prisma.TagCreateNestedManyWithoutCasesInput
+  files?: Prisma.CaseFileCreateNestedManyWithoutCaseInput
+}
+
+export type CaseUncheckedCreateWithoutTheoriesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
+  userId: string
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutCasesInput
+  files?: Prisma.CaseFileUncheckedCreateNestedManyWithoutCaseInput
+}
+
+export type CaseCreateOrConnectWithoutTheoriesInput = {
+  where: Prisma.CaseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CaseCreateWithoutTheoriesInput, Prisma.CaseUncheckedCreateWithoutTheoriesInput>
+}
+
+export type CaseUpsertWithoutTheoriesInput = {
+  update: Prisma.XOR<Prisma.CaseUpdateWithoutTheoriesInput, Prisma.CaseUncheckedUpdateWithoutTheoriesInput>
+  create: Prisma.XOR<Prisma.CaseCreateWithoutTheoriesInput, Prisma.CaseUncheckedCreateWithoutTheoriesInput>
+  where?: Prisma.CaseWhereInput
+}
+
+export type CaseUpdateToOneWithWhereWithoutTheoriesInput = {
+  where?: Prisma.CaseWhereInput
+  data: Prisma.XOR<Prisma.CaseUpdateWithoutTheoriesInput, Prisma.CaseUncheckedUpdateWithoutTheoriesInput>
+}
+
+export type CaseUpdateWithoutTheoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
+  tags?: Prisma.TagUpdateManyWithoutCasesNestedInput
+  files?: Prisma.CaseFileUpdateManyWithoutCaseNestedInput
+}
+
+export type CaseUncheckedUpdateWithoutTheoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tags?: Prisma.TagUncheckedUpdateManyWithoutCasesNestedInput
+  files?: Prisma.CaseFileUncheckedUpdateManyWithoutCaseNestedInput
+}
+
 export type CaseCreateWithoutUserInput = {
   id?: string
   title: string
   description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  tags?: Prisma.TagCreateNestedManyWithoutCasesInput
+  files?: Prisma.CaseFileCreateNestedManyWithoutCaseInput
+  theories?: Prisma.TheoryCreateNestedManyWithoutCaseInput
 }
 
 export type CaseUncheckedCreateWithoutUserInput = {
   id?: string
   title: string
   description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutCasesInput
+  files?: Prisma.CaseFileUncheckedCreateNestedManyWithoutCaseInput
+  theories?: Prisma.TheoryUncheckedCreateNestedManyWithoutCaseInput
 }
 
 export type CaseCreateOrConnectWithoutUserInput = {
@@ -423,22 +848,57 @@ export type CaseUpdateManyWithWhereWithoutUserInput = {
   data: Prisma.XOR<Prisma.CaseUpdateManyMutationInput, Prisma.CaseUncheckedUpdateManyWithoutUserInput>
 }
 
-export type CaseScalarWhereInput = {
-  AND?: Prisma.CaseScalarWhereInput | Prisma.CaseScalarWhereInput[]
-  OR?: Prisma.CaseScalarWhereInput[]
-  NOT?: Prisma.CaseScalarWhereInput | Prisma.CaseScalarWhereInput[]
-  id?: Prisma.StringFilter<"Case"> | string
-  title?: Prisma.StringFilter<"Case"> | string
-  description?: Prisma.StringNullableFilter<"Case"> | string | null
-  userId?: Prisma.StringFilter<"Case"> | string
-  createdAt?: Prisma.DateTimeFilter<"Case"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Case"> | Date | string
+export type CaseUpdateWithoutTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutCasesNestedInput
+  files?: Prisma.CaseFileUpdateManyWithoutCaseNestedInput
+  theories?: Prisma.TheoryUpdateManyWithoutCaseNestedInput
+}
+
+export type CaseUncheckedUpdateWithoutTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  files?: Prisma.CaseFileUncheckedUpdateManyWithoutCaseNestedInput
+  theories?: Prisma.TheoryUncheckedUpdateManyWithoutCaseNestedInput
+}
+
+export type CaseUncheckedUpdateManyWithoutTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CaseCreateManyUserInput = {
   id?: string
   title: string
   description?: string | null
+  category: $Enums.CaseCategory
+  publishState?: $Enums.PublishState
+  investigationStatus?: $Enums.InvestigationStatus
+  publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -447,43 +907,120 @@ export type CaseUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tags?: Prisma.TagUpdateManyWithoutCasesNestedInput
+  files?: Prisma.CaseFileUpdateManyWithoutCaseNestedInput
+  theories?: Prisma.TheoryUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tags?: Prisma.TagUncheckedUpdateManyWithoutCasesNestedInput
+  files?: Prisma.CaseFileUncheckedUpdateManyWithoutCaseNestedInput
+  theories?: Prisma.TheoryUncheckedUpdateManyWithoutCaseNestedInput
 }
 
 export type CaseUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
+  publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
+  investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type CaseCountOutputType
+ */
+
+export type CaseCountOutputType = {
+  tags: number
+  files: number
+  theories: number
+}
+
+export type CaseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tags?: boolean | CaseCountOutputTypeCountTagsArgs
+  files?: boolean | CaseCountOutputTypeCountFilesArgs
+  theories?: boolean | CaseCountOutputTypeCountTheoriesArgs
+}
+
+/**
+ * CaseCountOutputType without action
+ */
+export type CaseCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CaseCountOutputType
+   */
+  select?: Prisma.CaseCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CaseCountOutputType without action
+ */
+export type CaseCountOutputTypeCountTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TagWhereInput
+}
+
+/**
+ * CaseCountOutputType without action
+ */
+export type CaseCountOutputTypeCountFilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CaseFileWhereInput
+}
+
+/**
+ * CaseCountOutputType without action
+ */
+export type CaseCountOutputTypeCountTheoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TheoryWhereInput
+}
 
 
 export type CaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
   description?: boolean
+  category?: boolean
+  publishState?: boolean
+  investigationStatus?: boolean
   userId?: boolean
+  publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tags?: boolean | Prisma.Case$tagsArgs<ExtArgs>
+  files?: boolean | Prisma.Case$filesArgs<ExtArgs>
+  theories?: boolean | Prisma.Case$theoriesArgs<ExtArgs>
+  _count?: boolean | Prisma.CaseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["case"]>
 
 export type CaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
   description?: boolean
+  category?: boolean
+  publishState?: boolean
+  investigationStatus?: boolean
   userId?: boolean
+  publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -493,7 +1030,11 @@ export type CaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   title?: boolean
   description?: boolean
+  category?: boolean
+  publishState?: boolean
+  investigationStatus?: boolean
   userId?: boolean
+  publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -503,14 +1044,22 @@ export type CaseSelectScalar = {
   id?: boolean
   title?: boolean
   description?: boolean
+  category?: boolean
+  publishState?: boolean
+  investigationStatus?: boolean
   userId?: boolean
+  publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["case"]>
+export type CaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "publishState" | "investigationStatus" | "userId" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["case"]>
 export type CaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tags?: boolean | Prisma.Case$tagsArgs<ExtArgs>
+  files?: boolean | Prisma.Case$filesArgs<ExtArgs>
+  theories?: boolean | Prisma.Case$theoriesArgs<ExtArgs>
+  _count?: boolean | Prisma.CaseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CaseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -523,12 +1072,19 @@ export type $CasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "Case"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    tags: Prisma.$TagPayload<ExtArgs>[]
+    files: Prisma.$CaseFilePayload<ExtArgs>[]
+    theories: Prisma.$TheoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
     description: string | null
+    category: $Enums.CaseCategory
+    publishState: $Enums.PublishState
+    investigationStatus: $Enums.InvestigationStatus
     userId: string
+    publishedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["case"]>
@@ -926,6 +1482,9 @@ readonly fields: CaseFieldRefs;
 export interface Prisma__CaseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tags<T extends Prisma.Case$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  files<T extends Prisma.Case$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CaseFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  theories<T extends Prisma.Case$theoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Case$theoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TheoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -958,7 +1517,11 @@ export interface CaseFieldRefs {
   readonly id: Prisma.FieldRef<"Case", 'String'>
   readonly title: Prisma.FieldRef<"Case", 'String'>
   readonly description: Prisma.FieldRef<"Case", 'String'>
+  readonly category: Prisma.FieldRef<"Case", 'CaseCategory'>
+  readonly publishState: Prisma.FieldRef<"Case", 'PublishState'>
+  readonly investigationStatus: Prisma.FieldRef<"Case", 'InvestigationStatus'>
   readonly userId: Prisma.FieldRef<"Case", 'String'>
+  readonly publishedAt: Prisma.FieldRef<"Case", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Case", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Case", 'DateTime'>
 }
@@ -1359,6 +1922,78 @@ export type CaseDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Cases to delete.
    */
   limit?: number
+}
+
+/**
+ * Case.tags
+ */
+export type Case$tagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Tag
+   */
+  select?: Prisma.TagSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Tag
+   */
+  omit?: Prisma.TagOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TagInclude<ExtArgs> | null
+  where?: Prisma.TagWhereInput
+  orderBy?: Prisma.TagOrderByWithRelationInput | Prisma.TagOrderByWithRelationInput[]
+  cursor?: Prisma.TagWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TagScalarFieldEnum | Prisma.TagScalarFieldEnum[]
+}
+
+/**
+ * Case.files
+ */
+export type Case$filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CaseFile
+   */
+  select?: Prisma.CaseFileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CaseFile
+   */
+  omit?: Prisma.CaseFileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CaseFileInclude<ExtArgs> | null
+  where?: Prisma.CaseFileWhereInput
+  orderBy?: Prisma.CaseFileOrderByWithRelationInput | Prisma.CaseFileOrderByWithRelationInput[]
+  cursor?: Prisma.CaseFileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CaseFileScalarFieldEnum | Prisma.CaseFileScalarFieldEnum[]
+}
+
+/**
+ * Case.theories
+ */
+export type Case$theoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Theory
+   */
+  select?: Prisma.TheorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Theory
+   */
+  omit?: Prisma.TheoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TheoryInclude<ExtArgs> | null
+  where?: Prisma.TheoryWhereInput
+  orderBy?: Prisma.TheoryOrderByWithRelationInput | Prisma.TheoryOrderByWithRelationInput[]
+  cursor?: Prisma.TheoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TheoryScalarFieldEnum | Prisma.TheoryScalarFieldEnum[]
 }
 
 /**

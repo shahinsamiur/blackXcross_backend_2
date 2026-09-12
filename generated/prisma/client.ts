@@ -57,15 +57,50 @@ export type VerificationToken = Prisma.VerificationTokenModel
  */
 export type Case = Prisma.CaseModel
 /**
+ * Model CaseFile
+ * 
+ */
+export type CaseFile = Prisma.CaseFileModel
+/**
+ * Model Comment
+ * 
+ */
+export type Comment = Prisma.CommentModel
+/**
  * Model Follow
  * 
  */
 export type Follow = Prisma.FollowModel
 /**
+ * Model Group
+ * 
+ */
+export type Group = Prisma.GroupModel
+/**
+ * Model GroupMember
+ * 
+ */
+export type GroupMember = Prisma.GroupMemberModel
+/**
+ * Model Channel
+ * 
+ */
+export type Channel = Prisma.ChannelModel
+/**
+ * Model Tag
+ * 
+ */
+export type Tag = Prisma.TagModel
+/**
  * Model Theory
  * 
  */
 export type Theory = Prisma.TheoryModel
+/**
+ * Model TheoryUpvote
+ * 
+ */
+export type TheoryUpvote = Prisma.TheoryUpvoteModel
 /**
  * Model User
  * 

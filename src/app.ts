@@ -8,6 +8,10 @@ import swaggerUi from "swagger-ui-express";
 import authRoutes from "./modules/auth/authRoutes.js";
 import swaggerSpec from "./config/swagger.js";
 import userRoutes from "./modules/user/userRoutes.js";
+import caseRoutes from "./modules/case/caseRoutes.js";
+import groupRoutes from "./modules/group/groupRoutes.js";
+import channelRoutes from "./modules/group/channelRoutes.js";
+import commentRoutes from "./modules/comment/commentRoutes.js";
 const app: Application = express();
 app.use(httpLogger);
 app.use(
@@ -95,6 +99,10 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/cases", caseRoutes);
+app.use("/api/groups", groupRoutes);
+app.use("/api/channels", channelRoutes);
+app.use("/api/comments", commentRoutes);
 app.use(errorHandler);
 
 export default app;

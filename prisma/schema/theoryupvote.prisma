@@ -1,0 +1,11 @@
+model TheoryUpvote {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  theoryId  String
+  theory    Theory   @relation(fields: [theoryId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, theoryId])
+  @@map("theory_upvotes")
+}

@@ -54,8 +54,15 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   VerificationToken: 'VerificationToken',
   Case: 'Case',
+  CaseFile: 'CaseFile',
+  Comment: 'Comment',
   Follow: 'Follow',
+  Group: 'Group',
+  GroupMember: 'GroupMember',
+  Channel: 'Channel',
+  Tag: 'Tag',
   Theory: 'Theory',
+  TheoryUpvote: 'TheoryUpvote',
   User: 'User'
 } as const
 
@@ -105,12 +112,42 @@ export const CaseScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
+  category: 'category',
+  publishState: 'publishState',
+  investigationStatus: 'investigationStatus',
   userId: 'userId',
+  publishedAt: 'publishedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type CaseScalarFieldEnum = (typeof CaseScalarFieldEnum)[keyof typeof CaseScalarFieldEnum]
+
+
+export const CaseFileScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  url: 'url',
+  filename: 'filename',
+  mimeType: 'mimeType',
+  size: 'size',
+  createdAt: 'createdAt'
+} as const
+
+export type CaseFileScalarFieldEnum = (typeof CaseFileScalarFieldEnum)[keyof typeof CaseFileScalarFieldEnum]
+
+
+export const CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  userId: 'userId',
+  theoryId: 'theoryId',
+  parentId: 'parentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
 export const FollowScalarFieldEnum = {
@@ -123,16 +160,70 @@ export const FollowScalarFieldEnum = {
 export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
 
 
+export const GroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  isPrivate: 'isPrivate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
+
+
+export const GroupMemberScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  userId: 'userId',
+  role: 'role',
+  joinedAt: 'joinedAt'
+} as const
+
+export type GroupMemberScalarFieldEnum = (typeof GroupMemberScalarFieldEnum)[keyof typeof GroupMemberScalarFieldEnum]
+
+
+export const ChannelScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  name: 'name',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChannelScalarFieldEnum = (typeof ChannelScalarFieldEnum)[keyof typeof ChannelScalarFieldEnum]
+
+
+export const TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
 export const TheoryScalarFieldEnum = {
   id: 'id',
   title: 'title',
   content: 'content',
   userId: 'userId',
+  caseId: 'caseId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type TheoryScalarFieldEnum = (typeof TheoryScalarFieldEnum)[keyof typeof TheoryScalarFieldEnum]
+
+
+export const TheoryUpvoteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  theoryId: 'theoryId',
+  createdAt: 'createdAt'
+} as const
+
+export type TheoryUpvoteScalarFieldEnum = (typeof TheoryUpvoteScalarFieldEnum)[keyof typeof TheoryUpvoteScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

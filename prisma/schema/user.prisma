@@ -1,24 +1,26 @@
 model User {
-  id              String    @id @default(uuid())
+  id              String   @id @default(uuid())
   name            String
-  email           String    @unique
-  username        String?   @unique
+  email           String   @unique
+  username        String?  @unique
   bio             String?
   avatar          String?
   password        String
-  role            Role      @default(MEMBER)
-  isEmailVerified Boolean   @default(false)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  role            Role     @default(MEMBER)
+  isEmailVerified Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   refreshTokens      RefreshToken[]
   verificationTokens VerificationToken[]
 
-  cases    Case[]
-  theories Theory[]
-
-  followingEdges Follow[] @relation("Follower")
-  followerEdges  Follow[] @relation("Following")
+  cases            Case[]
+  comments         Comment[]
+  theories         Theory[]
+  theoryUpvotes    TheoryUpvote[]
+  groupMemberships GroupMember[]
+  followingEdges   Follow[]       @relation("Follower")
+  followerEdges    Follow[]       @relation("Following")
 
   @@map("users")
 }
