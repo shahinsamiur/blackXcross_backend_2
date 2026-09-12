@@ -8,6 +8,7 @@ import errorHandler from "./shared/errors/errorHandler.js";
 import swaggerUi from "swagger-ui-express";
 import authRoutes from "./modules/auth/authRoutes.js";
 import swaggerSpec from "./config/swagger.js";
+import userRoutes from "./modules/user/userRoutes.js";
 const app: Application = express();
 app.use(httpLogger);
 app.use(
@@ -85,7 +86,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/auth", authRoutes);
-
+app.use("/api/users", userRoutes);
 app.use(errorHandler);
 
 export default app;

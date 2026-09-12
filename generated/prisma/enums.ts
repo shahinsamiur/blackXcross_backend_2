@@ -9,7 +9,17 @@
 * 🟢 You can import this file directly.
 */
 
+export const Role = {
+  MEMBER: 'MEMBER',
+  ADMIN: 'ADMIN'
+} as const
+
+export type Role = (typeof Role)[keyof typeof Role]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const VerificationTokenType = {
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
+  PASSWORD_RESET: 'PASSWORD_RESET'
+} as const
+
+export type VerificationTokenType = (typeof VerificationTokenType)[keyof typeof VerificationTokenType]
