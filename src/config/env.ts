@@ -1,4 +1,4 @@
-const requiredEnv = ["DATABASE_URL", "JWT_SECRET", "JWT_REFRESH_SECRET"];
+const requiredEnv = ["DATABASE_URL", "JWT_SECRET"];
 
 for (const key of requiredEnv) {
   if (!process.env[key]) {

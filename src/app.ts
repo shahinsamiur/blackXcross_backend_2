@@ -2,7 +2,6 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import { xss } from "express-xss-sanitizer";
 import httpLogger from "./shared/logger/httpLogger.js";
 import errorHandler from "./shared/errors/errorHandler.js";
 import swaggerUi from "swagger-ui-express";
@@ -56,7 +55,7 @@ const swaggerCustomCss = `
     box-shadow: none;
   }
 `;
-app.use(xss());
+
 
 app.use(
   cors({
@@ -67,8 +66,17 @@ app.use(
   }),
 );
 
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
+
 app.use(express.json({ limit: "10kb" }));
-app.use(helmet());
+app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+// app.use(xss());
 app.use(
   "/api-docs",
   swaggerUi.serve,
@@ -78,9 +86,9 @@ app.use(
   }),
 );
 
-app.get("/api-docs", (req, res) => {
-  res.redirect("/api-docs/");
-});
+// app.get("/api-docs", (req, res) => {
+//   res.redirect("/api-docs/");
+// });
 app.get("/", (req: Request, res: Response) => {
   res.send("right endpoint");
 });

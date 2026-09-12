@@ -11,6 +11,9 @@ const errorHandler = (
   res: Response,
   next: NextFunction,
 ): void => {
+  // 👉 Add this line to see the exact stack trace in your terminal
+  console.error("🔥 FULL ERROR TRACE:", err);
+
   const statusCode: number = err.statusCode || 500;
   const message: string = err.message || "Internal Server Error";
 
