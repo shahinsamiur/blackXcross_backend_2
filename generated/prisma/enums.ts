@@ -54,6 +54,18 @@ export const InvestigationStatus = {
 export type InvestigationStatus = (typeof InvestigationStatus)[keyof typeof InvestigationStatus]
 
 
+export const NotificationType = {
+  FOLLOW: 'FOLLOW',
+  COMMENT: 'COMMENT',
+  REPLY: 'REPLY',
+  UPVOTE: 'UPVOTE',
+  MESSAGE: 'MESSAGE',
+  GROUP_ACTIVITY: 'GROUP_ACTIVITY'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
 export const GroupRole = {
   OWNER: 'OWNER',
   ADMIN: 'ADMIN',
@@ -61,3 +73,24 @@ export const GroupRole = {
 } as const
 
 export type GroupRole = (typeof GroupRole)[keyof typeof GroupRole]
+
+
+export const ReportTargetType = {
+  CASE: 'CASE',
+  THEORY: 'THEORY',
+  COMMENT: 'COMMENT',
+  USER: 'USER',
+  MESSAGE: 'MESSAGE'
+} as const
+
+export type ReportTargetType = (typeof ReportTargetType)[keyof typeof ReportTargetType]
+
+
+export const ReportStatus = {
+  PENDING: 'PENDING',
+  REVIEWED: 'REVIEWED',
+  RESOLVED: 'RESOLVED',
+  DISMISSED: 'DISMISSED'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]

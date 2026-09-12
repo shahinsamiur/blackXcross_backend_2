@@ -13,14 +13,16 @@ model User {
 
   refreshTokens      RefreshToken[]
   verificationTokens VerificationToken[]
-
-  cases            Case[]
-  comments         Comment[]
-  theories         Theory[]
-  theoryUpvotes    TheoryUpvote[]
-  groupMemberships GroupMember[]
-  followingEdges   Follow[]       @relation("Follower")
-  followerEdges    Follow[]       @relation("Following")
+  notifications      Notification[]      @relation("NotificationRecipient")
+  actedNotifications Notification[]      @relation("NotificationActor")
+  reports            Report[]            @relation("ReportReporter")
+  cases              Case[]
+  comments           Comment[]
+  theories           Theory[]
+  theoryUpvotes      TheoryUpvote[]
+  groupMemberships   GroupMember[]
+  followingEdges     Follow[]            @relation("Follower")
+  followerEdges      Follow[]            @relation("Following")
 
   @@map("users")
 }

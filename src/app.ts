@@ -13,6 +13,8 @@ import groupRoutes from "./modules/group/groupRoutes.js";
 import channelRoutes from "./modules/group/channelRoutes.js";
 import commentRoutes from "./modules/comment/commentRoutes.js";
 import theoryRoutes from "./modules/theory/theoryRoutes.js";
+import notificationRoutes from "./modules/notification/notificationRoutes.js";
+import reportRoutes from "./modules/report/reportRoutes.js";
 const app: Application = express();
 app.use(httpLogger);
 app.use(
@@ -105,6 +107,8 @@ app.use("/api/groups", groupRoutes);
 app.use("/api/channels", channelRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/theories", theoryRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/reports", reportRoutes);
 app.use(errorHandler);
 
 export default app;

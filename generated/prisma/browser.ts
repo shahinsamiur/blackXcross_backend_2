@@ -48,6 +48,11 @@ export type Comment = Prisma.CommentModel
  */
 export type Follow = Prisma.FollowModel
 /**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
  * Model Group
  * 
  */
@@ -62,6 +67,11 @@ export type GroupMember = Prisma.GroupMemberModel
  * 
  */
 export type Channel = Prisma.ChannelModel
+/**
+ * Model Report
+ * 
+ */
+export type Report = Prisma.ReportModel
 /**
  * Model Tag
  * 
