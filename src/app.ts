@@ -17,6 +17,7 @@ import notificationRoutes from "./modules/notification/notificationRoutes.js";
 import reportRoutes from "./modules/report/reportRoutes.js";
 import adminRoutes from "./modules/admin/adminRoutes.js";
 import moderationRoutes from "./modules/moderation/moderationRoutes.js";
+import dashboardRoutes from "./modules/dashboard/dashboardRoutes.js";
 const app: Application = express();
 app.use(httpLogger);
 app.use(
@@ -110,6 +111,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/moderation", moderationRoutes);
+app.use("/api/dashboard", dashboardRoutes)
 app.use(errorHandler);
 
 export default app;
