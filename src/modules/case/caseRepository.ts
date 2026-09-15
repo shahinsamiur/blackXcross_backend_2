@@ -16,6 +16,10 @@ export const createCase = (data: {
   title: string;
   description?: string;
   category: CaseCategory;
+  investigationStatus?: InvestigationStatus;
+  imageUrl?: string;
+  narrative?: string;
+  location?: string;
   userId: string;
   tags?: string[];
 }) =>
@@ -24,6 +28,10 @@ export const createCase = (data: {
       title: data.title,
       description: data.description,
       category: data.category,
+      investigationStatus: data.investigationStatus,
+      imageUrl: data.imageUrl,
+      narrative: data.narrative,
+      location: data.location,
       userId: data.userId,
       ...(data.tags && data.tags.length > 0
         ? {
@@ -49,6 +57,9 @@ export const updateCase = (
     description?: string;
     category?: CaseCategory;
     investigationStatus?: InvestigationStatus;
+    imageUrl?: string;
+    narrative?: string;
+    location?: string;
     tags?: string[];
   },
 ) =>
@@ -59,6 +70,9 @@ export const updateCase = (
       description: data.description,
       category: data.category,
       investigationStatus: data.investigationStatus,
+      imageUrl: data.imageUrl,
+      narrative: data.narrative,
+      location: data.location,
       ...(data.tags
         ? {
             tags: {

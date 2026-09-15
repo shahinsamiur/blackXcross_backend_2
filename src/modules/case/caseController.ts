@@ -147,3 +147,17 @@ export const removeCaseFile = async (req: Request, res: Response, next: NextFunc
     next(error);
   }
 };
+
+
+export const uploadCaseImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const file = (req as any).file;
+    if (!file) {
+      throw new AppError("No image uploaded", 400);
+    }
+    const imageUrl = file.path ?? file.location;
+    sendResponse(res, 200, true, "Image uploaded successfully", { imageUrl });
+  } catch (error) {
+    next(error);
+  }
+};

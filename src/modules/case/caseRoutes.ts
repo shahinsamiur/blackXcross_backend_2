@@ -32,6 +32,25 @@ router.post("/", authMiddleware, validate(createCaseSchema), caseController.crea
 /**
  * @openapi
  * /api/cases:
+ *   post:
+ *     tags: [Cases]
+ *     summary: upload image
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             $ref: '#/components/schemas/CreateCaseRequest'
+ *     responses:
+ *       201:
+ *         description: image uploaded
+ *       400:
+ *         description: Validation error
+ */
+router.post("/upload-image", authMiddleware, upload.single("image"), caseController.uploadCaseImage);
+/**
+ * @openapi
+ * /api/cases:
  *   get:
  *     tags: [Cases]
  *     summary: Browse/search published cases

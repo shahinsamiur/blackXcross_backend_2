@@ -6,6 +6,9 @@ const publicUserSelect = {
   username: true,
   bio: true,
   avatar: true,
+  title: true,
+  location: true,
+  website: true,
   createdAt: true,
 };
 
@@ -17,7 +20,7 @@ export const findUserByUsername = (username: string) =>
 
 export const updateUser = (
   id: string,
-  data: { name?: string; username?: string; bio?: string; avatar?: string },
+  data: { name?: string; username?: string; bio?: string; avatar?: string; title?: string; location?: string; website?: string },
 ) => prisma.user.update({ where: { id }, data, select: publicUserSelect });
 
 export const findCasesByUserId = (userId: string) =>

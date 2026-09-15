@@ -4,7 +4,7 @@ import * as userController from "./userController.js";
 import validate from "../../shared/middleware/validate.js";
 import authMiddleware from "../../shared/middleware/authMiddleware.js";
 import { updateUserSchema } from "./userValidators.js";
-
+import upload from "../../shared/utils/upload.js";
 const router = Router();
 
 /**
@@ -83,6 +83,36 @@ router.get("/:id", userController.getUser);
  *         description: Username already taken
  */
 router.patch("/:id", authMiddleware, validate(updateUserSchema), userController.updateUser);
+
+
+
+/**
+ * @openapi
+ * /api/users/{id}/avatar:
+ *   post:
+ *     tags: [Users]
+ *     summary: Upload a new avatar for the user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               avatar:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Avatar updated successfully
+ *       403:
+ *         description: Not allowed to update another user's profile
+ */
+router.post("/:id/avatar", authMiddleware, upload.single("avatar"), userController.uploadAvatar);
+
+
+
+
 
 /**
  * @openapi

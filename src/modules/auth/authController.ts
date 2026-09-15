@@ -8,17 +8,20 @@ const REFRESH_TOKEN_COOKIE = "refreshToken";
 
 const accessCookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "lax" as const,
-  maxAge: 15 * 60 * 1000, 
+  secure: true, 
+  sameSite: "none" as const, 
+  path: "/", 
+  maxAge: 30 * 24 * 60 * 60 * 1000, 
 };
 
 const refreshCookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "lax" as const,
-  maxAge: env.refreshTokenExpiresInDays * 24 * 60 * 60 * 1000,
+  secure: true,
+  sameSite: "none" as const,
+  path: "/",
+  maxAge: env.refreshTokenExpiresInDays||30 * 24 * 60 * 60 * 1000,
 };
+
 
 const setAuthCookies = (res: Response, accessToken: string, refreshToken: string): void => {
   res.cookie(ACCESS_TOKEN_COOKIE, accessToken, accessCookieOptions);

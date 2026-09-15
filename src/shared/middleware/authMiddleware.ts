@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { prisma } from "../../lib/prisma.js";
 import AppError from "../utils/AppError.js";
 import env from "../../config/env.js";
-
+import logger from "../logger/logger.js";
 interface DecodedToken extends JwtPayload {
   id: string;
   role: string;
@@ -15,7 +15,7 @@ const authMiddleware = async (
   next: NextFunction,
 ): Promise<void> => {
   const token = req.cookies?.token;
-
+  logger.info("token",token)
   if (!token) {
     return next(new AppError("Unauthorized, token missing", 401));
   }

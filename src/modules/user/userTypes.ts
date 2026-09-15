@@ -4,6 +4,9 @@ export interface PublicUser {
   username: string | null;
   bio: string | null;
   avatar: string | null;
+  title: string | null;
+  location: string | null;
+  website: string | null;
   createdAt: Date;
 }
 
@@ -12,6 +15,9 @@ export interface UpdateUserInput {
   username?: string;
   bio?: string;
   avatar?: string;
+  title?: string;
+  location?: string;
+  website?: string;
 }
 
 export interface CaseSummary {

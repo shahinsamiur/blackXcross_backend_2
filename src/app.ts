@@ -18,6 +18,7 @@ import reportRoutes from "./modules/report/reportRoutes.js";
 import adminRoutes from "./modules/admin/adminRoutes.js";
 import moderationRoutes from "./modules/moderation/moderationRoutes.js";
 import dashboardRoutes from "./modules/dashboard/dashboardRoutes.js";
+import cookieParser from "cookie-parser"; 
 const app: Application = express();
 app.use(httpLogger);
 app.use(
@@ -83,7 +84,7 @@ app.use(
     crossOriginEmbedderPolicy: false,
   })
 );
-
+app.use(cookieParser()); 
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 // app.use(xss());

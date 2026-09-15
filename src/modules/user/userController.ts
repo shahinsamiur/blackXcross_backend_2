@@ -22,6 +22,23 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
+export const uploadAvatar = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const requesterId = (req as any).user.id;
+    const file = (req as any).file;
+
+    if (!file) {
+      throw new AppError("No file uploaded", 400);
+    }
+
+    const avatarUrl = file.path ?? file.location;
+    const user = await userService.updateUser(req.params.id as string, requesterId, { avatar: avatarUrl });
+    sendResponse(res, 200, true, "Avatar updated successfully", user);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getUserCases = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const cases = await userService.getUserCases(req.params.id as string);

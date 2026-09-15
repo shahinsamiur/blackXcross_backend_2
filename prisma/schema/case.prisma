@@ -25,6 +25,9 @@ model Case {
   category            CaseCategory
   publishState        PublishState        @default(DRAFT)
   investigationStatus InvestigationStatus @default(OPEN)
+  imageUrl            String?
+  narrative           String?
+  location            String?
   userId              String
   user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   tags                Tag[]               @relation("CaseTags")

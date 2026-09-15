@@ -4,6 +4,10 @@ export interface CreateCaseInput {
   title: string;
   description?: string;
   category: CaseCategory;
+  investigationStatus?: InvestigationStatus;
+  imageUrl?: string;
+  narrative?: string;
+  location?: string;
   tags?: string[];
 }
 
@@ -12,6 +16,9 @@ export interface UpdateCaseInput {
   description?: string;
   category?: CaseCategory;
   investigationStatus?: InvestigationStatus;
+  imageUrl?: string;
+  narrative?: string;
+  location?: string;
   tags?: string[];
 }
 
