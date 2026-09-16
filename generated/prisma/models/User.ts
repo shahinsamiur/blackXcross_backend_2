@@ -31,6 +31,9 @@ export type UserMinAggregateOutputType = {
   username: string | null
   bio: string | null
   avatar: string | null
+  title: string | null
+  location: string | null
+  website: string | null
   password: string | null
   role: $Enums.Role | null
   status: $Enums.UserStatus | null
@@ -46,6 +49,9 @@ export type UserMaxAggregateOutputType = {
   username: string | null
   bio: string | null
   avatar: string | null
+  title: string | null
+  location: string | null
+  website: string | null
   password: string | null
   role: $Enums.Role | null
   status: $Enums.UserStatus | null
@@ -61,6 +67,9 @@ export type UserCountAggregateOutputType = {
   username: number
   bio: number
   avatar: number
+  title: number
+  location: number
+  website: number
   password: number
   role: number
   status: number
@@ -78,6 +87,9 @@ export type UserMinAggregateInputType = {
   username?: true
   bio?: true
   avatar?: true
+  title?: true
+  location?: true
+  website?: true
   password?: true
   role?: true
   status?: true
@@ -93,6 +105,9 @@ export type UserMaxAggregateInputType = {
   username?: true
   bio?: true
   avatar?: true
+  title?: true
+  location?: true
+  website?: true
   password?: true
   role?: true
   status?: true
@@ -108,6 +123,9 @@ export type UserCountAggregateInputType = {
   username?: true
   bio?: true
   avatar?: true
+  title?: true
+  location?: true
+  website?: true
   password?: true
   role?: true
   status?: true
@@ -196,6 +214,9 @@ export type UserGroupByOutputType = {
   username: string | null
   bio: string | null
   avatar: string | null
+  title: string | null
+  location: string | null
+  website: string | null
   password: string
   role: $Enums.Role
   status: $Enums.UserStatus
@@ -232,6 +253,9 @@ export type UserWhereInput = {
   username?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
+  title?: Prisma.StringNullableFilter<"User"> | string | null
+  location?: Prisma.StringNullableFilter<"User"> | string | null
+  website?: Prisma.StringNullableFilter<"User"> | string | null
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
@@ -260,6 +284,9 @@ export type UserOrderByWithRelationInput = {
   username?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -291,6 +318,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"User"> | string
   bio?: Prisma.StringNullableFilter<"User"> | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
+  title?: Prisma.StringNullableFilter<"User"> | string | null
+  location?: Prisma.StringNullableFilter<"User"> | string | null
+  website?: Prisma.StringNullableFilter<"User"> | string | null
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
@@ -319,6 +349,9 @@ export type UserOrderByWithAggregationInput = {
   username?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -340,6 +373,9 @@ export type UserScalarWhereWithAggregatesInput = {
   username?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  title?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  location?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  website?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
@@ -355,6 +391,9 @@ export type UserCreateInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -383,6 +422,9 @@ export type UserUncheckedCreateInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -411,6 +453,9 @@ export type UserUpdateInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -439,6 +484,9 @@ export type UserUncheckedUpdateInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -467,6 +515,9 @@ export type UserCreateManyInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -482,6 +533,9 @@ export type UserUpdateManyMutationInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -497,6 +551,9 @@ export type UserUncheckedUpdateManyInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -522,6 +579,9 @@ export type UserCountOrderByAggregateInput = {
   username?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  website?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -537,6 +597,9 @@ export type UserMaxOrderByAggregateInput = {
   username?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  website?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -552,6 +615,9 @@ export type UserMinOrderByAggregateInput = {
   username?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  website?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -761,6 +827,9 @@ export type UserCreateWithoutRefreshTokensInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -788,6 +857,9 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -831,6 +903,9 @@ export type UserUpdateWithoutRefreshTokensInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -858,6 +933,9 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -885,6 +963,9 @@ export type UserCreateWithoutVerificationTokensInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -912,6 +993,9 @@ export type UserUncheckedCreateWithoutVerificationTokensInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -955,6 +1039,9 @@ export type UserUpdateWithoutVerificationTokensInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -982,6 +1069,9 @@ export type UserUncheckedUpdateWithoutVerificationTokensInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1009,6 +1099,9 @@ export type UserCreateWithoutCasesInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1036,6 +1129,9 @@ export type UserUncheckedCreateWithoutCasesInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1079,6 +1175,9 @@ export type UserUpdateWithoutCasesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1106,6 +1205,9 @@ export type UserUncheckedUpdateWithoutCasesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1133,6 +1235,9 @@ export type UserCreateWithoutCommentsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1160,6 +1265,9 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1203,6 +1311,9 @@ export type UserUpdateWithoutCommentsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1230,6 +1341,9 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1257,6 +1371,9 @@ export type UserCreateWithoutFollowingEdgesInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1284,6 +1401,9 @@ export type UserUncheckedCreateWithoutFollowingEdgesInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1316,6 +1436,9 @@ export type UserCreateWithoutFollowerEdgesInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1343,6 +1466,9 @@ export type UserUncheckedCreateWithoutFollowerEdgesInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1386,6 +1512,9 @@ export type UserUpdateWithoutFollowingEdgesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1413,6 +1542,9 @@ export type UserUncheckedUpdateWithoutFollowingEdgesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1451,6 +1583,9 @@ export type UserUpdateWithoutFollowerEdgesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1478,6 +1613,9 @@ export type UserUncheckedUpdateWithoutFollowerEdgesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1505,6 +1643,9 @@ export type UserCreateWithoutModerationReviewsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1532,6 +1673,9 @@ export type UserUncheckedCreateWithoutModerationReviewsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1575,6 +1719,9 @@ export type UserUpdateWithoutModerationReviewsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1602,6 +1749,9 @@ export type UserUncheckedUpdateWithoutModerationReviewsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1629,6 +1779,9 @@ export type UserCreateWithoutNotificationsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1656,6 +1809,9 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1688,6 +1844,9 @@ export type UserCreateWithoutActedNotificationsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1715,6 +1874,9 @@ export type UserUncheckedCreateWithoutActedNotificationsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1758,6 +1920,9 @@ export type UserUpdateWithoutNotificationsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1785,6 +1950,9 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1823,6 +1991,9 @@ export type UserUpdateWithoutActedNotificationsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1850,6 +2021,9 @@ export type UserUncheckedUpdateWithoutActedNotificationsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1877,6 +2051,9 @@ export type UserCreateWithoutGroupMembershipsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1904,6 +2081,9 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -1947,6 +2127,9 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1974,6 +2157,9 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2001,6 +2187,9 @@ export type UserCreateWithoutReportsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -2028,6 +2217,9 @@ export type UserUncheckedCreateWithoutReportsInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -2071,6 +2263,9 @@ export type UserUpdateWithoutReportsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2098,6 +2293,9 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2125,6 +2323,9 @@ export type UserCreateWithoutTheoriesInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -2152,6 +2353,9 @@ export type UserUncheckedCreateWithoutTheoriesInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -2195,6 +2399,9 @@ export type UserUpdateWithoutTheoriesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2222,6 +2429,9 @@ export type UserUncheckedUpdateWithoutTheoriesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2249,6 +2459,9 @@ export type UserCreateWithoutTheoryUpvotesInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -2276,6 +2489,9 @@ export type UserUncheckedCreateWithoutTheoryUpvotesInput = {
   username?: string | null
   bio?: string | null
   avatar?: string | null
+  title?: string | null
+  location?: string | null
+  website?: string | null
   password: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
@@ -2319,6 +2535,9 @@ export type UserUpdateWithoutTheoryUpvotesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2346,6 +2565,9 @@ export type UserUncheckedUpdateWithoutTheoryUpvotesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2512,6 +2734,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   username?: boolean
   bio?: boolean
   avatar?: boolean
+  title?: boolean
+  location?: boolean
+  website?: boolean
   password?: boolean
   role?: boolean
   status?: boolean
@@ -2541,6 +2766,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   username?: boolean
   bio?: boolean
   avatar?: boolean
+  title?: boolean
+  location?: boolean
+  website?: boolean
   password?: boolean
   role?: boolean
   status?: boolean
@@ -2556,6 +2784,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   username?: boolean
   bio?: boolean
   avatar?: boolean
+  title?: boolean
+  location?: boolean
+  website?: boolean
   password?: boolean
   role?: boolean
   status?: boolean
@@ -2571,6 +2802,9 @@ export type UserSelectScalar = {
   username?: boolean
   bio?: boolean
   avatar?: boolean
+  title?: boolean
+  location?: boolean
+  website?: boolean
   password?: boolean
   role?: boolean
   status?: boolean
@@ -2579,7 +2813,7 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "username" | "bio" | "avatar" | "password" | "role" | "status" | "isEmailVerified" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "username" | "bio" | "avatar" | "title" | "location" | "website" | "password" | "role" | "status" | "isEmailVerified" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   verificationTokens?: boolean | Prisma.User$verificationTokensArgs<ExtArgs>
@@ -2623,6 +2857,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     username: string | null
     bio: string | null
     avatar: string | null
+    title: string | null
+    location: string | null
+    website: string | null
     password: string
     role: $Enums.Role
     status: $Enums.UserStatus
@@ -3071,6 +3308,9 @@ export interface UserFieldRefs {
   readonly username: Prisma.FieldRef<"User", 'String'>
   readonly bio: Prisma.FieldRef<"User", 'String'>
   readonly avatar: Prisma.FieldRef<"User", 'String'>
+  readonly title: Prisma.FieldRef<"User", 'String'>
+  readonly location: Prisma.FieldRef<"User", 'String'>
+  readonly website: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>

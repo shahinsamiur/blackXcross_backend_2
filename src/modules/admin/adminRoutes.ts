@@ -192,4 +192,41 @@ router.patch("/reports/:id", validate(updateReportSchema), adminController.updat
  */
 router.get("/analytics", adminController.getAnalytics);
 
+
+/**
+ * @openapi
+ * /api/admin/users/{id}:
+ *   get:
+ *     tags: [Admin]
+ *     summary: Get a single user by id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200: { description: User detail }
+ *       404: { description: User not found }
+ */
+router.get("/users/:id", adminController.getUserById);
+
+
+
+/**
+ * @openapi
+ * /api/admin/users/{id}/reactivate:
+ *   patch:
+ *     tags: [Admin]
+ *     summary: Reactivate a suspended or banned user
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200: { description: User reactivated }
+ *       400: { description: User is already active }
+ *       404: { description: User not found }
+ */
+router.patch("/users/:id/reactivate", adminController.reactivateUser);
 export default router;

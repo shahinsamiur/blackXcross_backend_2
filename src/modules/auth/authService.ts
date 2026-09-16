@@ -83,8 +83,8 @@ export const registerUser = async (data: RegisterInput): Promise<AuthResult> => 
     type: VerificationTokenType.EMAIL_VERIFICATION,
     expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
   });
-  // TODO: replace with real mailer call once wired up
-  console.log(`[stub email] verify-email token for ${created.email}: ${rawVerifyToken}`);
+
+
 
   const user = toAuthUser(created);
   const tokens = await issueTokens(user);
@@ -94,29 +94,24 @@ export const registerUser = async (data: RegisterInput): Promise<AuthResult> => 
 
 export const loginUser = async (data: LoginInput): Promise<AuthResult> => {
   const found = await authRepository.findUserByEmail(data.email);
-
   if (!found) {
     throw new AppError("Invalid email or password", 401);
   }
 
   const isMatch = await bcrypt.compare(data.password, found.password);
-
   if (!isMatch) {
     throw new AppError("Invalid email or password", 401);
   }
 
   const user = toAuthUser(found);
   const tokens = await issueTokens(user);
-
   return { user, tokens };
 };
 
 export const logoutUser = async (rawRefreshToken: string | undefined): Promise<void> => {
   if (!rawRefreshToken) return;
-
   const tokenHash = hashToken(rawRefreshToken);
   const existing = await authRepository.findRefreshTokenByHash(tokenHash);
-
   if (existing && !existing.revokedAt) {
     await authRepository.revokeRefreshToken(tokenHash);
   }
@@ -131,13 +126,11 @@ export const refreshTokens = async (
 
   const tokenHash = hashToken(rawRefreshToken);
   const existing = await authRepository.findRefreshTokenByHash(tokenHash);
-
   if (!existing || existing.revokedAt || existing.expiresAt < new Date()) {
     throw new AppError("Invalid or expired refresh token", 401);
   }
 
   const found = await authRepository.findUserById(existing.userId);
-
   if (!found) {
     throw new AppError("User not found", 404);
   }
@@ -180,9 +173,6 @@ export const verifyEmail = async (data: VerifyEmailInput): Promise<void> => {
 
 export const forgotPassword = async (data: ForgotPasswordInput): Promise<void> => {
   const found = await authRepository.findUserByEmail(data.email);
-
-  // Resolve the same way whether the email exists or not,
-  // so this endpoint can't be used to enumerate registered emails.
   if (!found) return;
 
   const rawResetToken = generateRawToken();
@@ -192,9 +182,6 @@ export const forgotPassword = async (data: ForgotPasswordInput): Promise<void> =
     type: VerificationTokenType.PASSWORD_RESET,
     expiresAt: new Date(Date.now() + 60 * 60 * 1000),
   });
-
-  // TODO: replace with real mailer call once wired up
-  console.log(`[stub email] password-reset token for ${found.email}: ${rawResetToken}`);
 };
 
 export const resetPassword = async (data: ResetPasswordInput): Promise<void> => {
@@ -211,7 +198,6 @@ export const resetPassword = async (data: ResetPasswordInput): Promise<void> => 
   }
 
   const hashedPassword = await bcrypt.hash(data.newPassword, 10);
-
   await authRepository.updateUserPassword(record.userId, hashedPassword);
   await authRepository.markVerificationTokenUsed(tokenHash);
   await authRepository.revokeAllUserRefreshTokens(record.userId);
@@ -219,7 +205,6 @@ export const resetPassword = async (data: ResetPasswordInput): Promise<void> => 
 
 export const getMe = async (userId: string): Promise<AuthUser> => {
   const found = await authRepository.findUserById(userId);
-
   if (!found) {
     throw new AppError("User not found", 404);
   }

@@ -202,6 +202,32 @@ router.post("/:id/follow", authMiddleware, userController.followUser);
  */
 router.delete("/:id/follow", authMiddleware, userController.unfollowUser);
 
+
+/**
+ * @openapi
+ * /api/users/{id}:
+ *   delete:
+ *     tags:
+ *       - Users
+ *     summary: Delete a user's account
+ *     description: Only the profile owner can delete their own account.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Account deleted successfully
+ *       403:
+ *         description: Not allowed to delete another user's account
+ *       404:
+ *         description: User not found
+ */
+router.delete("/:id", authMiddleware, userController.deleteUser);
+
+
 /**
  * @openapi
  * /api/users/{id}/followers:

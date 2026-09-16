@@ -68,7 +68,7 @@ export const getUsers = async (query: AdminUserQuery) => {
   ]);
 
   return {
-    items,
+    items: items.map(formatUserWithCounts),
     pagination: {
       page: query.page,
       limit: query.limit,
@@ -86,7 +86,9 @@ export const suspendUser = async (id: string) => {
   if (user.status === UserStatus.BANNED)
     throw new AppError("User is already banned", 400);
 
-  return adminRepository.updateUserStatus(id, UserStatus.SUSPENDED);
+  return formatUserWithCounts(
+    await adminRepository.updateUserStatus(id, UserStatus.SUSPENDED),
+  );
 };
 
 export const banUser = async (id: string) => {
@@ -94,7 +96,9 @@ export const banUser = async (id: string) => {
   if (!user) throw new AppError("User not found", 404);
   if (user.role === Role.ADMIN) throw new AppError("Cannot ban an admin", 403);
 
-  return adminRepository.updateUserStatus(id, UserStatus.BANNED);
+  return formatUserWithCounts(
+    await adminRepository.updateUserStatus(id, UserStatus.BANNED),
+  );
 };
 
 export const getCases = async (query: AdminCaseQuery) => {
@@ -291,4 +295,35 @@ export const getAnalytics = async () => {
       count: r._count.id,
     })),
   };
+};
+
+export const reactivateUser = async (id: string) => {
+  const user = await adminRepository.findUserById(id);
+  if (!user) throw new AppError("User not found", 404);
+  if (user.status === UserStatus.ACTIVE)
+    throw new AppError("User is already active", 400);
+
+  return formatUserWithCounts(
+    await adminRepository.updateUserStatus(id, UserStatus.ACTIVE),
+  );
+};
+
+export const getUserById = async (id: string) => {
+  const user = await adminRepository.findUserById(id);
+  if (!user) throw new AppError("User not found", 404);
+  return formatUserWithCounts(user);
+};
+
+const formatUserWithCounts = (user: {
+  _count: { cases: number; reports: number };
+  [key: string]: unknown;
+}) => {
+  const { _count, ...rest } = user;
+  return { ...rest, casesSubmitted: _count.cases, reportsFiled: _count.reports };
+};
+
+export const getCaseById = async (id: string) => {
+  const caseRecord = await adminRepository.findCaseById(id);
+  if (!caseRecord) throw new AppError("Case not found", 404);
+  return caseRecord;
 };

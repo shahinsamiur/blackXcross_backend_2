@@ -31,6 +31,9 @@ export type CaseMinAggregateOutputType = {
   category: $Enums.CaseCategory | null
   publishState: $Enums.PublishState | null
   investigationStatus: $Enums.InvestigationStatus | null
+  imageUrl: string | null
+  narrative: string | null
+  location: string | null
   userId: string | null
   publishedAt: Date | null
   createdAt: Date | null
@@ -44,6 +47,9 @@ export type CaseMaxAggregateOutputType = {
   category: $Enums.CaseCategory | null
   publishState: $Enums.PublishState | null
   investigationStatus: $Enums.InvestigationStatus | null
+  imageUrl: string | null
+  narrative: string | null
+  location: string | null
   userId: string | null
   publishedAt: Date | null
   createdAt: Date | null
@@ -57,6 +63,9 @@ export type CaseCountAggregateOutputType = {
   category: number
   publishState: number
   investigationStatus: number
+  imageUrl: number
+  narrative: number
+  location: number
   userId: number
   publishedAt: number
   createdAt: number
@@ -72,6 +81,9 @@ export type CaseMinAggregateInputType = {
   category?: true
   publishState?: true
   investigationStatus?: true
+  imageUrl?: true
+  narrative?: true
+  location?: true
   userId?: true
   publishedAt?: true
   createdAt?: true
@@ -85,6 +97,9 @@ export type CaseMaxAggregateInputType = {
   category?: true
   publishState?: true
   investigationStatus?: true
+  imageUrl?: true
+  narrative?: true
+  location?: true
   userId?: true
   publishedAt?: true
   createdAt?: true
@@ -98,6 +113,9 @@ export type CaseCountAggregateInputType = {
   category?: true
   publishState?: true
   investigationStatus?: true
+  imageUrl?: true
+  narrative?: true
+  location?: true
   userId?: true
   publishedAt?: true
   createdAt?: true
@@ -184,6 +202,9 @@ export type CaseGroupByOutputType = {
   category: $Enums.CaseCategory
   publishState: $Enums.PublishState
   investigationStatus: $Enums.InvestigationStatus
+  imageUrl: string | null
+  narrative: string | null
+  location: string | null
   userId: string
   publishedAt: Date | null
   createdAt: Date
@@ -218,6 +239,9 @@ export type CaseWhereInput = {
   category?: Prisma.EnumCaseCategoryFilter<"Case"> | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFilter<"Case"> | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFilter<"Case"> | $Enums.InvestigationStatus
+  imageUrl?: Prisma.StringNullableFilter<"Case"> | string | null
+  narrative?: Prisma.StringNullableFilter<"Case"> | string | null
+  location?: Prisma.StringNullableFilter<"Case"> | string | null
   userId?: Prisma.StringFilter<"Case"> | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Case"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Case"> | Date | string
@@ -235,6 +259,9 @@ export type CaseOrderByWithRelationInput = {
   category?: Prisma.SortOrder
   publishState?: Prisma.SortOrder
   investigationStatus?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  narrative?: Prisma.SortOrderInput | Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -255,6 +282,9 @@ export type CaseWhereUniqueInput = Prisma.AtLeast<{
   category?: Prisma.EnumCaseCategoryFilter<"Case"> | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFilter<"Case"> | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFilter<"Case"> | $Enums.InvestigationStatus
+  imageUrl?: Prisma.StringNullableFilter<"Case"> | string | null
+  narrative?: Prisma.StringNullableFilter<"Case"> | string | null
+  location?: Prisma.StringNullableFilter<"Case"> | string | null
   userId?: Prisma.StringFilter<"Case"> | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Case"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Case"> | Date | string
@@ -272,6 +302,9 @@ export type CaseOrderByWithAggregationInput = {
   category?: Prisma.SortOrder
   publishState?: Prisma.SortOrder
   investigationStatus?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  narrative?: Prisma.SortOrderInput | Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -291,6 +324,9 @@ export type CaseScalarWhereWithAggregatesInput = {
   category?: Prisma.EnumCaseCategoryWithAggregatesFilter<"Case"> | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateWithAggregatesFilter<"Case"> | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusWithAggregatesFilter<"Case"> | $Enums.InvestigationStatus
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Case"> | string | null
+  narrative?: Prisma.StringNullableWithAggregatesFilter<"Case"> | string | null
+  location?: Prisma.StringNullableWithAggregatesFilter<"Case"> | string | null
   userId?: Prisma.StringWithAggregatesFilter<"Case"> | string
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Case"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Case"> | Date | string
@@ -304,6 +340,9 @@ export type CaseCreateInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -320,6 +359,9 @@ export type CaseUncheckedCreateInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   userId: string
   publishedAt?: Date | string | null
   createdAt?: Date | string
@@ -336,6 +378,9 @@ export type CaseUpdateInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -352,6 +397,9 @@ export type CaseUncheckedUpdateInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -368,6 +416,9 @@ export type CaseCreateManyInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   userId: string
   publishedAt?: Date | string | null
   createdAt?: Date | string
@@ -381,6 +432,9 @@ export type CaseUpdateManyMutationInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -393,6 +447,9 @@ export type CaseUncheckedUpdateManyInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -406,6 +463,9 @@ export type CaseCountOrderByAggregateInput = {
   category?: Prisma.SortOrder
   publishState?: Prisma.SortOrder
   investigationStatus?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
+  narrative?: Prisma.SortOrder
+  location?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -419,6 +479,9 @@ export type CaseMaxOrderByAggregateInput = {
   category?: Prisma.SortOrder
   publishState?: Prisma.SortOrder
   investigationStatus?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
+  narrative?: Prisma.SortOrder
+  location?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -432,6 +495,9 @@ export type CaseMinOrderByAggregateInput = {
   category?: Prisma.SortOrder
   publishState?: Prisma.SortOrder
   investigationStatus?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
+  narrative?: Prisma.SortOrder
+  location?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -580,6 +646,9 @@ export type CaseCreateWithoutFilesInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -595,6 +664,9 @@ export type CaseUncheckedCreateWithoutFilesInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   userId: string
   publishedAt?: Date | string | null
   createdAt?: Date | string
@@ -626,6 +698,9 @@ export type CaseUpdateWithoutFilesInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -641,6 +716,9 @@ export type CaseUncheckedUpdateWithoutFilesInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -656,6 +734,9 @@ export type CaseCreateWithoutTagsInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -671,6 +752,9 @@ export type CaseUncheckedCreateWithoutTagsInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   userId: string
   publishedAt?: Date | string | null
   createdAt?: Date | string
@@ -710,6 +794,9 @@ export type CaseScalarWhereInput = {
   category?: Prisma.EnumCaseCategoryFilter<"Case"> | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFilter<"Case"> | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFilter<"Case"> | $Enums.InvestigationStatus
+  imageUrl?: Prisma.StringNullableFilter<"Case"> | string | null
+  narrative?: Prisma.StringNullableFilter<"Case"> | string | null
+  location?: Prisma.StringNullableFilter<"Case"> | string | null
   userId?: Prisma.StringFilter<"Case"> | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Case"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Case"> | Date | string
@@ -723,6 +810,9 @@ export type CaseCreateWithoutTheoriesInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -738,6 +828,9 @@ export type CaseUncheckedCreateWithoutTheoriesInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   userId: string
   publishedAt?: Date | string | null
   createdAt?: Date | string
@@ -769,6 +862,9 @@ export type CaseUpdateWithoutTheoriesInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -784,6 +880,9 @@ export type CaseUncheckedUpdateWithoutTheoriesInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -799,6 +898,9 @@ export type CaseCreateWithoutUserInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -814,6 +916,9 @@ export type CaseUncheckedCreateWithoutUserInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -855,6 +960,9 @@ export type CaseUpdateWithoutTagsInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -870,6 +978,9 @@ export type CaseUncheckedUpdateWithoutTagsInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -885,6 +996,9 @@ export type CaseUncheckedUpdateManyWithoutTagsInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -898,6 +1012,9 @@ export type CaseCreateManyUserInput = {
   category: $Enums.CaseCategory
   publishState?: $Enums.PublishState
   investigationStatus?: $Enums.InvestigationStatus
+  imageUrl?: string | null
+  narrative?: string | null
+  location?: string | null
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -910,6 +1027,9 @@ export type CaseUpdateWithoutUserInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -925,6 +1045,9 @@ export type CaseUncheckedUpdateWithoutUserInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -940,6 +1063,9 @@ export type CaseUncheckedUpdateManyWithoutUserInput = {
   category?: Prisma.EnumCaseCategoryFieldUpdateOperationsInput | $Enums.CaseCategory
   publishState?: Prisma.EnumPublishStateFieldUpdateOperationsInput | $Enums.PublishState
   investigationStatus?: Prisma.EnumInvestigationStatusFieldUpdateOperationsInput | $Enums.InvestigationStatus
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  narrative?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1001,6 +1127,9 @@ export type CaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   category?: boolean
   publishState?: boolean
   investigationStatus?: boolean
+  imageUrl?: boolean
+  narrative?: boolean
+  location?: boolean
   userId?: boolean
   publishedAt?: boolean
   createdAt?: boolean
@@ -1019,6 +1148,9 @@ export type CaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   category?: boolean
   publishState?: boolean
   investigationStatus?: boolean
+  imageUrl?: boolean
+  narrative?: boolean
+  location?: boolean
   userId?: boolean
   publishedAt?: boolean
   createdAt?: boolean
@@ -1033,6 +1165,9 @@ export type CaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   category?: boolean
   publishState?: boolean
   investigationStatus?: boolean
+  imageUrl?: boolean
+  narrative?: boolean
+  location?: boolean
   userId?: boolean
   publishedAt?: boolean
   createdAt?: boolean
@@ -1047,13 +1182,16 @@ export type CaseSelectScalar = {
   category?: boolean
   publishState?: boolean
   investigationStatus?: boolean
+  imageUrl?: boolean
+  narrative?: boolean
+  location?: boolean
   userId?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "publishState" | "investigationStatus" | "userId" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["case"]>
+export type CaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "publishState" | "investigationStatus" | "imageUrl" | "narrative" | "location" | "userId" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["case"]>
 export type CaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tags?: boolean | Prisma.Case$tagsArgs<ExtArgs>
@@ -1083,6 +1221,9 @@ export type $CasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     category: $Enums.CaseCategory
     publishState: $Enums.PublishState
     investigationStatus: $Enums.InvestigationStatus
+    imageUrl: string | null
+    narrative: string | null
+    location: string | null
     userId: string
     publishedAt: Date | null
     createdAt: Date
@@ -1520,6 +1661,9 @@ export interface CaseFieldRefs {
   readonly category: Prisma.FieldRef<"Case", 'CaseCategory'>
   readonly publishState: Prisma.FieldRef<"Case", 'PublishState'>
   readonly investigationStatus: Prisma.FieldRef<"Case", 'InvestigationStatus'>
+  readonly imageUrl: Prisma.FieldRef<"Case", 'String'>
+  readonly narrative: Prisma.FieldRef<"Case", 'String'>
+  readonly location: Prisma.FieldRef<"Case", 'String'>
   readonly userId: Prisma.FieldRef<"Case", 'String'>
   readonly publishedAt: Prisma.FieldRef<"Case", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Case", 'DateTime'>

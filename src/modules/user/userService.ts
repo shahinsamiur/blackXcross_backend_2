@@ -81,3 +81,12 @@ export const searchUsers = async (query: string, page: number, limit: number) =>
   const skip = (page - 1) * limit;
   return userRepository.searchUsers(query, skip, limit);
 };
+
+export const deleteUser = async (id: string, requesterId: string): Promise<void> => {
+  if (id !== requesterId) {
+    throw new AppError("You can only delete your own account", 403);
+  }
+
+  await getUserById(id); 
+  await userRepository.deleteUser(id);
+};

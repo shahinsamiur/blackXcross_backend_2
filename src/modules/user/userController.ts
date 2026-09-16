@@ -111,3 +111,14 @@ export const searchUsers = async (req: Request, res: Response, next: NextFunctio
     next(error);
   }
 };
+
+
+export const deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const requesterId = (req as any).user.id;
+    await userService.deleteUser(req.params.id as string, requesterId);
+    sendResponse(res, 200, true, "Account deleted successfully", null);
+  } catch (error) {
+    next(error);
+  }
+};

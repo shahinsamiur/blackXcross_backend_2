@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import * as adminService from "./adminService.js";
 import sendResponse from "../../shared/utils/response.js";
 
-// ─── Dashboard ───────────────────────────────────────────────────────
-
 export const getDashboard = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const data = await adminService.getDashboard();
@@ -12,8 +10,6 @@ export const getDashboard = async (_req: Request, res: Response, next: NextFunct
     next(error);
   }
 };
-
-// ─── Users ───────────────────────────────────────────────────────────
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -48,7 +44,6 @@ export const banUser = async (req: Request, res: Response, next: NextFunction): 
   }
 };
 
-// ─── Cases ───────────────────────────────────────────────────────────
 
 export const getCases = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -57,7 +52,6 @@ export const getCases = async (req: Request, res: Response, next: NextFunction):
     const search = typeof req.query.search === "string" ? req.query.search : undefined;
     const publishState = typeof req.query.publishState === "string" ? req.query.publishState : undefined;
     const category = typeof req.query.category === "string" ? req.query.category : undefined;
-
     const result = await adminService.getCases({ page, limit, search, publishState, category });
     sendResponse(res, 200, true, "Cases fetched successfully", result);
   } catch (error) {
@@ -74,7 +68,6 @@ export const deleteCase = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-// ─── Reports ─────────────────────────────────────────────────────────
 
 export const getReports = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -82,7 +75,6 @@ export const getReports = async (req: Request, res: Response, next: NextFunction
     const limit = Math.min(Math.max(parseInt(String(req.query.limit ?? "20"), 10) || 20, 1), 50);
     const status = typeof req.query.status === "string" ? req.query.status : undefined;
     const targetType = typeof req.query.targetType === "string" ? req.query.targetType : undefined;
-
     const result = await adminService.getReports({ page, limit, status, targetType });
     sendResponse(res, 200, true, "Reports fetched successfully", result);
   } catch (error) {
@@ -100,7 +92,6 @@ export const updateReport = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
-// ─── Moderation ──────────────────────────────────────────────────────
 
 export const getModeration = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -108,7 +99,6 @@ export const getModeration = async (req: Request, res: Response, next: NextFunct
     const limit = Math.min(Math.max(parseInt(String(req.query.limit ?? "20"), 10) || 20, 1), 50);
     const status = typeof req.query.status === "string" ? req.query.status : undefined;
     const targetType = typeof req.query.targetType === "string" ? req.query.targetType : undefined;
-
     const result = await adminService.getModerationQueue({ page, limit, status, targetType });
     sendResponse(res, 200, true, "Moderation queue fetched successfully", result);
   } catch (error) {
@@ -136,12 +126,38 @@ export const rejectModeration = async (req: Request, res: Response, next: NextFu
   }
 };
 
-// ─── Analytics ───────────────────────────────────────────────────────
 
 export const getAnalytics = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const data = await adminService.getAnalytics();
     sendResponse(res, 200, true, "Analytics fetched successfully", data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const reactivateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const updated = await adminService.reactivateUser(req.params.id as string);
+    sendResponse(res, 200, true, "User reactivated successfully", updated);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const user = await adminService.getUserById(req.params.id as string);
+    sendResponse(res, 200, true, "User fetched successfully", user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getCaseById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const caseRecord = await adminService.getCaseById(req.params.id as string);
+    sendResponse(res, 200, true, "Case fetched successfully", caseRecord);
   } catch (error) {
     next(error);
   }

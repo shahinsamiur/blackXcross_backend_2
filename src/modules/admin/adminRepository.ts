@@ -23,6 +23,9 @@ const userSelect = {
   isEmailVerified: true,
   createdAt: true,
   updatedAt: true,
+  _count: {
+    select: { cases: true, reports: true },
+  },
 };
 
 export const findUsers = (

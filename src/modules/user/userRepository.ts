@@ -69,3 +69,6 @@ export const searchUsers = (query: string, skip: number, take: number) =>
     take,
     orderBy: { createdAt: "desc" },
   });
+
+  export const deleteUser = (id: string) =>
+  prisma.user.delete({ where: { id } });
