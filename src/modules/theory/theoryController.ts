@@ -24,6 +24,20 @@ export const getTheoriesByCase = async (req: Request, res: Response, next: NextF
   }
 };
 
+export const getAllTheories = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const requester = (req as any).user;
+    const page = Math.max(parseInt(String(req.query.page ?? "1"), 10) || 1, 1);
+    const limit = Math.min(Math.max(parseInt(String(req.query.limit ?? "20"), 10) || 20, 1), 50);
+    const search = typeof req.query.search === "string" ? req.query.search : undefined;
+
+    const result = await theoryService.getAllTheories(requester?.role, { page, limit, search });
+    sendResponse(res, 200, true, "Theories fetched successfully", result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getTheory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;

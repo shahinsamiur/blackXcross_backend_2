@@ -12,7 +12,7 @@ const env = {
   databaseUrl: process.env.DATABASE_URL!,
   jwtSecret: process.env.JWT_SECRET!,
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET!,
-  accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN || "15m",
+  accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN || "7d",
   refreshTokenExpiresInDays: Number(process.env.REFRESH_TOKEN_EXPIRES_IN_DAYS) || 7,
 };
 

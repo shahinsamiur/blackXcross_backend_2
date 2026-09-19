@@ -57,7 +57,7 @@ const issueRefreshToken = async (userId: string): Promise<string> => {
 };
 
 const issueTokens = async (user: AuthUser): Promise<AuthTokens> => ({
-  accessToken: generateAccessToken(user.id, user.role),
+  token: generateAccessToken(user.id, user.role),
   refreshToken: await issueRefreshToken(user.id),
 });
 
@@ -149,7 +149,7 @@ export const refreshTokens = async (
   await authRepository.revokeRefreshToken(tokenHash, hashToken(newRawRefreshToken));
 
   return {
-    accessToken: generateAccessToken(user.id, user.role),
+    token: generateAccessToken(user.id, user.role),
     refreshToken: newRawRefreshToken,
   };
 };

@@ -1,4 +1,5 @@
 import { prisma } from "../../lib/prisma.js";
+import { Prisma } from "../../../generated/prisma/client.js";
 
 const commentWithRelations = {
   user: { select: { id: true, name: true, username: true, avatar: true } },
@@ -21,15 +22,30 @@ export const findCommentById = (id: string) =>
 
 export const findCommentsByTheoryId = (theoryId: string, skip: number, take: number) =>
   prisma.comment.findMany({
-    where: { theoryId, parentId: null }, 
+    where: { theoryId, parentId: null },
     include: commentWithRelations,
-    orderBy: { createdAt: "desc" as const }, 
+    orderBy: { createdAt: "desc" as const },
     skip,
     take,
   });
 
 export const countCommentsByTheoryId = (theoryId: string) =>
   prisma.comment.count({ where: { theoryId, parentId: null } });
+
+export const findAllComments = (where: Prisma.CommentWhereInput, skip: number, take: number) =>
+  prisma.comment.findMany({
+    where,
+    include: {
+      user: { select: { id: true, name: true, username: true, avatar: true } },
+      theory: { select: { id: true, title: true } },
+    },
+    orderBy: { createdAt: "desc" as const },
+    skip,
+    take,
+  });
+
+export const countAllComments = (where: Prisma.CommentWhereInput) =>
+  prisma.comment.count({ where });
 
 export const updateComment = (id: string, data: { content: string }) =>
   prisma.comment.update({

@@ -33,7 +33,7 @@ export interface VerifyEmailInput {
 }
 
 export interface AuthTokens {
-  accessToken: string;
+  token: string;
   refreshToken: string;
 }
 

@@ -4,6 +4,7 @@ import { prisma } from "../../lib/prisma.js";
 import AppError from "../utils/AppError.js";
 import env from "../../config/env.js";
 import logger from "../logger/logger.js";
+import { clearAuthCookies } from "../../modules/auth/authController.js";
 interface DecodedToken extends JwtPayload {
   id: string;
   role: string;
@@ -43,6 +44,7 @@ const authMiddleware = async (
 
     next();
   } catch (err) {
+    clearAuthCookies(res);
     return next(new AppError("Invalid or expired token", 401));
   }
 };

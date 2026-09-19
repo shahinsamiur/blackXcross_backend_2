@@ -1,4 +1,5 @@
 import { prisma } from "../../lib/prisma.js";
+import { Prisma } from "../../../generated/prisma/client.js";
 
 const theoryWithRelations = {
   user: { select: { id: true, name: true, username: true, avatar: true } },
@@ -23,6 +24,21 @@ export const findTheoriesByCaseId = (caseId: string) =>
     include: theoryWithRelations,
     orderBy: { createdAt: "desc" as const },
   });
+
+export const findAllTheories = (where: Prisma.TheoryWhereInput, skip: number, take: number) =>
+  prisma.theory.findMany({
+    where,
+    include: {
+      ...theoryWithRelations,
+      case: { select: { id: true, title: true } },
+    },
+    orderBy: { createdAt: "desc" as const },
+    skip,
+    take,
+  });
+
+export const countAllTheories = (where: Prisma.TheoryWhereInput) =>
+  prisma.theory.count({ where });
 
 export const updateTheory = (id: string, data: { title?: string; content?: string }) =>
   prisma.theory.update({

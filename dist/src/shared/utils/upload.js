@@ -1,5 +1,6 @@
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 const ALLOWED_EXTENSIONS = [
     ".jpg",
     ".jpeg",
@@ -14,6 +15,10 @@ const ALLOWED_EXTENSIONS = [
     ".mov",
     ".avi",
 ];
+const uploadDir = "uploads/cases";
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 // Configure storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

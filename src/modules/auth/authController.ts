@@ -19,24 +19,24 @@ const refreshCookieOptions = {
   secure: true,
   sameSite: "none" as const,
   path: "/",
-  maxAge: env.refreshTokenExpiresInDays||30 * 24 * 60 * 60 * 1000,
+  maxAge: env.refreshTokenExpiresInDays * 24 * 60 * 60 * 1000,
 };
 
 
-const setAuthCookies = (res: Response, accessToken: string, refreshToken: string): void => {
-  res.cookie(ACCESS_TOKEN_COOKIE, accessToken, accessCookieOptions);
+const setAuthCookies = (res: Response, token: string, refreshToken: string): void => {
+  res.cookie(ACCESS_TOKEN_COOKIE, token, accessCookieOptions);
   res.cookie(REFRESH_TOKEN_COOKIE, refreshToken, refreshCookieOptions);
 };
 
-const clearAuthCookies = (res: Response): void => {
-  res.clearCookie(ACCESS_TOKEN_COOKIE);
-  res.clearCookie(REFRESH_TOKEN_COOKIE);
+export const clearAuthCookies = (res: Response): void => {
+  res.clearCookie(ACCESS_TOKEN_COOKIE, { path: "/" });
+  res.clearCookie(REFRESH_TOKEN_COOKIE, { path: "/" });
 };
 
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { user, tokens } = await authService.registerUser(req.body);
-    setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+    setAuthCookies(res, tokens.token, tokens.refreshToken);
     sendResponse(res, 201, true, "User registered successfully", user);
   } catch (error) {
     next(error);
@@ -46,7 +46,7 @@ export const register = async (req: Request, res: Response, next: NextFunction):
 export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { user, tokens } = await authService.loginUser(req.body);
-    setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+    setAuthCookies(res, tokens.token, tokens.refreshToken);
     sendResponse(res, 200, true, "Login successful", user);
   } catch (error) {
     next(error);
@@ -66,7 +66,7 @@ export const logout = async (req: Request, res: Response, next: NextFunction): P
 export const refresh = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const tokens = await authService.refreshTokens(req.cookies?.[REFRESH_TOKEN_COOKIE]);
-    setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+    setAuthCookies(res, tokens.token, tokens.refreshToken);
     sendResponse(res, 200, true, "Token refreshed", null);
   } catch (error) {
     next(error);

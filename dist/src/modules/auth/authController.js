@@ -5,28 +5,30 @@ const ACCESS_TOKEN_COOKIE = "token";
 const REFRESH_TOKEN_COOKIE = "refreshToken";
 const accessCookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 15 * 60 * 1000,
+    secure: true,
+    sameSite: "none",
+    path: "/",
+    maxAge: 30 * 24 * 60 * 60 * 1000,
 };
 const refreshCookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
+    path: "/",
     maxAge: env.refreshTokenExpiresInDays * 24 * 60 * 60 * 1000,
 };
-const setAuthCookies = (res, accessToken, refreshToken) => {
-    res.cookie(ACCESS_TOKEN_COOKIE, accessToken, accessCookieOptions);
+const setAuthCookies = (res, token, refreshToken) => {
+    res.cookie(ACCESS_TOKEN_COOKIE, token, accessCookieOptions);
     res.cookie(REFRESH_TOKEN_COOKIE, refreshToken, refreshCookieOptions);
 };
-const clearAuthCookies = (res) => {
-    res.clearCookie(ACCESS_TOKEN_COOKIE);
-    res.clearCookie(REFRESH_TOKEN_COOKIE);
+export const clearAuthCookies = (res) => {
+    res.clearCookie(ACCESS_TOKEN_COOKIE, { path: "/" });
+    res.clearCookie(REFRESH_TOKEN_COOKIE, { path: "/" });
 };
 export const register = async (req, res, next) => {
     try {
         const { user, tokens } = await authService.registerUser(req.body);
-        setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+        setAuthCookies(res, tokens.token, tokens.refreshToken);
         sendResponse(res, 201, true, "User registered successfully", user);
     }
     catch (error) {
@@ -36,7 +38,7 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
     try {
         const { user, tokens } = await authService.loginUser(req.body);
-        setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+        setAuthCookies(res, tokens.token, tokens.refreshToken);
         sendResponse(res, 200, true, "Login successful", user);
     }
     catch (error) {
@@ -56,7 +58,7 @@ export const logout = async (req, res, next) => {
 export const refresh = async (req, res, next) => {
     try {
         const tokens = await authService.refreshTokens(req.cookies?.[REFRESH_TOKEN_COOKIE]);
-        setAuthCookies(res, tokens.accessToken, tokens.refreshToken);
+        setAuthCookies(res, tokens.token, tokens.refreshToken);
         sendResponse(res, 200, true, "Token refreshed", null);
     }
     catch (error) {

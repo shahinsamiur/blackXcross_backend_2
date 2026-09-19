@@ -27,7 +27,14 @@ export const findGroups = (where: Prisma.GroupWhereInput, skip: number, take: nu
     skip,
     take,
     orderBy: { createdAt: "desc" },
-    include: { _count: { select: { members: true } } },
+    include: {
+      _count: { select: { members: true } },
+      members: {
+        where: { role: GroupRole.OWNER },
+        take: 1,
+        include: memberSelect,
+      },
+    },
   });
 
 export const countGroups = (where: Prisma.GroupWhereInput) => prisma.group.count({ where });

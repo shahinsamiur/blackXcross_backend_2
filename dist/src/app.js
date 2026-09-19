@@ -17,6 +17,8 @@ import notificationRoutes from "./modules/notification/notificationRoutes.js";
 import reportRoutes from "./modules/report/reportRoutes.js";
 import adminRoutes from "./modules/admin/adminRoutes.js";
 import moderationRoutes from "./modules/moderation/moderationRoutes.js";
+import dashboardRoutes from "./modules/dashboard/dashboardRoutes.js";
+import cookieParser from "cookie-parser";
 const app = express();
 app.use(httpLogger);
 app.use(rateLimit({
@@ -72,6 +74,7 @@ app.use(helmet({
     contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false,
 }));
+app.use(cookieParser());
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 // app.use(xss());
@@ -93,5 +96,6 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/moderation", moderationRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 app.use(errorHandler);
 export default app;

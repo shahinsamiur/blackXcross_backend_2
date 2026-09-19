@@ -2,8 +2,11 @@ import jwt from "jsonwebtoken";
 import { prisma } from "../../lib/prisma.js";
 import AppError from "../utils/AppError.js";
 import env from "../../config/env.js";
+import logger from "../logger/logger.js";
+import { clearAuthCookies } from "../../modules/auth/authController.js";
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies?.token;
+    logger.info("token", token);
     if (!token) {
         return next(new AppError("Unauthorized, token missing", 401));
     }
@@ -26,6 +29,7 @@ const authMiddleware = async (req, res, next) => {
         next();
     }
     catch (err) {
+        clearAuthCookies(res);
         return next(new AppError("Invalid or expired token", 401));
     }
 };

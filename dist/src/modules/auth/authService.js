@@ -24,7 +24,7 @@ const issueRefreshToken = async (userId) => {
     return rawToken;
 };
 const issueTokens = async (user) => ({
-    accessToken: generateAccessToken(user.id, user.role),
+    token: generateAccessToken(user.id, user.role),
     refreshToken: await issueRefreshToken(user.id),
 });
 export const registerUser = async (data) => {
@@ -45,8 +45,6 @@ export const registerUser = async (data) => {
         type: VerificationTokenType.EMAIL_VERIFICATION,
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
     });
-    // TODO: replace with real mailer call once wired up
-    console.log(`[stub email] verify-email token for ${created.email}: ${rawVerifyToken}`);
     const user = toAuthUser(created);
     const tokens = await issueTokens(user);
     return { user, tokens };
@@ -96,7 +94,7 @@ export const refreshTokens = async (rawRefreshToken) => {
     });
     await authRepository.revokeRefreshToken(tokenHash, hashToken(newRawRefreshToken));
     return {
-        accessToken: generateAccessToken(user.id, user.role),
+        token: generateAccessToken(user.id, user.role),
         refreshToken: newRawRefreshToken,
     };
 };
@@ -114,8 +112,6 @@ export const verifyEmail = async (data) => {
 };
 export const forgotPassword = async (data) => {
     const found = await authRepository.findUserByEmail(data.email);
-    // Resolve the same way whether the email exists or not,
-    // so this endpoint can't be used to enumerate registered emails.
     if (!found)
         return;
     const rawResetToken = generateRawToken();
@@ -125,8 +121,6 @@ export const forgotPassword = async (data) => {
         type: VerificationTokenType.PASSWORD_RESET,
         expiresAt: new Date(Date.now() + 60 * 60 * 1000),
     });
-    // TODO: replace with real mailer call once wired up
-    console.log(`[stub email] password-reset token for ${found.email}: ${rawResetToken}`);
 };
 export const resetPassword = async (data) => {
     const tokenHash = hashToken(data.token);

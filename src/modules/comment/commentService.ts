@@ -1,7 +1,7 @@
 import AppError from "../../shared/utils/AppError.js";
-import { Role } from "../../../generated/prisma/client.js";
+import { Role, Prisma } from "../../../generated/prisma/client.js";
 import * as commentRepository from "./commentRepository.js";
-import { UpdateCommentInput } from "./commentTypes.js";
+import { UpdateCommentInput, AdminCommentQuery } from "./commentTypes.js";
 
 const assertOwner = (comment: { userId: string }, requesterId: string, requesterRole: Role) => {
   if (comment.userId !== requesterId && requesterRole !== Role.ADMIN) {
@@ -27,7 +27,7 @@ export const createReply = async (parentId: string, userId: string, content: str
   if (!parent) {
     throw new AppError("Parent comment not found", 404);
   }
-  
+
   return commentRepository.createComment({
     content,
     userId,
@@ -50,6 +50,33 @@ export const getCommentsByTheoryId = async (theoryId: string, page: number, limi
       limit,
       total,
       totalPages: Math.ceil(total / limit),
+    },
+  };
+};
+
+export const getAllComments = async (requesterRole: Role | undefined, query: AdminCommentQuery) => {
+  if (requesterRole !== Role.ADMIN) {
+    throw new AppError("Forbidden: Admin access required", 403);
+  }
+
+  const where: Prisma.CommentWhereInput = {};
+  if (query.search) {
+    where.content = { contains: query.search, mode: "insensitive" };
+  }
+
+  const skip = (query.page - 1) * query.limit;
+  const [items, total] = await Promise.all([
+    commentRepository.findAllComments(where, skip, query.limit),
+    commentRepository.countAllComments(where),
+  ]);
+
+  return {
+    items,
+    pagination: {
+      page: query.page,
+      limit: query.limit,
+      total,
+      totalPages: Math.ceil(total / query.limit),
     },
   };
 };

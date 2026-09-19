@@ -8,3 +8,9 @@ export interface CreateCommentInput {
 export interface UpdateCommentInput {
   content: string;
 }
+
+export interface AdminCommentQuery {
+  page: number;
+  limit: number;
+  search?: string;
+}

@@ -30,11 +30,25 @@ export const getComments = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
+export const getAllComments = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const requester = (req as any).user;
+    const page = Math.max(parseInt(String(req.query.page ?? "1"), 10) || 1, 1);
+    const limit = Math.min(Math.max(parseInt(String(req.query.limit ?? "20"), 10) || 20, 1), 50);
+    const search = typeof req.query.search === "string" ? req.query.search : undefined;
+
+    const result = await commentService.getAllComments(requester?.role, { page, limit, search });
+    sendResponse(res, 200, true, "Comments fetched successfully", result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const createReply = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const userId = (req as any).user.id;
     const { id: parentId } = req.params;
-    
+
     const created = await commentService.createReply(parentId as string, userId, req.body.content);
     sendResponse(res, 201, true, "Reply created successfully", created);
   } catch (error) {
