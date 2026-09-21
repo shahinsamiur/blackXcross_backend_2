@@ -229,4 +229,21 @@ router.get("/users/:id", adminController.getUserById);
  *       404: { description: User not found }
  */
 router.patch("/users/:id/reactivate", adminController.reactivateUser);
+
+/**
+ * @openapi
+ * /api/admin/cases/{id}:
+ *   get:
+ *     tags: [Admin]
+ *     summary: Get a single case by id (admin, includes drafts)
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200: { description: Case detail }
+ *       404: { description: Case not found }
+ */
+router.get("/cases/:id", adminController.getCaseById);
 export default router;

@@ -1,8 +1,10 @@
 import { prisma } from "../../lib/prisma.js";
+import { PublishState } from "../../../generated/prisma/client.js";
 
 export const getDashboardData = async () => {
   const [recentCases, trendingTheories, recentComments, stats] = await Promise.all([
     prisma.case.findMany({
+      where: { publishState: PublishState.PUBLISHED },
       orderBy: { createdAt: "desc" },
       take: 6,
       include: {

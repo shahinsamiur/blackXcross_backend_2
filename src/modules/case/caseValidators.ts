@@ -47,6 +47,12 @@ export const createCaseSchema = yup.object({
     .mixed<CaseCategory>()
     .oneOf(Object.values(CaseCategory), "Invalid category")
     .required("Category is required"),
+  investigationStatus: yup
+    .mixed<InvestigationStatus>()
+    .oneOf(Object.values(InvestigationStatus), "Invalid investigation status"),
+  imageUrl: yup.string().url("imageUrl must be a valid URL"),
+  narrative: yup.string().max(20000, "Narrative is too long"),
+  location: yup.string().max(255, "Location is too long"),
   tags: yup.array().of(yup.string().required()).max(10, "At most 10 tags allowed"),
 });
 
