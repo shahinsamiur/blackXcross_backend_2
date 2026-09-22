@@ -75,7 +75,7 @@ export const countCases = (where: Prisma.CaseWhereInput) =>
 export const deleteCase = (id: string) => prisma.case.delete({ where: { id } });
 
 export const findCaseById = (id: string) =>
-  prisma.case.findUnique({ where: { id } });
+  prisma.case.findUnique({ where: { id }, include: caseInclude });
 
 const reportInclude = {
   reporter: { select: { id: true, name: true, username: true, avatar: true } },

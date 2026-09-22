@@ -21,12 +21,3 @@ const logger = pino({
 });
 
 export default logger;
-
-// logger.info("Server started");
-// logger.info("User registered successfully");
-
-// logger.warn("Invalid login attempt");
-
-// logger.error(error, "Database connection failed");
-
-// logger.debug("Processing authentication request");

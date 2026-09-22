@@ -21,7 +21,6 @@ const optionalAuthMiddleware = async (
 
   try {
     const decoded = jwt.verify(token, env.jwtSecret) as DecodedToken;
-
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
       select: { id: true, name: true, email: true, role: true, isEmailVerified: true },
@@ -31,7 +30,6 @@ const optionalAuthMiddleware = async (
       (req as any).user = user;
     }
   } catch {
-    // Invalid/expired token: continue as a guest rather than failing the request.
   }
 
   next();

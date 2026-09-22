@@ -18,7 +18,6 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction):
     const search = typeof req.query.search === "string" ? req.query.search : undefined;
     const role = typeof req.query.role === "string" ? req.query.role : undefined;
     const status = typeof req.query.status === "string" ? req.query.status : undefined;
-
     const result = await adminService.getUsers({ page, limit, search, role, status });
     sendResponse(res, 200, true, "Users fetched successfully", result);
   } catch (error) {

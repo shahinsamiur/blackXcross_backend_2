@@ -15,12 +15,17 @@ const ALLOWED_EXTENSIONS = [
   ".mp4",
   ".mov",
   ".avi",
+  ".webm",
+  ".mp3",
+  ".wav",
+  ".m4a",
+  ".aac",
+  ".ogg",
 ];
 const uploadDir = "uploads/cases";
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
-// Configure storage
 const storage = multer.diskStorage({
   destination: (
     req: Request,
@@ -52,7 +57,6 @@ const fileFilter = (
   }
 };
 
-// Initialize multer
 const caseUpload = multer({ storage, fileFilter });
 
 export default caseUpload;
