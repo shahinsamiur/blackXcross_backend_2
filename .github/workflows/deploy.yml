@@ -13,6 +13,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check Prisma changes
+        id: prisma
+        run: |
+          if git diff --quiet HEAD^ HEAD -- prisma/ prisma.config.ts; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -60,11 +69,17 @@ jobs:
             echo "Installing dependencies..."
             npm ci
 
-            echo "Generating Prisma Client..."
-            npx prisma generate
+            if [ "${{ steps.prisma.outputs.changed }}" = "true" ]; then
+              echo "Prisma changes detected."
 
-            echo "Running Prisma migrations..."
-            npx prisma migrate deploy
+              echo "Generating Prisma Client..."
+              npx prisma generate
+
+              echo "Syncing database..."
+              npx prisma db push --accept-data-loss
+            else
+              echo "No Prisma changes detected. Skipping Prisma..."
+            fi
 
             echo "Building application..."
             npm run build
@@ -78,3 +93,4 @@ jobs:
 
             echo "Deployment completed successfully."
           EOF
+
