@@ -1,6 +1,5 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 import env from "./config/env.js";
-dotenv.config();
 import logger from "./shared/logger/logger.js";
 import app from "./app.js";
 import { testDBConnection } from "./config/supabase_db.js";
