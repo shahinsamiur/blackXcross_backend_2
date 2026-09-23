@@ -13,41 +13,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Generate Prisma Client
-        run: npx prisma generate
-
-      - name: Build application
-        run: npm run build
-
-      - name: Prepare deployment package
-        run: |
-          mkdir -p deploy-package
-          cp -r dist deploy-package/
-          cp -r prisma deploy-package/
-          cp package.json package-lock.json deploy-package/
-          cp -r public deploy-package/
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Upload deployment package
+      - name: Upload source code
         run: |
-          rsync -az \
+          rsync -az --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='dist/' \
+            --exclude='uploads/' \
+            --exclude='.env' \
             -e "ssh -i ~/.ssh/deploy_key" \
-            deploy-package/ \
+            ./ \
             "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/blackXcross_backend/current/"
 
       - name: Deploy on VPS
@@ -62,20 +45,29 @@ jobs:
 
             cd "$CURRENT"
 
-            echo "Installing production dependencies..."
-            npm ci
-
             echo "Connecting production environment..."
             ln -sfn "$SHARED/.env" "$CURRENT/.env"
 
             echo "Preparing persistent uploads..."
             mkdir -p "$SHARED/uploads/cases"
 
-            rm -rf "$CURRENT/uploads"
+            if [ -e "$CURRENT/uploads" ] && [ ! -L "$CURRENT/uploads" ]; then
+              rm -rf "$CURRENT/uploads"
+            fi
+
             ln -sfn "$SHARED/uploads" "$CURRENT/uploads"
+
+            echo "Installing dependencies..."
+            npm ci
+
+            echo "Generating Prisma Client..."
+            npx prisma generate
 
             echo "Running Prisma migrations..."
             npx prisma migrate deploy
+
+            echo "Building application..."
+            npm run build
 
             echo "Restarting application..."
             pm2 restart blackxcross-backend || \
