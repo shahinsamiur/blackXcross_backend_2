@@ -270,4 +270,7 @@ router.get("/:id/followers", userController.getFollowers);
  */
 router.get("/:id/following", userController.getFollowing);
 
+
+
+router.get("/me", authMiddleware, userController.getMe);
 export default router;

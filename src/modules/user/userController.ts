@@ -122,3 +122,12 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     next(error);
   }
 };
+export const getMe = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const requesterId = (req as any).user.id;
+    const user = await userService.getUserById(requesterId);
+    sendResponse(res, 200, true, "User fetched successfully", user);
+  } catch (error) {
+    next(error);
+  }
+};

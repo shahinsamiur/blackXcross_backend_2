@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from "express";
+import path from "path";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
@@ -82,12 +83,15 @@ app.use(
   helmet({
     contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   })
 );
 app.use(cookieParser()); 
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
-// app.use(xss());
+
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
 app.use(
   "/api-docs",
   swaggerUi.serve,

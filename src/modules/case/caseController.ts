@@ -4,6 +4,13 @@ import sendResponse from "../../shared/utils/response.js";
 import AppError from "../../shared/utils/AppError.js";
 import { CaseCategory, InvestigationStatus } from "../../../generated/prisma/client.js";
 
+const buildFileUrl = (req: Request, file: Express.Multer.File): string => {
+  // Cloud storage engines (e.g. S3) set `location` to an already-absolute URL
+  if ((file as any).location) return (file as any).location;
+  const relativePath = (file.path ?? "").replace(/\\/g, "/");
+  return `${req.protocol}://${req.get("host")}/${relativePath}`;
+};
+
 export const createCase = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const userId = (req as any).user.id;
@@ -126,7 +133,7 @@ export const addCaseFile = async (req: Request, res: Response, next: NextFunctio
     }
 
     const created = await caseService.addCaseFile(req.params.id as string, requester.id, requester.role, {
-      url: file.path ?? file.location,
+      url: buildFileUrl(req, file),
       filename: file.originalname,
       mimeType: file.mimetype,
       size: file.size,
@@ -155,7 +162,7 @@ export const uploadCaseImage = async (req: Request, res: Response, next: NextFun
     if (!file) {
       throw new AppError("No image uploaded", 400);
     }
-    const imageUrl = file.path ?? file.location;
+    const imageUrl = buildFileUrl(req, file);
     sendResponse(res, 200, true, "Image uploaded successfully", { imageUrl });
   } catch (error) {
     next(error);
