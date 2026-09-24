@@ -4,7 +4,7 @@ import * as caseController from "./caseController.js";
 import validate from "../../shared/middleware/validate.js";
 import authMiddleware from "../../shared/middleware/authMiddleware.js";
 import optionalAuthMiddleware from "../../shared/middleware/optionalAuthMiddleware.js";
-import upload from "../../shared/utils/upload.js"; 
+import { caseImageUpload, caseGalleryUpload, caseFileUpload } from "../../shared/utils/upload.js"; 
 import { createCaseSchema, updateCaseSchema } from "./caseValidators.js";
 
 const router = Router();
@@ -47,7 +47,7 @@ router.post("/", authMiddleware, validate(createCaseSchema), caseController.crea
  *       400:
  *         description: Validation error
  */
-router.post("/upload-image", authMiddleware, upload.single("image"), caseController.uploadCaseImage);
+router.post("/upload-image", authMiddleware, caseImageUpload.single("image"), caseController.uploadCaseImage);
 /**
  * @openapi
  * /api/cases:
@@ -188,7 +188,21 @@ router.get("/:id/files", optionalAuthMiddleware, caseController.getCaseFiles);
  *       400:
  *         description: No file uploaded
  */
-router.post("/:id/files", authMiddleware, upload.single("file"), caseController.addCaseFile);
+router.post("/:id/files", authMiddleware, caseFileUpload.single("file"), caseController.addCaseFile);
+
+/**
+ * @openapi
+ * /api/cases/{id}/gallery:
+ *   post:
+ *     tags: [Cases]
+ *     summary: Upload a gallery image to a case
+ *     responses:
+ *       201:
+ *         description: Gallery image uploaded
+ *       400:
+ *         description: No file uploaded
+ */
+router.post("/:id/gallery", authMiddleware, caseGalleryUpload.single("file"), caseController.addCaseGalleryImage);
 
 /**
  * @openapi

@@ -27,6 +27,27 @@ router.get("/cases/:caseId/theories", optionalAuthMiddleware, theoryController.g
 
 /**
  * @openapi
+ * /api/theories:
+ *   get:
+ *     tags: [Theories]
+ *     summary: Get all theories with pagination
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Number of theories per page
+ */
+router.get("/theories", optionalAuthMiddleware, theoryController.getAllTheories);
+
+
+/**
+ * @openapi
  * /api/theories/{id}:
  *   get:
  *     tags: [Theories]

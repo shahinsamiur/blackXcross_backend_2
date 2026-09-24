@@ -2,6 +2,8 @@ import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import { Request } from "express";
 import fs from "fs";
+import crypto from "crypto";
+
 const ALLOWED_EXTENSIONS = [
   ".jpg",
   ".jpeg",
@@ -22,28 +24,15 @@ const ALLOWED_EXTENSIONS = [
   ".aac",
   ".ogg",
 ];
-const uploadDir = "uploads/cases";
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-const storage = multer.diskStorage({
-  destination: (
-    req: Request,
-    file: Express.Multer.File,
-    cb: (error: Error | null, destination: string) => void,
-  ) => {
-    cb(null, "uploads/cases/");
-  },
-  filename: (
-    req: Request,
-    file: Express.Multer.File,
-    cb: (error: Error | null, filename: string) => void,
-  ) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
 
-// Configure file filter
+const CASES_ROOT = "uploads/cases";
+
+const ensureDir = (dir: string): void => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+};
+
 const fileFilter = (
   req: Request,
   file: Express.Multer.File,
@@ -57,6 +46,46 @@ const fileFilter = (
   }
 };
 
-const caseUpload = multer({ storage, fileFilter });
+const uniqueFilename = (file: Express.Multer.File): string => {
+  const ext = path.extname(file.originalname);
+  return `${crypto.randomUUID()}${ext}`;
+};
 
-export default caseUpload;
+
+const thumbnailStorage = multer.diskStorage({
+  destination: (req: Request, file: Express.Multer.File, cb) => {
+    const dir = `${CASES_ROOT}/_pending`;
+    ensureDir(dir);
+    cb(null, dir);
+  },
+  filename: (req: Request, file: Express.Multer.File, cb) => {
+    cb(null, uniqueFilename(file));
+  },
+});
+export const caseImageUpload = multer({ storage: thumbnailStorage, fileFilter });
+
+const galleryStorage = multer.diskStorage({
+  destination: (req: Request, file: Express.Multer.File, cb) => {
+    const dir = `${CASES_ROOT}/${req.params.id}/gallery`;
+    ensureDir(dir);
+    cb(null, dir);
+  },
+  filename: (req: Request, file: Express.Multer.File, cb) => {
+    cb(null, uniqueFilename(file));
+  },
+});
+export const caseGalleryUpload = multer({ storage: galleryStorage, fileFilter });
+
+const evidenceStorage = multer.diskStorage({
+  destination: (req: Request, file: Express.Multer.File, cb) => {
+    const dir = `${CASES_ROOT}/${req.params.id}/files`;
+    ensureDir(dir);
+    cb(null, dir);
+  },
+  filename: (req: Request, file: Express.Multer.File, cb) => {
+    cb(null, uniqueFilename(file));
+  },
+});
+export const caseFileUpload = multer({ storage: evidenceStorage, fileFilter });
+
+export default caseFileUpload;

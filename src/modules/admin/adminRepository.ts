@@ -52,6 +52,7 @@ export const updateUserStatus = (id: string, status: UserStatus) =>
 
 const caseInclude = {
   tags: true,
+  files: true,
   user: { select: { id: true, name: true, username: true, avatar: true } },
   _count: { select: { theories: true, files: true } },
 };

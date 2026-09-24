@@ -1,21 +1,51 @@
 import { Request, Response, NextFunction } from "express";
+import fs from "fs";
+import path from "path";
 import * as caseService from "./caseService.js";
 import sendResponse from "../../shared/utils/response.js";
 import AppError from "../../shared/utils/AppError.js";
 import { CaseCategory, InvestigationStatus } from "../../../generated/prisma/client.js";
 
 const buildFileUrl = (req: Request, file: Express.Multer.File): string => {
-  // Cloud storage engines (e.g. S3) set `location` to an already-absolute URL
   if ((file as any).location) return (file as any).location;
   const relativePath = (file.path ?? "").replace(/\\/g, "/");
   return `${req.protocol}://${req.get("host")}/${relativePath}`;
 };
 
+const PENDING_THUMBNAIL_MARKER = "/uploads/cases/_pending/";
+
+const finalizeThumbnail = (caseId: string, imageUrl?: string | null): string | undefined => {
+  if (!imageUrl || !imageUrl.includes(PENDING_THUMBNAIL_MARKER)) {
+    return imageUrl ?? undefined;
+  }
+
+  const filename = imageUrl.split(PENDING_THUMBNAIL_MARKER)[1];
+  const oldPath = path.join("uploads/cases/_pending", filename);
+  const newDir = path.join("uploads/cases", caseId, "thumbnail");
+  const newPath = path.join(newDir, filename);
+
+  if (!fs.existsSync(newDir)) {
+    fs.mkdirSync(newDir, { recursive: true });
+  }
+  if (fs.existsSync(oldPath)) {
+    fs.renameSync(oldPath, newPath);
+  }
+
+  return imageUrl.replace(PENDING_THUMBNAIL_MARKER, `/uploads/cases/${caseId}/thumbnail/`);
+};
+
 export const createCase = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const userId = (req as any).user.id;
-    const created = await caseService.createCase(userId, req.body);
-    sendResponse(res, 201, true, "Case created successfully", created);
+    const requester = (req as any).user;
+    const created = await caseService.createCase(requester.id, req.body);
+
+    const finalImageUrl = finalizeThumbnail(created.id, created.imageUrl);
+    const finalCase =
+      finalImageUrl && finalImageUrl !== created.imageUrl
+        ? await caseService.updateCase(created.id, requester.id, requester.role, { imageUrl: finalImageUrl })
+        : created;
+
+    sendResponse(res, 201, true, "Case created successfully", finalCase);
   } catch (error) {
     next(error);
   }
@@ -65,7 +95,12 @@ export const getCase = async (req: Request, res: Response, next: NextFunction): 
 export const updateCase = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
-    const updated = await caseService.updateCase(req.params.id as string, requester.id, requester.role, req.body);
+    const caseId = req.params.id as string;
+    const body = { ...req.body };
+    if (body.imageUrl) {
+      body.imageUrl = finalizeThumbnail(caseId, body.imageUrl);
+    }
+    const updated = await caseService.updateCase(caseId, requester.id, requester.role, body);
     sendResponse(res, 200, true, "Case updated successfully", updated);
   } catch (error) {
     next(error);
@@ -144,7 +179,27 @@ export const addCaseFile = async (req: Request, res: Response, next: NextFunctio
     next(error);
   }
 };
+export const addCaseGalleryImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const requester = (req as any).user;
+    const file = (req as any).file;
 
+    if (!file) {
+      throw new AppError("No image uploaded", 400);
+    }
+
+    const created = await caseService.addCaseFile(req.params.id as string, requester.id, requester.role, {
+      url: buildFileUrl(req, file),
+      filename: file.originalname,
+      mimeType: file.mimetype,
+      size: file.size,
+    });
+
+    sendResponse(res, 201, true, "Gallery image uploaded successfully", created);
+  } catch (error) {
+    next(error);
+  }
+};
 export const removeCaseFile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
