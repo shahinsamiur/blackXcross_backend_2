@@ -9,7 +9,7 @@ const REFRESH_TOKEN_COOKIE = "refreshToken";
 const accessCookieOptions = {
   httpOnly: true,
   secure: true, 
-  sameSite: "none" as const, 
+  sameSite: "lax" as const, 
   path: "/", 
   maxAge: 30 * 24 * 60 * 60 * 1000, 
 };
@@ -17,7 +17,7 @@ const accessCookieOptions = {
 const refreshCookieOptions = {
   httpOnly: true,
   secure: true,
-  sameSite: "none" as const,
+  sameSite: "lax" as const,
   path: "/",
   maxAge: env.refreshTokenExpiresInDays * 24 * 60 * 60 * 1000,
 };
