@@ -40,7 +40,6 @@ const generateAccessToken = (id: string, role: string): string =>
     { expiresIn: env.accessTokenExpiresIn } as SignOptions
   );
 
-
 const issueRefreshToken = async (userId: string): Promise<string> => {
   const rawToken = generateRawToken();
   const expiresAt = new Date(
@@ -84,8 +83,6 @@ export const registerUser = async (data: RegisterInput): Promise<AuthResult> => 
     expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
   });
 
-
-
   const user = toAuthUser(created);
   const tokens = await issueTokens(user);
 
@@ -108,13 +105,9 @@ export const loginUser = async (data: LoginInput): Promise<AuthResult> => {
   return { user, tokens };
 };
 
-export const logoutUser = async (rawRefreshToken: string | undefined): Promise<void> => {
-  if (!rawRefreshToken) return;
-  const tokenHash = hashToken(rawRefreshToken);
-  const existing = await authRepository.findRefreshTokenByHash(tokenHash);
-  if (existing && !existing.revokedAt) {
-    await authRepository.revokeRefreshToken(tokenHash);
-  }
+// Fix: Accept userId and revoke ALL refresh tokens to ensure complete logout across all sessions
+export const logoutUser = async (userId: string): Promise<void> => {
+  await authRepository.revokeAllUserRefreshTokens(userId);
 };
 
 export const refreshTokens = async (

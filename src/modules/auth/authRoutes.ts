@@ -176,4 +176,25 @@ router.post("/reset-password", validate(resetPasswordSchema), authController.res
  */
 router.get("/me", authMiddleware, authController.me);
 
+
+
+
+/**
+ * @openapi
+ * /api/auth/logout:
+ *   get:
+ *     tags:
+ *       - Auth
+ *     summary: Get current authenticated user
+ *     description: Returns the user tied to the access-token cookie.
+ *     responses:
+ *       200:
+ *         description: user logout
+ *       401:
+ *         description: Unauthorized, token missing or invalid
+ *       500:
+ *         description: Internal server error
+ */
+router.post("/logout", authController.logout);
+
 export default router;

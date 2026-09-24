@@ -22,15 +22,14 @@ const refreshCookieOptions = {
   maxAge: env.refreshTokenExpiresInDays * 24 * 60 * 60 * 1000,
 };
 
-
 const setAuthCookies = (res: Response, token: string, refreshToken: string): void => {
   res.cookie(ACCESS_TOKEN_COOKIE, token, accessCookieOptions);
   res.cookie(REFRESH_TOKEN_COOKIE, refreshToken, refreshCookieOptions);
 };
 
 export const clearAuthCookies = (res: Response): void => {
-  res.clearCookie(ACCESS_TOKEN_COOKIE, { path: "/" });
-  res.clearCookie(REFRESH_TOKEN_COOKIE, { path: "/" });
+  res.clearCookie(ACCESS_TOKEN_COOKIE, { path: "/", secure: true, sameSite: "none" });
+  res.clearCookie(REFRESH_TOKEN_COOKIE, { path: "/", secure: true, sameSite: "none" });
 };
 
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -52,11 +51,16 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     next(error);
   }
 };
-
 export const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    await authService.logoutUser(req.cookies?.[REFRESH_TOKEN_COOKIE]);
     clearAuthCookies(res);
+    const user = (req as any).user;
+    if (user?.id) {
+      await authService.logoutUser(user.id);
+    } else {
+      console.warn("Logout: No authenticated user found in request, but cookies cleared.");
+    }
+    
     sendResponse(res, 200, true, "Logout successful", null);
   } catch (error) {
     next(error);
