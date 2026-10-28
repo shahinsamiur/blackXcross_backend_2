@@ -1,9 +1,7 @@
 import { Router } from "express";
 import * as dashboardController from "./dashboardController.js";
 import optionalAuthMiddleware from "../../shared/middleware/optionalAuthMiddleware.js";
-
 const router = Router();
-
 /**
  * @openapi
  * /api/dashboard:
@@ -15,5 +13,4 @@ const router = Router();
  *         description: Dashboard data fetched successfully
  */
 router.get("/", optionalAuthMiddleware, dashboardController.getDashboardData);
-
 export default router;

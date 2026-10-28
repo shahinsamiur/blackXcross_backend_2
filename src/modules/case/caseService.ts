@@ -12,7 +12,17 @@ const assertOwner = (
     throw new AppError("You do not have permission to modify this case", 403);
   }
 };
-
+const assertEditable = (
+  caseRecord: { publishState: PublishState },
+  requesterRole: Role,
+): void => {
+  if (
+    caseRecord.publishState === PublishState.PUBLISHED &&
+    requesterRole !== Role.ADMIN
+  ) {
+    throw new AppError("Published cases can no longer be edited", 403);
+  }
+};
 export const createCase = (userId: string, data: CreateCaseInput) =>
   caseRepository.createCase({ ...data, userId });
 
@@ -53,7 +63,7 @@ export const deleteCase = async (id: string, requesterId: string, requesterRole:
     throw new AppError("Case not found", 404);
   }
   assertOwner(found, requesterId, requesterRole);
-
+  assertEditable(found, requesterRole);
   await caseRepository.deleteCase(id);
 };
 
@@ -73,6 +83,9 @@ export const draftCase = async (id: string, requesterId: string, requesterRole: 
     throw new AppError("Case not found", 404);
   }
   assertOwner(found, requesterId, requesterRole);
+  if (found.publishState === PublishState.PUBLISHED && requesterRole !== Role.ADMIN) {
+    throw new AppError("Published cases cannot be moved back to draft", 403);
+  }
 
   return caseRepository.setPublishState(id, PublishState.DRAFT);
 };

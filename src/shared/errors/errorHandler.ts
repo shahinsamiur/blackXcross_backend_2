@@ -11,7 +11,7 @@ const errorHandler = (
   res: Response,
   next: NextFunction,
 ): void => {
-  console.error("🔥 FULL ERROR TRACE:", err);
+  console.error("FULL ERROR TRACE:", err);
 
   const statusCode: number = err.statusCode || 500;
   const message: string = err.message || "Internal Server Error";

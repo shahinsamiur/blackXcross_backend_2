@@ -19,7 +19,7 @@ import reportRoutes from "./modules/report/reportRoutes.js";
 import adminRoutes from "./modules/admin/adminRoutes.js";
 import moderationRoutes from "./modules/moderation/moderationRoutes.js";
 import dashboardRoutes from "./modules/dashboard/dashboardRoutes.js";
-import cookieParser from "cookie-parser"; 
+import cookieParser from "cookie-parser";
 const app: Application = express();
 app.use(httpLogger);
 app.use(
@@ -68,25 +68,28 @@ const swaggerCustomCss = `
   }
 `;
 
-
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://192.168.0.105:3000", "https://black-xcross.vercel.app"],
+    origin: [
+      "http://localhost:3000",
+      "http://192.168.0.105:3000",
+      "https://black-xcross.vercel.app",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
 
-// just commit 
+// just commit
 app.use(
   helmet({
     contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false,
     crossOriginResourcePolicy: { policy: "cross-origin" },
-  })
+  }),
 );
-app.use(cookieParser()); 
+app.use(cookieParser());
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
@@ -116,7 +119,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/moderation", moderationRoutes);
-app.use("/api/dashboard", dashboardRoutes)
+app.use("/api/dashboard", dashboardRoutes);
 app.use(errorHandler);
 
 export default app;

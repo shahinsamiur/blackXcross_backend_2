@@ -5,15 +5,12 @@ import * as caseService from "./caseService.js";
 import sendResponse from "../../shared/utils/response.js";
 import AppError from "../../shared/utils/AppError.js";
 import { CaseCategory, InvestigationStatus } from "../../../generated/prisma/client.js";
-
 const buildFileUrl = (req: Request, file: Express.Multer.File): string => {
   if ((file as any).location) return (file as any).location;
   const relativePath = (file.path ?? "").replace(/\\/g, "/");
   return `${req.protocol}://${req.get("host")}/${relativePath}`;
 };
-
 const PENDING_THUMBNAIL_MARKER = "/uploads/cases/_pending/";
-
 const finalizeThumbnail = (caseId: string, imageUrl?: string | null): string | undefined => {
   if (!imageUrl || !imageUrl.includes(PENDING_THUMBNAIL_MARKER)) {
     return imageUrl ?? undefined;
@@ -33,7 +30,6 @@ const finalizeThumbnail = (caseId: string, imageUrl?: string | null): string | u
 
   return imageUrl.replace(PENDING_THUMBNAIL_MARKER, `/uploads/cases/${caseId}/thumbnail/`);
 };
-
 export const createCase = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
@@ -50,7 +46,6 @@ export const createCase = async (req: Request, res: Response, next: NextFunction
     next(error);
   }
 };
-
 export const listCases = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const page = Math.max(parseInt(String(req.query.page ?? "1"), 10) || 1, 1);
@@ -81,7 +76,6 @@ export const listCases = async (req: Request, res: Response, next: NextFunction)
     next(error);
   }
 };
-
 export const getCase = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
@@ -91,7 +85,6 @@ export const getCase = async (req: Request, res: Response, next: NextFunction): 
     next(error);
   }
 };
-
 export const updateCase = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
@@ -106,7 +99,6 @@ export const updateCase = async (req: Request, res: Response, next: NextFunction
     next(error);
   }
 };
-
 export const deleteCase = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
@@ -116,7 +108,6 @@ export const deleteCase = async (req: Request, res: Response, next: NextFunction
     next(error);
   }
 };
-
 export const publishCase = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
@@ -126,7 +117,6 @@ export const publishCase = async (req: Request, res: Response, next: NextFunctio
     next(error);
   }
 };
-
 export const draftCase = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
@@ -136,7 +126,6 @@ export const draftCase = async (req: Request, res: Response, next: NextFunction)
     next(error);
   }
 };
-
 export const getCaseTheories = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
@@ -146,7 +135,6 @@ export const getCaseTheories = async (req: Request, res: Response, next: NextFun
     next(error);
   }
 };
-
 export const getCaseFiles = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
@@ -156,8 +144,6 @@ export const getCaseFiles = async (req: Request, res: Response, next: NextFuncti
     next(error);
   }
 };
-
-
 export const addCaseFile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const requester = (req as any).user;
@@ -209,8 +195,6 @@ export const removeCaseFile = async (req: Request, res: Response, next: NextFunc
     next(error);
   }
 };
-
-
 export const uploadCaseImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const file = (req as any).file;

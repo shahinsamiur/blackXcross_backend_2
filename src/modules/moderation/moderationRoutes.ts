@@ -50,7 +50,6 @@ router.post("/check-case", authMiddleware, validate(checkCaseSchema), moderation
  */
 router.post("/check-image", authMiddleware, validate(checkImageSchema), moderationController.checkImage);
 
-// Admin-only routes for moderation queue management
 router.use("/queue", authMiddleware, adminMiddleware);
 router.use("/:id", authMiddleware, adminMiddleware);
 

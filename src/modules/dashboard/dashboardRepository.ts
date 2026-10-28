@@ -1,6 +1,5 @@
 import { prisma } from "../../lib/prisma.js";
 import { PublishState } from "../../../generated/prisma/client.js";
-
 export const getDashboardData = async () => {
   const [recentCases, trendingTheories, recentComments, stats] = await Promise.all([
     prisma.case.findMany({
@@ -41,7 +40,6 @@ export const getDashboardData = async () => {
       prisma.user.count()
     ])
   ]);
-
   return {
     recentCases: recentCases.map(({ user, ...rest }) => ({
       ...rest,
@@ -65,7 +63,6 @@ export const getDashboardData = async () => {
         comments: _count.comments
       }
     })),
-
     recentActivity: recentComments.map((c) => ({
       id: c.id,
       type: "COMMENT" as const,
