@@ -13,15 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check Prisma changes
-        id: prisma
-        run: |
-          if git diff --quiet HEAD^ HEAD -- prisma/ prisma.config.ts; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -36,61 +27,26 @@ jobs:
             --exclude='.github/' \
             --exclude='node_modules/' \
             --exclude='dist/' \
+            --exclude='generated/prisma/' \
             --exclude='uploads/' \
             --exclude='.env' \
             -e "ssh -i ~/.ssh/deploy_key" \
             ./ \
-            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/blackXcross_backend/current/"
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/blackxcross/backend/"
 
-      - name: Deploy on VPS
+      - name: Build and restart backend
         run: |
           ssh -i ~/.ssh/deploy_key \
-            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" << 'EOF'
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" << 'EOFSSH'
             set -e
+            cd /var/www/blackxcross/backend
 
-            APP_DIR="/var/www/blackXcross_backend"
-            CURRENT="$APP_DIR/current"
-            SHARED="$APP_DIR/shared"
-
-            cd "$CURRENT"
-
-            echo "Connecting production environment..."
-            ln -sfn "$SHARED/.env" "$CURRENT/.env"
-
-            echo "Preparing persistent uploads..."
-            mkdir -p "$SHARED/uploads/cases"
-
-            if [ -e "$CURRENT/uploads" ] && [ ! -L "$CURRENT/uploads" ]; then
-              rm -rf "$CURRENT/uploads"
-            fi
-
-            ln -sfn "$SHARED/uploads" "$CURRENT/uploads"
-
-            echo "Installing dependencies..."
             npm ci
-
-            if [ "${{ steps.prisma.outputs.changed }}" = "true" ]; then
-              echo "Prisma changes detected."
-
-              echo "Generating Prisma Client..."
-              npx prisma generate
-
-              echo "Syncing database..."
-              npx prisma db push --accept-data-loss
-            else
-              echo "No Prisma changes detected. Skipping Prisma..."
-            fi
-
-            echo "Building application..."
+            npx prisma generate
             npm run build
 
-            echo "Restarting application..."
-            pm2 restart blackxcross-backend || \
-              pm2 start dist/src/server.js \
-                --name blackxcross-backend
-
+            pm2 restart blackxcross-api
             pm2 save
 
-            echo "Deployment completed successfully."
-          EOF
-
+            echo "Backend deployment completed."
+          EOFSSH
