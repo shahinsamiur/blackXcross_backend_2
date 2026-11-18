@@ -3,7 +3,10 @@ import * as commentController from "./commentController.js";
 import validate from "../../shared/middleware/validate.js";
 import authMiddleware from "../../shared/middleware/authMiddleware.js";
 import optionalAuthMiddleware from "../../shared/middleware/optionalAuthMiddleware.js";
-import { createCommentSchema, updateCommentSchema } from "./commentValidators.js";
+import {
+  createCommentSchema,
+  updateCommentSchema,
+} from "./commentValidators.js";
 
 const router = Router();
 
@@ -32,7 +35,12 @@ const router = Router();
  *       400: { description: Validation error }
  *       401: { description: Unauthorized }
  */
-router.post("/theories/:theoryId/comments", authMiddleware, validate(createCommentSchema), commentController.createComment);
+router.post(
+  "/theories/:theoryId/comments",
+  authMiddleware,
+  validate(createCommentSchema),
+  commentController.createComment,
+);
 
 /**
  * @openapi
@@ -54,7 +62,11 @@ router.post("/theories/:theoryId/comments", authMiddleware, validate(createComme
  *     responses:
  *       200: { description: Paginated list of comments }
  */
-router.get("/theories/:theoryId/comments", optionalAuthMiddleware, commentController.getComments);
+router.get(
+  "/theories/:theoryId/comments",
+  optionalAuthMiddleware,
+  commentController.getComments,
+);
 
 /**
  * @openapi
@@ -80,7 +92,12 @@ router.get("/theories/:theoryId/comments", optionalAuthMiddleware, commentContro
  *       201: { description: Reply created successfully }
  *       404: { description: Parent comment not found }
  */
-router.post("/comments/:id/replies", authMiddleware, validate(createCommentSchema), commentController.createReply);
+router.post(
+  "/comments/:id/replies",
+  authMiddleware,
+  validate(createCommentSchema),
+  commentController.createReply,
+);
 
 /**
  * @openapi
@@ -107,7 +124,12 @@ router.post("/comments/:id/replies", authMiddleware, validate(createCommentSchem
  *       403: { description: Not the comment owner }
  *       404: { description: Comment not found }
  */
-router.patch("/comments/:id", authMiddleware, validate(updateCommentSchema), commentController.updateComment);
+router.patch(
+  "/comments/:id",
+  authMiddleware,
+  validate(updateCommentSchema),
+  commentController.updateComment,
+);
 
 /**
  * @openapi

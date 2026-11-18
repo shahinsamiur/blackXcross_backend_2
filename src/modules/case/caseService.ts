@@ -1,7 +1,16 @@
 import AppError from "../../shared/utils/AppError.js";
 import * as caseRepository from "./caseRepository.js";
-import { PublishState, Role, Prisma } from "../../../generated/prisma/client.js";
-import { CreateCaseInput, UpdateCaseInput, CaseSearchQuery, CaseFileInput } from "./caseTypes.js";
+import {
+  PublishState,
+  Role,
+  Prisma,
+} from "../../../generated/prisma/client.js";
+import {
+  CreateCaseInput,
+  UpdateCaseInput,
+  CaseSearchQuery,
+  CaseFileInput,
+} from "./caseTypes.js";
 
 const assertOwner = (
   caseRecord: { userId: string },
@@ -26,7 +35,11 @@ const assertEditable = (
 export const createCase = (userId: string, data: CreateCaseInput) =>
   caseRepository.createCase({ ...data, userId });
 
-export const getCaseById = async (id: string, requesterId?: string, requesterRole?: Role) => {
+export const getCaseById = async (
+  id: string,
+  requesterId?: string,
+  requesterRole?: Role,
+) => {
   const found = await caseRepository.findCaseById(id);
   if (!found) {
     throw new AppError("Case not found", 404);
@@ -57,7 +70,11 @@ export const updateCase = async (
   return caseRepository.updateCase(id, data);
 };
 
-export const deleteCase = async (id: string, requesterId: string, requesterRole: Role) => {
+export const deleteCase = async (
+  id: string,
+  requesterId: string,
+  requesterRole: Role,
+) => {
   const found = await caseRepository.findCaseById(id);
   if (!found) {
     throw new AppError("Case not found", 404);
@@ -67,7 +84,11 @@ export const deleteCase = async (id: string, requesterId: string, requesterRole:
   await caseRepository.deleteCase(id);
 };
 
-export const publishCase = async (id: string, requesterId: string, requesterRole: Role) => {
+export const publishCase = async (
+  id: string,
+  requesterId: string,
+  requesterRole: Role,
+) => {
   const found = await caseRepository.findCaseById(id);
   if (!found) {
     throw new AppError("Case not found", 404);
@@ -77,13 +98,20 @@ export const publishCase = async (id: string, requesterId: string, requesterRole
   return caseRepository.setPublishState(id, PublishState.PUBLISHED);
 };
 
-export const draftCase = async (id: string, requesterId: string, requesterRole: Role) => {
+export const draftCase = async (
+  id: string,
+  requesterId: string,
+  requesterRole: Role,
+) => {
   const found = await caseRepository.findCaseById(id);
   if (!found) {
     throw new AppError("Case not found", 404);
   }
   assertOwner(found, requesterId, requesterRole);
-  if (found.publishState === PublishState.PUBLISHED && requesterRole !== Role.ADMIN) {
+  if (
+    found.publishState === PublishState.PUBLISHED &&
+    requesterRole !== Role.ADMIN
+  ) {
     throw new AppError("Published cases cannot be moved back to draft", 403);
   }
 
@@ -124,12 +152,20 @@ export const listCases = async (query: CaseSearchQuery) => {
   };
 };
 
-export const getCaseTheories = async (caseId: string, requesterId?: string, requesterRole?: Role) => {
+export const getCaseTheories = async (
+  caseId: string,
+  requesterId?: string,
+  requesterRole?: Role,
+) => {
   await getCaseById(caseId, requesterId, requesterRole);
   return caseRepository.findTheoriesByCaseId(caseId);
 };
 
-export const getCaseFiles = async (caseId: string, requesterId?: string, requesterRole?: Role) => {
+export const getCaseFiles = async (
+  caseId: string,
+  requesterId?: string,
+  requesterRole?: Role,
+) => {
   await getCaseById(caseId, requesterId, requesterRole);
   return caseRepository.findFilesByCaseId(caseId);
 };

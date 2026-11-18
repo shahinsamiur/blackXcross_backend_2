@@ -11,7 +11,12 @@ const commentWithRelations = {
   },
 };
 
-export const createComment = (data: { content: string; userId: string; theoryId: string; parentId?: string }) =>
+export const createComment = (data: {
+  content: string;
+  userId: string;
+  theoryId: string;
+  parentId?: string;
+}) =>
   prisma.comment.create({
     data,
     include: commentWithRelations,
@@ -20,7 +25,11 @@ export const createComment = (data: { content: string; userId: string; theoryId:
 export const findCommentById = (id: string) =>
   prisma.comment.findUnique({ where: { id } });
 
-export const findCommentsByTheoryId = (theoryId: string, skip: number, take: number) =>
+export const findCommentsByTheoryId = (
+  theoryId: string,
+  skip: number,
+  take: number,
+) =>
   prisma.comment.findMany({
     where: { theoryId, parentId: null },
     include: commentWithRelations,
@@ -32,7 +41,11 @@ export const findCommentsByTheoryId = (theoryId: string, skip: number, take: num
 export const countCommentsByTheoryId = (theoryId: string) =>
   prisma.comment.count({ where: { theoryId, parentId: null } });
 
-export const findAllComments = (where: Prisma.CommentWhereInput, skip: number, take: number) =>
+export const findAllComments = (
+  where: Prisma.CommentWhereInput,
+  skip: number,
+  take: number,
+) =>
   prisma.comment.findMany({
     where,
     include: {

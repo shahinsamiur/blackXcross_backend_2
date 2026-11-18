@@ -4,7 +4,11 @@ import * as caseController from "./caseController.js";
 import validate from "../../shared/middleware/validate.js";
 import authMiddleware from "../../shared/middleware/authMiddleware.js";
 import optionalAuthMiddleware from "../../shared/middleware/optionalAuthMiddleware.js";
-import { caseImageUpload, caseGalleryUpload, caseFileUpload } from "../../shared/utils/upload.js"; 
+import {
+  caseImageUpload,
+  caseGalleryUpload,
+  caseFileUpload,
+} from "../../shared/utils/upload.js";
 import { createCaseSchema, updateCaseSchema } from "./caseValidators.js";
 
 const router = Router();
@@ -27,7 +31,12 @@ const router = Router();
  *       400:
  *         description: Validation error
  */
-router.post("/", authMiddleware, validate(createCaseSchema), caseController.createCase);
+router.post(
+  "/",
+  authMiddleware,
+  validate(createCaseSchema),
+  caseController.createCase,
+);
 
 /**
  * @openapi
@@ -47,7 +56,12 @@ router.post("/", authMiddleware, validate(createCaseSchema), caseController.crea
  *       400:
  *         description: Validation error
  */
-router.post("/upload-image", authMiddleware, caseImageUpload.single("image"), caseController.uploadCaseImage);
+router.post(
+  "/upload-image",
+  authMiddleware,
+  caseImageUpload.single("image"),
+  caseController.uploadCaseImage,
+);
 /**
  * @openapi
  * /api/cases:
@@ -122,7 +136,12 @@ router.get("/:id", optionalAuthMiddleware, caseController.getCase);
  *       404:
  *         description: Case not found
  */
-router.patch("/:id", authMiddleware, validate(updateCaseSchema), caseController.updateCase);
+router.patch(
+  "/:id",
+  authMiddleware,
+  validate(updateCaseSchema),
+  caseController.updateCase,
+);
 
 /**
  * @openapi
@@ -188,7 +207,12 @@ router.get("/:id/files", optionalAuthMiddleware, caseController.getCaseFiles);
  *       400:
  *         description: No file uploaded
  */
-router.post("/:id/files", authMiddleware, caseFileUpload.single("file"), caseController.addCaseFile);
+router.post(
+  "/:id/files",
+  authMiddleware,
+  caseFileUpload.single("file"),
+  caseController.addCaseFile,
+);
 
 /**
  * @openapi
@@ -202,7 +226,12 @@ router.post("/:id/files", authMiddleware, caseFileUpload.single("file"), caseCon
  *       400:
  *         description: No file uploaded
  */
-router.post("/:id/gallery", authMiddleware, caseGalleryUpload.single("file"), caseController.addCaseGalleryImage);
+router.post(
+  "/:id/gallery",
+  authMiddleware,
+  caseGalleryUpload.single("file"),
+  caseController.addCaseGalleryImage,
+);
 
 /**
  * @openapi
@@ -216,8 +245,10 @@ router.post("/:id/gallery", authMiddleware, caseGalleryUpload.single("file"), ca
  *       404:
  *         description: File not found
  */
-router.delete("/:id/files/:fileId", authMiddleware, caseController.removeCaseFile);
-
-
+router.delete(
+  "/:id/files/:fileId",
+  authMiddleware,
+  caseController.removeCaseFile,
+);
 
 export default router;

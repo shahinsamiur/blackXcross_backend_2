@@ -100,8 +100,16 @@ export const findCases = (
   orderBy: Prisma.CaseOrderByWithRelationInput,
   skip: number,
   take: number,
-) => prisma.case.findMany({ where, orderBy, skip, take, include: caseWithRelations });
-export const countCases = (where: Prisma.CaseWhereInput) => prisma.case.count({ where });
+) =>
+  prisma.case.findMany({
+    where,
+    orderBy,
+    skip,
+    take,
+    include: caseWithRelations,
+  });
+export const countCases = (where: Prisma.CaseWhereInput) =>
+  prisma.case.count({ where });
 export const findTheoriesByCaseId = (caseId: string) =>
   prisma.theory.findMany({ where: { caseId }, orderBy: { createdAt: "desc" } });
 export const createCaseFile = (data: {
@@ -112,7 +120,11 @@ export const createCaseFile = (data: {
   size: number;
 }) => prisma.caseFile.create({ data });
 export const findFilesByCaseId = (caseId: string) =>
-  prisma.caseFile.findMany({ where: { caseId }, orderBy: { createdAt: "desc" } });
+  prisma.caseFile.findMany({
+    where: { caseId },
+    orderBy: { createdAt: "desc" },
+  });
 export const findCaseFileById = (fileId: string) =>
   prisma.caseFile.findUnique({ where: { id: fileId } });
-export const deleteCaseFile = (fileId: string) => prisma.caseFile.delete({ where: { id: fileId } });
+export const deleteCaseFile = (fileId: string) =>
+  prisma.caseFile.delete({ where: { id: fileId } });

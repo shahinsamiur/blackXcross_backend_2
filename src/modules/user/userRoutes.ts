@@ -39,6 +39,21 @@ router.get("/search", userController.searchUsers);
 
 /**
  * @openapi
+ * /api/users/me:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Get the current authenticated user's profile
+ *     responses:
+ *       200:
+ *         description: Current user profile
+ *       401:
+ *         description: Unauthorized
+ */
+router.get("/me", authMiddleware, userController.getMe);
+
+/**
+ * @openapi
  * /api/users/{id}:
  *   get:
  *     tags:
@@ -82,9 +97,12 @@ router.get("/:id", userController.getUser);
  *       409:
  *         description: Username already taken
  */
-router.patch("/:id", authMiddleware, validate(updateUserSchema), userController.updateUser);
-
-
+router.patch(
+  "/:id",
+  authMiddleware,
+  validate(updateUserSchema),
+  userController.updateUser,
+);
 
 /**
  * @openapi
@@ -108,11 +126,12 @@ router.patch("/:id", authMiddleware, validate(updateUserSchema), userController.
  *       403:
  *         description: Not allowed to update another user's profile
  */
-router.post("/:id/avatar", authMiddleware, upload.single("avatar"), userController.uploadAvatar);
-
-
-
-
+router.post(
+  "/:id/avatar",
+  authMiddleware,
+  upload.single("avatar"),
+  userController.uploadAvatar,
+);
 
 /**
  * @openapi
@@ -202,7 +221,6 @@ router.post("/:id/follow", authMiddleware, userController.followUser);
  */
 router.delete("/:id/follow", authMiddleware, userController.unfollowUser);
 
-
 /**
  * @openapi
  * /api/users/{id}:
@@ -226,7 +244,6 @@ router.delete("/:id/follow", authMiddleware, userController.unfollowUser);
  *         description: User not found
  */
 router.delete("/:id", authMiddleware, userController.deleteUser);
-
 
 /**
  * @openapi
@@ -270,7 +287,4 @@ router.get("/:id/followers", userController.getFollowers);
  */
 router.get("/:id/following", userController.getFollowing);
 
-
-
-router.get("/me", authMiddleware, userController.getMe);
 export default router;

@@ -4,7 +4,10 @@ import AppError from "../../shared/utils/AppError.js";
 import env from "../../config/env.js";
 import * as authRepository from "./authRepository.js";
 import { generateRawToken, hashToken } from "./authTokenUtils.js";
-import { VerificationTokenType, Role } from "../../../generated/prisma/client.js";
+import {
+  VerificationTokenType,
+  Role,
+} from "../../../generated/prisma/client.js";
 import {
   LoginInput,
   RegisterInput,
@@ -34,11 +37,9 @@ const toAuthUser = (user: Omit<UserRecord, "password">): AuthUser => ({
 });
 
 const generateAccessToken = (id: string, role: string): string =>
-  jwt.sign(
-    { id, role }, 
-    env.jwtSecret, 
-    { expiresIn: env.accessTokenExpiresIn } as SignOptions
-  );
+  jwt.sign({ id, role }, env.jwtSecret, {
+    expiresIn: env.accessTokenExpiresIn,
+  } as SignOptions);
 
 const issueRefreshToken = async (userId: string): Promise<string> => {
   const rawToken = generateRawToken();
@@ -60,7 +61,9 @@ const issueTokens = async (user: AuthUser): Promise<AuthTokens> => ({
   refreshToken: await issueRefreshToken(user.id),
 });
 
-export const registerUser = async (data: RegisterInput): Promise<AuthResult> => {
+export const registerUser = async (
+  data: RegisterInput,
+): Promise<AuthResult> => {
   const existingUser = await authRepository.findUserByEmail(data.email);
 
   if (existingUser) {
@@ -139,7 +142,10 @@ export const refreshTokens = async (
     userId: user.id,
     expiresAt,
   });
-  await authRepository.revokeRefreshToken(tokenHash, hashToken(newRawRefreshToken));
+  await authRepository.revokeRefreshToken(
+    tokenHash,
+    hashToken(newRawRefreshToken),
+  );
 
   return {
     token: generateAccessToken(user.id, user.role),
@@ -164,7 +170,9 @@ export const verifyEmail = async (data: VerifyEmailInput): Promise<void> => {
   await authRepository.markVerificationTokenUsed(tokenHash);
 };
 
-export const forgotPassword = async (data: ForgotPasswordInput): Promise<void> => {
+export const forgotPassword = async (
+  data: ForgotPasswordInput,
+): Promise<void> => {
   const found = await authRepository.findUserByEmail(data.email);
   if (!found) return;
 
@@ -177,7 +185,9 @@ export const forgotPassword = async (data: ForgotPasswordInput): Promise<void> =
   });
 };
 
-export const resetPassword = async (data: ResetPasswordInput): Promise<void> => {
+export const resetPassword = async (
+  data: ResetPasswordInput,
+): Promise<void> => {
   const tokenHash = hashToken(data.token);
   const record = await authRepository.findVerificationTokenByHash(tokenHash);
 

@@ -1,4 +1,7 @@
-import { CaseCategory, InvestigationStatus } from "../../../generated/prisma/client.js";
+import {
+  CaseCategory,
+  InvestigationStatus,
+} from "../../../generated/prisma/client.js";
 
 export interface CreateCaseInput {
   title: string;

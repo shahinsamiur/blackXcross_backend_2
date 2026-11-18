@@ -1,5 +1,8 @@
 import * as yup from "yup";
-import { CaseCategory, InvestigationStatus } from "../../../generated/prisma/client.js";
+import {
+  CaseCategory,
+  InvestigationStatus,
+} from "../../../generated/prisma/client.js";
 
 /**
  * @openapi
@@ -53,18 +56,26 @@ export const createCaseSchema = yup.object({
   imageUrl: yup.string().url("imageUrl must be a valid URL"),
   narrative: yup.string().max(20000, "Narrative is too long"),
   location: yup.string().max(255, "Location is too long"),
-  tags: yup.array().of(yup.string().required()).max(10, "At most 10 tags allowed"),
+  tags: yup
+    .array()
+    .of(yup.string().required())
+    .max(10, "At most 10 tags allowed"),
 });
 
 export const updateCaseSchema = yup.object({
   title: yup.string(),
   description: yup.string().max(5000, "Description is too long"),
-  category: yup.mixed<CaseCategory>().oneOf(Object.values(CaseCategory), "Invalid category"),
+  category: yup
+    .mixed<CaseCategory>()
+    .oneOf(Object.values(CaseCategory), "Invalid category"),
   investigationStatus: yup
     .mixed<InvestigationStatus>()
     .oneOf(Object.values(InvestigationStatus), "Invalid investigation status"),
   imageUrl: yup.string().url("imageUrl must be a valid URL"),
   narrative: yup.string().max(20000, "Narrative is too long"),
   location: yup.string().max(255, "Location is too long"),
-  tags: yup.array().of(yup.string().required()).max(10, "At most 10 tags allowed"),
+  tags: yup
+    .array()
+    .of(yup.string().required())
+    .max(10, "At most 10 tags allowed"),
 });

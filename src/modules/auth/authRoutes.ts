@@ -112,7 +112,11 @@ router.post("/refresh", authController.refresh);
  *       400:
  *         description: Invalid or expired verification token
  */
-router.post("/verify-email", validate(verifyEmailSchema), authController.verifyEmail);
+router.post(
+  "/verify-email",
+  validate(verifyEmailSchema),
+  authController.verifyEmail,
+);
 
 /**
  * @openapi
@@ -134,7 +138,11 @@ router.post("/verify-email", validate(verifyEmailSchema), authController.verifyE
  *       400:
  *         description: Validation error
  */
-router.post("/forgot-password", validate(forgotPasswordSchema), authController.forgotPassword);
+router.post(
+  "/forgot-password",
+  validate(forgotPasswordSchema),
+  authController.forgotPassword,
+);
 
 /**
  * @openapi
@@ -156,7 +164,11 @@ router.post("/forgot-password", validate(forgotPasswordSchema), authController.f
  *       400:
  *         description: Invalid or expired reset token
  */
-router.post("/reset-password", validate(resetPasswordSchema), authController.resetPassword);
+router.post(
+  "/reset-password",
+  validate(resetPasswordSchema),
+  authController.resetPassword,
+);
 
 /**
  * @openapi
@@ -175,9 +187,6 @@ router.post("/reset-password", validate(resetPasswordSchema), authController.res
  *         description: User not found
  */
 router.get("/me", authMiddleware, authController.me);
-
-
-
 
 /**
  * @openapi

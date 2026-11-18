@@ -4,7 +4,6 @@ import { prisma } from "../../lib/prisma.js";
 import AppError from "../utils/AppError.js";
 import env from "../../config/env.js";
 import logger from "../logger/logger.js";
-import { clearAuthCookies } from "../../modules/auth/authController.js";
 interface DecodedToken extends JwtPayload {
   id: string;
   role: string;
@@ -21,9 +20,14 @@ const authMiddleware = async (
     return next(new AppError("Unauthorized, token missing", 401));
   }
 
+  let decoded: DecodedToken;
   try {
-    const decoded = jwt.verify(token, env.jwtSecret) as DecodedToken;
+    decoded = jwt.verify(token, env.jwtSecret) as DecodedToken;
+  } catch (err) {
+    return next(new AppError("Invalid or expired token", 401));
+  }
 
+  try {
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
       select: { id: true, name: true, email: true, role: true, isEmailVerified: true },
@@ -44,8 +48,7 @@ const authMiddleware = async (
 
     next();
   } catch (err) {
-    clearAuthCookies(res);
-    return next(new AppError("Invalid or expired token", 401));
+    return next(err);
   }
 };
 

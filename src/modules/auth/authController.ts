@@ -8,10 +8,10 @@ const REFRESH_TOKEN_COOKIE = "refreshToken";
 
 const accessCookieOptions = {
   httpOnly: true,
-  secure: true, 
-  sameSite: "none" as const, 
-  path: "/", 
-  maxAge: 30 * 24 * 60 * 60 * 1000, 
+  secure: true,
+  sameSite: "none" as const,
+  path: "/",
+  maxAge: 30 * 24 * 60 * 60 * 1000,
 };
 
 const refreshCookieOptions = {
@@ -22,17 +22,33 @@ const refreshCookieOptions = {
   maxAge: env.refreshTokenExpiresInDays * 24 * 60 * 60 * 1000,
 };
 
-const setAuthCookies = (res: Response, token: string, refreshToken: string): void => {
+const setAuthCookies = (
+  res: Response,
+  token: string,
+  refreshToken: string,
+): void => {
   res.cookie(ACCESS_TOKEN_COOKIE, token, accessCookieOptions);
   res.cookie(REFRESH_TOKEN_COOKIE, refreshToken, refreshCookieOptions);
 };
 
 export const clearAuthCookies = (res: Response): void => {
-  res.clearCookie(ACCESS_TOKEN_COOKIE, { path: "/", secure: true, sameSite: "none" });
-  res.clearCookie(REFRESH_TOKEN_COOKIE, { path: "/", secure: true, sameSite: "none" });
+  res.clearCookie(ACCESS_TOKEN_COOKIE, {
+    path: "/",
+    secure: true,
+    sameSite: "none",
+  });
+  res.clearCookie(REFRESH_TOKEN_COOKIE, {
+    path: "/",
+    secure: true,
+    sameSite: "none",
+  });
 };
 
-export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { user, tokens } = await authService.registerUser(req.body);
     setAuthCookies(res, tokens.token, tokens.refreshToken);
@@ -42,7 +58,11 @@ export const register = async (req: Request, res: Response, next: NextFunction):
   }
 };
 
-export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const { user, tokens } = await authService.loginUser(req.body);
     setAuthCookies(res, tokens.token, tokens.refreshToken);
@@ -51,25 +71,37 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     next(error);
   }
 };
-export const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const logout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     clearAuthCookies(res);
     const user = (req as any).user;
     if (user?.id) {
       await authService.logoutUser(user.id);
     } else {
-      console.warn("Logout: No authenticated user found in request, but cookies cleared.");
+      console.warn(
+        "Logout: No authenticated user found in request, but cookies cleared.",
+      );
     }
-    
+
     sendResponse(res, 200, true, "Logout successful", null);
   } catch (error) {
     next(error);
   }
 };
 
-export const refresh = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const refresh = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
-    const tokens = await authService.refreshTokens(req.cookies?.[REFRESH_TOKEN_COOKIE]);
+    const tokens = await authService.refreshTokens(
+      req.cookies?.[REFRESH_TOKEN_COOKIE],
+    );
     setAuthCookies(res, tokens.token, tokens.refreshToken);
     sendResponse(res, 200, true, "Token refreshed", null);
   } catch (error) {
@@ -77,7 +109,11 @@ export const refresh = async (req: Request, res: Response, next: NextFunction): 
   }
 };
 
-export const verifyEmail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const verifyEmail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     await authService.verifyEmail(req.body);
     sendResponse(res, 200, true, "Email verified successfully", null);
@@ -86,16 +122,30 @@ export const verifyEmail = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const forgotPassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const forgotPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     await authService.forgotPassword(req.body);
-    sendResponse(res, 200, true, "If that email is registered, a reset link has been sent", null);
+    sendResponse(
+      res,
+      200,
+      true,
+      "If that email is registered, a reset link has been sent",
+      null,
+    );
   } catch (error) {
     next(error);
   }
 };
 
-export const resetPassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const resetPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     await authService.resetPassword(req.body);
     sendResponse(res, 200, true, "Password reset successful", null);
@@ -104,7 +154,11 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export const me = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const me = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const user = await authService.getMe((req as any).user.id);
     sendResponse(res, 200, true, "Current user", user);

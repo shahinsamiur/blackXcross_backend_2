@@ -7,7 +7,11 @@ export const findUserByEmail = (email: string) =>
 export const findUserById = (id: string) =>
   prisma.user.findUnique({ where: { id } });
 
-export const createUser = (data: { name: string; email: string; password: string }) =>
+export const createUser = (data: {
+  name: string;
+  email: string;
+  password: string;
+}) =>
   prisma.user.create({
     data: { name: data.name, email: data.email, password: data.password },
   });
@@ -27,7 +31,10 @@ export const createRefreshToken = (data: {
 export const findRefreshTokenByHash = (tokenHash: string) =>
   prisma.refreshToken.findUnique({ where: { tokenHash } });
 
-export const revokeRefreshToken = (tokenHash: string, replacedByTokenHash?: string) =>
+export const revokeRefreshToken = (
+  tokenHash: string,
+  replacedByTokenHash?: string,
+) =>
   prisma.refreshToken.update({
     where: { tokenHash },
     data: { revokedAt: new Date(), replacedByTokenHash },
