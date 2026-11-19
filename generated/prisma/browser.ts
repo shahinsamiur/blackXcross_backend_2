@@ -43,20 +43,15 @@ export type CaseFile = Prisma.CaseFileModel
  */
 export type Comment = Prisma.CommentModel
 /**
+ * Model CommentLike
+ * 
+ */
+export type CommentLike = Prisma.CommentLikeModel
+/**
  * Model Follow
  * 
  */
 export type Follow = Prisma.FollowModel
-/**
- * Model ModerationItem
- * 
- */
-export type ModerationItem = Prisma.ModerationItemModel
-/**
- * Model Notification
- * 
- */
-export type Notification = Prisma.NotificationModel
 /**
  * Model Group
  * 
@@ -72,6 +67,16 @@ export type GroupMember = Prisma.GroupMemberModel
  * 
  */
 export type Channel = Prisma.ChannelModel
+/**
+ * Model ModerationItem
+ * 
+ */
+export type ModerationItem = Prisma.ModerationItemModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
 /**
  * Model Report
  * 

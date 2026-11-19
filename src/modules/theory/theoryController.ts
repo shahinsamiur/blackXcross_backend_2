@@ -71,8 +71,14 @@ export const deleteTheory = async (req: Request, res: Response, next: NextFuncti
 export const upvoteTheory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const userId = (req as any).user.id;
-    await theoryService.upvoteTheory(req.params.id as string, userId);
-    sendResponse(res, 200, true, "Theory upvoted successfully", null);
+    const result = await theoryService.upvoteTheory(req.params.id as string, userId);
+    sendResponse(
+      res,
+      200,
+      true,
+      result.upvoted ? "Theory upvoted successfully" : "Upvote removed successfully",
+      result,
+    );
   } catch (error) {
     next(error);
   }

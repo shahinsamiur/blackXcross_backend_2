@@ -29,7 +29,11 @@ export const getTheoriesByCaseId = async (caseId: string, requesterId?: string, 
     throw new AppError("Case not found", 404);
   }
 
-  return theoryRepository.findTheoriesByCaseId(caseId);
+  const theories = await theoryRepository.findTheoriesByCaseId(caseId, requesterId);
+  return theories.map(({ upvotes, ...theory }) => ({
+    ...theory,
+    upvotedByMe: upvotes.length > 0,
+  }));
 };
 
 export const getTheoryById = async (id: string, requesterId?: string, requesterRole?: Role) => {
@@ -99,14 +103,17 @@ export const upvoteTheory = async (id: string, userId: string) => {
     throw new AppError("Theory not found", 404);
   }
 
+  const removed = await theoryRepository.removeUpvote(userId, id);
+  if (removed.count > 0) {
+    return { upvoted: false };
+  }
+
   try {
     await theoryRepository.upvoteTheory(userId, id);
   } catch (error: any) {
-    if (error.code === "P2002") {
-      throw new AppError("You have already upvoted this theory", 400);
-    }
-    throw error;
+    if (error.code !== "P2002") throw error;
   }
+  return { upvoted: true };
 };
 
 export const removeUpvote = async (id: string, userId: string) => {

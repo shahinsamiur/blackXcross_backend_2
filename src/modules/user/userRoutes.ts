@@ -4,7 +4,7 @@ import * as userController from "./userController.js";
 import validate from "../../shared/middleware/validate.js";
 import authMiddleware from "../../shared/middleware/authMiddleware.js";
 import { updateUserSchema } from "./userValidators.js";
-import upload from "../../shared/utils/upload.js";
+import { avatarUpload } from "../../shared/utils/upload.js";
 const router = Router();
 
 /**
@@ -129,7 +129,7 @@ router.patch(
 router.post(
   "/:id/avatar",
   authMiddleware,
-  upload.single("avatar"),
+  avatarUpload.single("avatar"),
   userController.uploadAvatar,
 );
 

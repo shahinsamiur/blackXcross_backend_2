@@ -47,7 +47,7 @@ export const uploadAvatar = async (
       throw new AppError("No file uploaded", 400);
     }
 
-    const avatarUrl = file.path ?? file.location;
+    const avatarUrl = `${req.protocol}://${req.get("host")}/uploads/avatars/${file.filename}`;
     const user = await userService.updateUser(
       req.params.id as string,
       requesterId,

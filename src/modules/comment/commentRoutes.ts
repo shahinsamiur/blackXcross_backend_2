@@ -148,5 +148,45 @@ router.patch(
  *       404: { description: Comment not found }
  */
 router.delete("/comments/:id", authMiddleware, commentController.deleteComment);
+/**
+ * @openapi
+ * /api/comments/comments/{id}/like:
+ *   post:
+ *     tags: [Comments]
+ *     summary: Like a comment
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200: { description: Comment liked successfully }
+ *       404: { description: Comment not found }
+ */
+router.post(
+  "/comments/:id/like",
+  authMiddleware,
+  commentController.likeComment,
+);
 
+/**
+ * @openapi
+ * /api/comments/comments/{id}/like:
+ *   delete:
+ *     tags: [Comments]
+ *     summary: Remove like from a comment
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200: { description: Like removed successfully }
+ *       404: { description: Comment not found }
+ */
+router.delete(
+  "/comments/:id/like",
+  authMiddleware,
+  commentController.unlikeComment,
+);
 export default router;

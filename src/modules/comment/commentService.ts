@@ -16,6 +16,13 @@ const assertOwner = (
   }
 };
 
+type WithLikes = { _count: { likes: number }; likes: { id: string }[] };
+
+const withLikeState = <T extends WithLikes>(comment: T) => {
+  const { likes, _count, ...rest } = comment;
+  return { ...rest, likeCount: _count.likes, likedByMe: likes.length > 0 };
+};
+
 export const createComment = async (data: {
   content: string;
   userId: string;
@@ -56,12 +63,18 @@ export const getCommentsByTheoryId = async (
   theoryId: string,
   page: number,
   limit: number,
+  userId?: string,
 ) => {
   const skip = (page - 1) * limit;
-  const [items, total] = await Promise.all([
-    commentRepository.findCommentsByTheoryId(theoryId, skip, limit),
+  const [rawItems, total] = await Promise.all([
+    commentRepository.findCommentsByTheoryId(theoryId, skip, limit, userId),
     commentRepository.countCommentsByTheoryId(theoryId),
   ]);
+
+  const items = rawItems.map((item) => ({
+    ...withLikeState(item),
+    replies: item.replies.map(withLikeState),
+  }));
 
   return {
     items,
@@ -129,4 +142,26 @@ export const deleteComment = async (
   }
   assertOwner(comment, requesterId, requesterRole);
   await commentRepository.deleteComment(id);
+};
+
+export const likeComment = async (id: string, userId: string) => {
+  const comment = await commentRepository.findCommentById(id);
+  if (!comment) {
+    throw new AppError("Comment not found", 404);
+  }
+
+  try {
+    await commentRepository.likeComment(userId, id);
+  } catch (error: any) {
+    if (error.code !== "P2002") throw error;
+  }
+};
+
+export const unlikeComment = async (id: string, userId: string) => {
+  const comment = await commentRepository.findCommentById(id);
+  if (!comment) {
+    throw new AppError("Comment not found", 404);
+  }
+
+  await commentRepository.unlikeComment(userId, id);
 };

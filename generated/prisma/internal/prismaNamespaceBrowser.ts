@@ -56,12 +56,13 @@ export const ModelName = {
   Case: 'Case',
   CaseFile: 'CaseFile',
   Comment: 'Comment',
+  CommentLike: 'CommentLike',
   Follow: 'Follow',
-  ModerationItem: 'ModerationItem',
-  Notification: 'Notification',
   Group: 'Group',
   GroupMember: 'GroupMember',
   Channel: 'Channel',
+  ModerationItem: 'ModerationItem',
+  Notification: 'Notification',
   Report: 'Report',
   Tag: 'Tag',
   Theory: 'Theory',
@@ -156,6 +157,16 @@ export const CommentScalarFieldEnum = {
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
+export const CommentLikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  commentId: 'commentId',
+  createdAt: 'createdAt'
+} as const
+
+export type CommentLikeScalarFieldEnum = (typeof CommentLikeScalarFieldEnum)[keyof typeof CommentLikeScalarFieldEnum]
+
+
 export const FollowScalarFieldEnum = {
   id: 'id',
   followerId: 'followerId',
@@ -164,38 +175,6 @@ export const FollowScalarFieldEnum = {
 } as const
 
 export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
-
-
-export const ModerationItemScalarFieldEnum = {
-  id: 'id',
-  targetType: 'targetType',
-  targetId: 'targetId',
-  reason: 'reason',
-  status: 'status',
-  reviewedBy: 'reviewedBy',
-  fileUrl: 'fileUrl',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ModerationItemScalarFieldEnum = (typeof ModerationItemScalarFieldEnum)[keyof typeof ModerationItemScalarFieldEnum]
-
-
-export const NotificationScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  actorId: 'actorId',
-  type: 'type',
-  title: 'title',
-  message: 'message',
-  referenceId: 'referenceId',
-  referenceType: 'referenceType',
-  isRead: 'isRead',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const GroupScalarFieldEnum = {
@@ -231,6 +210,38 @@ export const ChannelScalarFieldEnum = {
 } as const
 
 export type ChannelScalarFieldEnum = (typeof ChannelScalarFieldEnum)[keyof typeof ChannelScalarFieldEnum]
+
+
+export const ModerationItemScalarFieldEnum = {
+  id: 'id',
+  targetType: 'targetType',
+  targetId: 'targetId',
+  reason: 'reason',
+  status: 'status',
+  reviewedBy: 'reviewedBy',
+  fileUrl: 'fileUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ModerationItemScalarFieldEnum = (typeof ModerationItemScalarFieldEnum)[keyof typeof ModerationItemScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  actorId: 'actorId',
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  referenceId: 'referenceId',
+  referenceType: 'referenceType',
+  isRead: 'isRead',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const ReportScalarFieldEnum = {

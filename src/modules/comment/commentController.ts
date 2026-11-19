@@ -37,6 +37,7 @@ export const getComments = async (
       theoryId as string,
       page,
       limit,
+      (req as any).user?.id,
     );
     sendResponse(res, 200, true, "Comments fetched successfully", result);
   } catch (error) {
@@ -120,6 +121,33 @@ export const deleteComment = async (
       requester.role,
     );
     sendResponse(res, 200, true, "Comment deleted successfully", null);
+  } catch (error) {
+    next(error);
+  }
+};
+export const likeComment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const userId = (req as any).user.id;
+    await commentService.likeComment(req.params.id as string, userId);
+    sendResponse(res, 200, true, "Comment liked successfully", null);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const unlikeComment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const userId = (req as any).user.id;
+    await commentService.unlikeComment(req.params.id as string, userId);
+    sendResponse(res, 200, true, "Like removed successfully", null);
   } catch (error) {
     next(error);
   }

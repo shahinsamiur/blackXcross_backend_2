@@ -10,7 +10,21 @@ const commentWithRelations = {
     orderBy: { createdAt: "asc" as const },
   },
 };
+const authorSelect = { id: true, name: true, username: true, avatar: true };
 
+const likeFields = (userId?: string) => ({
+  _count: { select: { likes: true } },
+  likes: { where: { userId: userId ?? "" }, select: { id: true } },
+});
+
+const commentWithLikes = (userId?: string) => ({
+  user: { select: authorSelect },
+  ...likeFields(userId),
+  replies: {
+    include: { user: { select: authorSelect }, ...likeFields(userId) },
+    orderBy: { createdAt: "asc" as const },
+  },
+});
 export const createComment = (data: {
   content: string;
   userId: string;
@@ -29,10 +43,11 @@ export const findCommentsByTheoryId = (
   theoryId: string,
   skip: number,
   take: number,
+  userId?: string,
 ) =>
   prisma.comment.findMany({
     where: { theoryId, parentId: null },
-    include: commentWithRelations,
+    include: commentWithLikes(userId),
     orderBy: { createdAt: "desc" as const },
     skip,
     take,
@@ -69,3 +84,8 @@ export const updateComment = (id: string, data: { content: string }) =>
 
 export const deleteComment = (id: string) =>
   prisma.comment.delete({ where: { id } });
+export const likeComment = (userId: string, commentId: string) =>
+  prisma.commentLike.create({ data: { userId, commentId } });
+
+export const unlikeComment = (userId: string, commentId: string) =>
+  prisma.commentLike.deleteMany({ where: { userId, commentId } });

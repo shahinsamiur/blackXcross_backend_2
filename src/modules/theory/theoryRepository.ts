@@ -18,10 +18,13 @@ export const findTheoryById = (id: string) =>
     include: theoryWithRelations,
   });
 
-export const findTheoriesByCaseId = (caseId: string) =>
+export const findTheoriesByCaseId = (caseId: string, userId?: string) =>
   prisma.theory.findMany({
     where: { caseId },
-    include: theoryWithRelations,
+    include: {
+      ...theoryWithRelations,
+      upvotes: { where: { userId: userId ?? "" }, select: { id: true } },
+    },
     orderBy: { createdAt: "desc" as const },
   });
 

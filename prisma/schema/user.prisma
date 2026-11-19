@@ -35,6 +35,7 @@ model User {
   actedNotifications Notification[]   @relation("NotificationActor")
   reports            Report[]         @relation("ReportReporter")
   moderationReviews  ModerationItem[]
+  commentLikes       CommentLike[]
 
   @@map("users")
 }

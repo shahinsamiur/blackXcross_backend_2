@@ -3,7 +3,7 @@ import path from "path";
 import { Request } from "express";
 import fs from "fs";
 import crypto from "crypto";
-
+import AppError from "./AppError.js";
 const ALLOWED_EXTENSIONS = [
   ".jpg",
   ".jpeg",
@@ -85,6 +85,40 @@ const evidenceStorage = multer.diskStorage({
   filename: (req: Request, file: Express.Multer.File, cb) => {
     cb(null, uniqueFilename(file));
   },
+});
+
+
+
+const AVATARS_DIR = "uploads/avatars";
+const AVATAR_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
+
+const avatarStorage = multer.diskStorage({
+  destination: (req: Request, file: Express.Multer.File, cb) => {
+    ensureDir(AVATARS_DIR);
+    cb(null, AVATARS_DIR);
+  },
+  filename: (req: Request, file: Express.Multer.File, cb) => {
+    cb(null, uniqueFilename(file));
+  },
+});
+
+const avatarFileFilter = (
+  req: Request,
+  file: Express.Multer.File,
+  cb: FileFilterCallback,
+): void => {
+  const ext = path.extname(file.originalname).toLowerCase();
+  if (AVATAR_EXTENSIONS.includes(ext) && file.mimetype.startsWith("image/")) {
+    cb(null, true);
+  } else {
+    cb(new AppError("Only JPG, PNG, or WEBP images are allowed", 400));
+  }
+};
+
+export const avatarUpload = multer({
+  storage: avatarStorage,
+  fileFilter: avatarFileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 },
 });
 export const caseFileUpload = multer({ storage: evidenceStorage, fileFilter });
 

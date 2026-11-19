@@ -1,52 +1,77 @@
 import { prisma } from "../../lib/prisma.js";
 import { PublishState } from "../../../generated/prisma/client.js";
-export const getDashboardData = async () => {
-  const [recentCases, trendingTheories, recentComments, stats] =
-    await Promise.all([
-      prisma.case.findMany({
-        where: { publishState: PublishState.PUBLISHED },
-        orderBy: { createdAt: "desc" },
-        take: 6,
-        include: {
-          user: {
-            select: { id: true, name: true, username: true, avatar: true },
-          },
-          _count: { select: { theories: true } },
-        },
-      }),
-      prisma.theory.findMany({
-        orderBy: { createdAt: "desc" },
-        take: 5,
-        include: {
-          user: {
-            select: { id: true, name: true, username: true, avatar: true },
-          },
-          case: { select: { id: true, title: true } },
-          _count: { select: { upvotes: true, comments: true } },
-        },
-      }),
 
-      prisma.comment.findMany({
-        take: 8,
-        orderBy: { createdAt: "desc" },
-        include: {
-          user: {
-            select: { id: true, name: true, username: true, avatar: true },
-          },
-          theory: {
-            select: {
-              id: true,
-              case: { select: { id: true, title: true } },
-            },
+const countCountries = (locations: { location: string | null }[]) => {
+  const countries = new Set<string>();
+  for (const { location } of locations) {
+    const country = location?.split(",").pop()?.trim().toLowerCase();
+    if (country) countries.add(country);
+  }
+  return countries.size;
+};
+
+export const getDashboardData = async () => {
+  const [
+    recentCases,
+    trendingTheories,
+    recentComments,
+    stats,
+    activeInvestigations,
+    caseLocations,
+  ] = await Promise.all([
+    prisma.case.findMany({
+      where: { publishState: PublishState.PUBLISHED },
+      orderBy: { createdAt: "desc" },
+      take: 6,
+      include: {
+        user: {
+          select: { id: true, name: true, username: true, avatar: true },
+        },
+        _count: { select: { theories: true } },
+      },
+    }),
+    prisma.theory.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      include: {
+        user: {
+          select: { id: true, name: true, username: true, avatar: true },
+        },
+        case: { select: { id: true, title: true } },
+        _count: { select: { upvotes: true, comments: true } },
+      },
+    }),
+    prisma.comment.findMany({
+      take: 8,
+      orderBy: { createdAt: "desc" },
+      include: {
+        user: {
+          select: { id: true, name: true, username: true, avatar: true },
+        },
+        theory: {
+          select: {
+            id: true,
+            case: { select: { id: true, title: true } },
           },
         },
-      }),
-      prisma.$transaction([
-        prisma.case.count(),
-        prisma.theory.count(),
-        prisma.user.count(),
-      ]),
-    ]);
+      },
+    }),
+    prisma.$transaction([
+      prisma.case.count(),
+      prisma.theory.count(),
+      prisma.user.count(),
+    ]),
+    prisma.case.count({
+      where: {
+        publishState: PublishState.PUBLISHED,
+        investigationStatus: "OPEN",
+      },
+    }),
+    prisma.case.findMany({
+      where: { publishState: PublishState.PUBLISHED },
+      select: { location: true },
+    }),
+  ]);
   return {
     recentCases: recentCases.map(({ user, ...rest }) => ({
       ...rest,
@@ -86,6 +111,9 @@ export const getDashboardData = async () => {
       totalCases: stats[0],
       totalTheories: stats[1],
       totalUsers: stats[2],
+      activeInvestigations,
+      countriesInvolved: countCountries(caseLocations),
+      communityMembers: stats[2],
     },
   };
 };
