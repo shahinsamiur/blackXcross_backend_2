@@ -21,6 +21,9 @@ import moderationRoutes from "./modules/moderation/moderationRoutes.js";
 import dashboardRoutes from "./modules/dashboard/dashboardRoutes.js";
 import cookieParser from "cookie-parser";
 const app: Application = express();
+
+app.set("trust proxy", 1);
+
 app.use(httpLogger);
 app.use(
   rateLimit({
